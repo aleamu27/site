@@ -106,8 +106,8 @@ const NAVBAR_HEIGHT = 64 + 16; // 64px min + 16px margin/padding fudge
 const Hero = () => {
   return (
     <HeroSection>
+      {/* VideoBackground temporarily disabled - add src="/hero-video.mp4" when video is ready */}
       <VideoBackground
-        src="/hero-video.mp4"
         autoPlay
         loop
         muted
