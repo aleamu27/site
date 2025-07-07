@@ -107,6 +107,33 @@ const Button = styled.button`
   &:hover {
     color: #184B54;
   }
+  &:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+const LoadingSpinner = styled.div`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #184B54;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 `;
 
 const steps = [
@@ -153,18 +180,54 @@ function Contact() {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ company: '', employees: '', project: '', email: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError(''); // Clear error when user starts typing
   };
 
-  const handleNext = e => {
+  const submitForm = async (formData) => {
+    try {
+              const response = await fetch(process.env.REACT_APP_API_URL || '/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form');
+      }
+
+      return data;
+    } catch (error) {
+      throw new Error(error.message || 'Network error. Please try again.');
+    }
+  };
+
+  const handleNext = async (e) => {
     e.preventDefault();
+    setError('');
+
     if (step < steps.length - 1) {
       setStep(step + 1);
     } else {
-      setSubmitted(true);
+      // Final step - submit form
+      setLoading(true);
+      try {
+        await submitForm(form);
+        setSubmitted(true);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -174,7 +237,7 @@ function Contact() {
         <FormWrapper>
           <Confirmation>
             Thank you for reaching out!<br />
-            We'll get back to you soon.
+            We've sent you a confirmation email and will get back to you soon.
           </Confirmation>
           <Button style={{marginTop: '2.5rem'}} onClick={() => navigate('/')}>Back to Home</Button>
         </FormWrapper>
@@ -197,6 +260,7 @@ function Contact() {
             onChange={handleChange}
             placeholder={currentStep.placeholder}
             required
+            disabled={loading}
           />
         ) : (
           <Input
@@ -206,9 +270,14 @@ function Contact() {
             onChange={handleChange}
             placeholder={currentStep.placeholder}
             required
+            disabled={loading}
           />
         )}
-        <Button type="submit">{step === steps.length - 1 ? 'Submit' : 'Next'}</Button>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Button type="submit" disabled={loading}>
+          {loading && <LoadingSpinner />}
+          {loading ? 'Sending...' : (step === steps.length - 1 ? 'Submit' : 'Next')}
+        </Button>
       </FormWrapper>
     </CenteredPage>
   );
