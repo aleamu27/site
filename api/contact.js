@@ -3,7 +3,7 @@ const { Resend } = require('resend');
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,13 +25,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { company, employees, project, email } = req.body;
+    const { company, project, email } = req.body;
 
     // Validate required fields
-    if (!company || !employees || !project || !email) {
+    if (!company || !project || !email) {
       return res.status(400).json({
         error: 'Missing required fields',
-        required: ['company', 'employees', 'project', 'email']
+        required: ['company', 'project', 'email']
       });
     }
 
@@ -48,7 +48,6 @@ export default async function handler(req, res) {
           <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #333;">Company Information</h3>
             <p><strong>Company:</strong> ${company}</p>
-            <p><strong>Number of Employees:</strong> ${employees}</p>
             <p><strong>Contact Email:</strong> ${email}</p>
           </div>
           
@@ -83,4 +82,4 @@ export default async function handler(req, res) {
       message: error.message 
     });
   }
-} 
+}; 

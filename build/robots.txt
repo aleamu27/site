@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://hepta.no/sitemap.xml
+
+# Optional: Block any admin or sensitive paths if they exist
+# Disallow: /admin/
+# Disallow: /private/ 
