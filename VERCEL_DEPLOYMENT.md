@@ -56,7 +56,7 @@ In your Vercel project dashboard:
 2. **Add:**
    ```
    Name: RESEND_API_KEY
-   Value: re_ZvbyGeiT_DeDQ8NrZ3RXMdZyvL1VUg5DX
+   Value: [Your Resend API Key]
    ```
 
 ## Step 4: Update Your Domain

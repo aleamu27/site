@@ -27,7 +27,7 @@ You need to deploy your `server.js` file. Here are your options:
 1. Go to [Railway.app](https://railway.app)
 2. Connect your GitHub repo
 3. Deploy the backend
-4. Set environment variable: `RESEND_API_KEY=re_ZvbyGeiT_DeDQ8NrZ3RXMdZyvL1VUg5DX`
+4. Set environment variable: `RESEND_API_KEY=[Your Resend API Key]`
 5. Get your deployed URL (e.g., `https://your-app.railway.app`)
 
 #### Option B: Vercel (Serverless)
@@ -74,7 +74,7 @@ Create `railway.json` in your project root:
 3. "New Project" → "Deploy from GitHub repo"
 4. Select your repo
 5. Set environment variables:
-   - `RESEND_API_KEY`: `re_ZvbyGeiT_DeDQ8NrZ3RXMdZyvL1VUg5DX`
+   - `RESEND_API_KEY`: `[Your Resend API Key]`
    - `PORT`: `3001`
 
 ### Step 3: Update Frontend
