@@ -34,14 +34,16 @@ const VideoBackground = styled.video`
   height: 100vh;
   object-fit: cover;
   object-position: center top;
-  z-index: 0;
-  pointer-events: none;
-  max-width: 100vw;
+  z-index: 1;
 `;
 
 const Stripe = styled.div`
-  flex: 1 1 0;
-  height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  top: ${props => props.top}%;
+  background: ${props => props.color};
+  z-index: 3;
 `;
 
 const HeroTextBlock = styled.div`
@@ -67,60 +69,54 @@ const HeroTextInner = styled.div`
   font-family: 'Inter', 'system-ui', 'Arial', sans-serif;
   font-size: clamp(2.1rem, 4vw, 3.2rem);
   font-weight: 400;
-  color: #222;
-  line-height: 1.13;
-  padding: 1.1rem 0 1.2rem 2.5vw;
-  text-align: left;
-  max-width: none;
-  margin: 0;
+  line-height: 1.1;
+  color: #184B54;
+  letter-spacing: -0.02em;
+  width: calc(100vw - 4rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
   box-sizing: border-box;
-  @media (max-width: 900px) {
-    padding-left: 4vw;
-    padding-right: 2vw;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
   @media (max-width: 600px) {
-    font-size: 1.3rem;
-    padding-left: 4vw;
-    padding-right: 2vw;
-    padding-bottom: 0.5rem;
+    width: calc(100vw - 2rem);
+    padding: 1rem;
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
   }
 `;
 
 const BrandSpan = styled.span`
-  color: #A6A6A6;
-  font-weight: 700;
+  font-weight: 600;
 `;
 
 const AmpersandSpan = styled.span`
-  color: #A6A6A6;
-  font-weight: 700;
-  font-family: inherit;
+  font-weight: 300;
+  color: #666;
 `;
 
-const HeroSubText = styled.span`
-  color: #b3b3b3;
-`;
+// Navbar height for positioning calculations
+const NAVBAR_HEIGHT = 80; // Adjust based on your navbar
 
-const NAVBAR_HEIGHT = 64 + 16; // 64px min + 16px margin/padding fudge
-
-const Hero = () => {
+function Hero() {
   return (
     <HeroSection>
-      {/* VideoBackground temporarily disabled - add src="/hero-video.mp4" when video is ready */}
       <VideoBackground
+        src="https://abjqpsfntaj87pig3vhz92t21alieh.blob.vercel-storage.com/hero-video-abjQPSfntaj87pIG3VHZ92T21alIeh.mp4"
         autoPlay
-        loop
         muted
+        loop
         playsInline
-        aria-label="Hero video"
       />
       <HeroTextBlock>
         <HeroTextInner>
-          Hepta builds private software, custom interfaces, and local AI systems. <HeroSubText>Made for you.</HeroSubText>
+          We make, move & think
         </HeroTextInner>
       </HeroTextBlock>
     </HeroSection>
   );
-};
+}
 
 export default Hero; 
