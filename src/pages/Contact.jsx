@@ -144,12 +144,6 @@ const steps = [
     placeholder: 'Company name',
   },
   {
-    label: stepData => `How many employees does ${stepData.company || 'your company'} have?`,
-    type: 'number',
-    name: 'employees',
-    placeholder: 'Number of employees',
-  },
-  {
     label: 'Tell us about your project.',
     type: 'textarea',
     name: 'project',
@@ -178,7 +172,7 @@ const Confirmation = styled.div`
 
 function Contact() {
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState({ company: '', employees: '', project: '', email: '' });
+  const [form, setForm] = useState({ company: '', project: '', email: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
