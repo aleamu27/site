@@ -107,6 +107,7 @@ const Hero = () => {
   return (
     <HeroSection>
       <VideoBackground
+        src="https://abjqpsfntaj87pig3vhz92t21alieh.blob.vercel-storage.com/hepta/hero-video-abjQPSfntaj87pIG3VHZ92T21alIeh.mp4"
         autoPlay
         loop
         muted
