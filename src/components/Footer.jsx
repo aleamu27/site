@@ -86,7 +86,7 @@ const Footer = () => {
   const handleCopy = (e) => {
     e.preventDefault();
     if (copied) return;
-    navigator.clipboard.writeText('hi@hepta.no');
+    navigator.clipboard.writeText('j@hepta.no');
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -101,7 +101,7 @@ const Footer = () => {
             {copied ? (
               <EmailCopied>Email copied!</EmailCopied>
             ) : (
-              <EmailText>hi@hepta.no</EmailText>
+              <EmailText>j@hepta.no</EmailText>
             )}
           </EmailCopyWrapper>
         </FooterLink>

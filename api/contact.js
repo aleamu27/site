@@ -37,8 +37,8 @@ module.exports = async function handler(req, res) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Contact Form <hi@hepta.no>', // Your verified domain
-      to: ['hi@hepta.no'], // Send form data to you
+      from: 'Contact Form <j@hepta.no>', // Your verified domain
+      to: ['j@hepta.no'], // Send form data to you
       subject: `New Contact Form Submission from ${company}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

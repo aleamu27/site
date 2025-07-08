@@ -33,9 +33,9 @@ app.post('/api/contact', async (req, res) => {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Contact Form <hi@hepta.no>', // Your verified domain
+      from: 'Contact Form <j@hepta.no>', // Your verified domain
       to: [email], // Send to the user who submitted the form
-      bcc: ['hi@hepta.no'], // You'll receive notifications here
+      bcc: ['j@hepta.no'], // You'll receive notifications here
       subject: `New Contact Form Submission from ${company}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

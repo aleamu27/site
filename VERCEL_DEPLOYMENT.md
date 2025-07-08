@@ -1,10 +1,10 @@
 # Vercel Deployment Guide for Hepta.no
 
-Perfect! Your form will send emails from `hi@hepta.no` to the user's input email. Here's how to deploy to Vercel Pro! 🚀
+Perfect! Your form will send emails from `j@hepta.no` to the user's input email. Here's how to deploy to Vercel Pro! 🚀
 
 ## What I've Set Up
 
-✅ **Email Configuration**: Sends from `hi@hepta.no`  
+✅ **Email Configuration**: Sends from `j@hepta.no`  
 ✅ **Serverless Function**: `api/contact.js` for Vercel  
 ✅ **CORS Headers**: Properly configured  
 ✅ **Domain Integration**: Ready for `hepta.no`  
@@ -76,9 +76,9 @@ In your Vercel project dashboard:
 
 ## How Your Email Will Work
 
-**📧 From:** `Contact Form <hi@hepta.no>`  
+**📧 From:** `Contact Form <j@hepta.no>`  
 **📧 To:** Whatever email the user enters  
-**📧 BCC:** `hi@hepta.no` (you get a copy)  
+**📧 BCC:** `j@hepta.no` (you get a copy)  
 
 ### Email Content:
 - Company information
@@ -92,7 +92,7 @@ In your Vercel project dashboard:
 2. **Fill out the contact form**
 3. **Check both emails:**
    - User gets confirmation
-   - You get notification at `hi@hepta.no`
+   - You get notification at `j@hepta.no`
 
 ## File Structure Created
 
