@@ -304,7 +304,7 @@ module.exports = async function handler(req, res) {
             <div class="header">
                 <div class="logo-section">
                     <div class="logo-circle">
-                        <div class="logo-text">H</div>
+                        <img src="https://hepta.no/logo-navbar.png" alt="Hepta Logo" style="width: 40px; height: auto; border-radius: 4px;">
                     </div>
                 </div>
                 <h1 class="header-title">Thank you for reaching out!</h1>
