@@ -290,14 +290,21 @@ function Contact() {
         duration: `${requestDuration}ms`
       });
 
+      // Clone the response so we can read it multiple times if needed
+      const responseClone = response.clone();
+      
       let data;
       try {
         data = await response.json();
         console.log('📄 Response data:', data);
       } catch (parseError) {
         console.error('❌ Failed to parse response JSON:', parseError);
-        const textResponse = await response.text();
-        console.log('📄 Raw response text:', textResponse);
+        try {
+          const textResponse = await responseClone.text();
+          console.log('📄 Raw response text:', textResponse);
+        } catch (textError) {
+          console.error('❌ Failed to read response as text:', textError);
+        }
         throw new Error('Invalid response format from server');
       }
 
