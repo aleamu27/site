@@ -525,7 +525,7 @@ const Home = () => {
                   {idx === 0 ? (
                     <img src="/think-icon.svg" alt="Think icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
                   ) : idx === 1 ? (
-                    <img src="/make-icon.svg" alt="Make icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', transform: 'scaleX(-1)' }} />
+                    <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/make-icon-E9ndRsk696DWH9VUZEoTB0QmT5C1Vf.svg" alt="Make icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', transform: 'scaleX(-1)' }} />
                   ) : idx === 2 ? (
                     <img src="/move-icon.svg" alt="Move icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
                   ) : (
