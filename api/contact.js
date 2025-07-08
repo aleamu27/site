@@ -38,8 +38,7 @@ module.exports = async function handler(req, res) {
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: 'Contact Form <hi@hepta.no>', // Your verified domain
-      to: [email], // Send to the user who submitted the form
-      bcc: ['hi@hepta.no'], // You'll receive notifications here
+      to: ['hi@hepta.no'], // Send form data to you
       subject: `New Contact Form Submission from ${company}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -57,7 +56,8 @@ module.exports = async function handler(req, res) {
           </div>
           
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            <p>This email was sent from your hepta.no contact form.</p>
+            <p>Reply to: <a href="mailto:${email}">${email}</a></p>
+            <p>This form was submitted via hepta.no contact form.</p>
           </div>
         </div>
       `,

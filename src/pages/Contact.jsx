@@ -408,7 +408,7 @@ function Contact() {
         <FormWrapper>
           <Confirmation>
             Thank you for reaching out!<br />
-            We've sent you a confirmation email and will get back to you soon.
+            We are contacting you shortly.
           </Confirmation>
           <Button style={{marginTop: '2.5rem'}} onClick={() => {
             console.log('🏠 Navigating back to home');
