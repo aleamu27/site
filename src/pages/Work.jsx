@@ -275,7 +275,7 @@ const Work = () => (
           </VideoItem>
           <VideoItem>
             <VideoPlaceholderBox as="video"
-              src="/video-webapp.mp4"
+              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-webapp-3Zp1qYmioA5X1MU5ktJYqxLYfnAtIr.mp4"
               autoPlay
               loop
               muted
