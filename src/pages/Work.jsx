@@ -209,7 +209,7 @@ const Work = () => (
         <VideoGrid>
           <VideoItem>
             <VideoPlaceholderBox as="video"
-              src="/video-dashboard.mp4"
+              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-dashboard-DObhOMr87tQ2jCK3sTQ4vj8qNhqPyM.mp4"
               autoPlay
               loop
               muted
