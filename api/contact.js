@@ -35,8 +35,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Send email using Resend
-    const { data, error } = await resend.emails.send({
+    // Send notification email to j@hepta.no
+    const { data: notificationData, error: notificationError } = await resend.emails.send({
       from: 'Contact Form <j@hepta.no>', // Your verified domain
       to: ['j@hepta.no'], // Send form data to you
       subject: `New Contact Form Submission from ${company}`,
@@ -63,16 +63,47 @@ module.exports = async function handler(req, res) {
       `,
     });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return res.status(400).json({ error: 'Failed to send email', details: error });
+    if (notificationError) {
+      console.error('Notification email error:', notificationError);
+      return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
     }
 
-    console.log('Email sent successfully:', data);
+    // Send thank you email to the user
+    const { data: confirmationData, error: confirmationError } = await resend.emails.send({
+      from: 'Hepta <j@hepta.no>', // Your verified domain
+      to: [email], // Send to the user
+      subject: 'Thank you for reaching out!',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #184B54;">Thank you for reaching out!</h2>
+          
+          <p style="font-size: 16px; line-height: 1.6; color: #333;">
+            We will answer your mail at our earliest convenience.
+          </p>
+          
+          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+            <p>Best regards,<br/>The Hepta team</p>
+          </div>
+        </div>
+      `,
+    });
+
+    if (confirmationError) {
+      console.error('Confirmation email error:', confirmationError);
+      // Don't fail the whole request if confirmation email fails
+      console.log('Notification email sent successfully, but confirmation email failed');
+    }
+
+    console.log('Notification email sent successfully:', notificationData);
+    if (!confirmationError) {
+      console.log('Confirmation email sent successfully:', confirmationData);
+    }
+    
     res.json({ 
       success: true, 
       message: 'Contact form submitted successfully!',
-      emailId: data.id 
+      notificationEmailId: notificationData.id,
+      confirmationEmailId: confirmationError ? null : confirmationData.id
     });
 
   } catch (error) {
