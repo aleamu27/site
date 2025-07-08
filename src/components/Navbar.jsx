@@ -131,7 +131,7 @@ const Navbar = () => {
         <Logo to="/">
           {!logoError ? (
             <img
-              src="/logo-navbar.png"
+              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
               alt="Logo"
               style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
               onError={() => setLogoError(true)}
