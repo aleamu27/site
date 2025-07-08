@@ -400,7 +400,7 @@ const Design = () => {
               <CTAButton to="/contact">Get in touch</CTAButton>
             </CTAContent>
             <CTAImage>
-              <img src="/cta-image.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
+              <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
             </CTAImage>
           </CTAImageContainer>
         </CTASectionWrapper>
