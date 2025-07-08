@@ -253,7 +253,7 @@ const Work = () => (
           </VideoItem>
           <VideoItem>
             <VideoPlaceholderBox as="video"
-              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-demo-3NiOB5ays19lrZsc6nRpbfMMDQH9OU.mp4"
+              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-landing-page-yAhWVFz2GOS7xltyTjYOwJTeFtkaSe.mp4"
               autoPlay
               loop
               muted
@@ -264,7 +264,7 @@ const Work = () => (
           </VideoItem>
           <VideoItem>
             <VideoPlaceholderBox as="video"
-              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-landing-page-yAhWVFz2GOS7xltyTjYOwJTeFtkaSe.mp4"
+              src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-demo-3NiOB5ays19lrZsc6nRpbfMMDQH9OU.mp4"
               autoPlay
               loop
               muted
