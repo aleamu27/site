@@ -1,324 +1,53 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 import { Link } from 'react-router-dom';
 
-// Easily changeable hero content
-const HERO_HEADING = (
-  <>
-    <span style={{ display: 'inline-block', minWidth: '56px', verticalAlign: 'baseline' }}>
-      <span className="hero-grey" style={{ fontSize: '1.7rem' }}>Hi!</span>
-    </span>
-    <span className="hero-black" style={{ fontFamily: 'JetBrains Mono, Fira Mono, Menlo, monospace', fontWeight: 700, fontSize: '2.7rem', verticalAlign: 'baseline', marginLeft: '0.5rem' }}>
-      We build Custom AI´s
-    </span>
-  </>
-);
-const HERO_SUBTITLE = 'We build tailored AI solutions for your business.';
-const HERO_BUTTON = 'Get Started';
-const HERO_IMAGE_ALT = 'Custom AI Illustration';
+// --- STYLED COMPONENTS ---
 
-const HeroSection = styled.section`
-  position: relative;
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fafbfa;
-  padding: 6vw 0 2vw 0;
-  overflow: visible;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding: 2.5rem 0 1.5rem 0;
+const PageWrapper = styled.main`
+  background-color: #fcfcfc;
+`;
+
+const Section = styled.section`
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #eee;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 1.5rem;
   }
 `;
 
-const HeroContentBlock = styled.div`
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+const HeroSection = styled(Section)`
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
   background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 4px 32px 0 rgba(24,75,84,0.07);
-  padding: 3.5rem 3.5rem 2.5rem 3.5rem;
-  min-width: 0;
-  max-width: 540px;
-  margin-right: 3vw;
-  margin-left: 40px;
-  @media (max-width: 900px) {
-    margin: 0 auto 2.5rem auto;
-    padding: 2.2rem 1.2rem 1.5rem 1.2rem;
-    max-width: 98vw;
-    align-items: center;
-    text-align: center;
-  }
-`;
-
-const FloatingIcon = styled.div`
-  position: absolute;
-  left: 12px;
-  top: calc(-2.7rem + 5px);
-  width: 54px;
-  height: 54px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.1rem;
-  color: #184B54;
-  z-index: 2;
-  @media (max-width: 900px) {
-    left: 50%;
-    transform: translateX(-50%);
-    top: -2.7rem;
-  }
 `;
 
 const HeroHeading = styled.h1`
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-size: 2.7rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  color: #222;
-  margin: 0 0 1.1rem 0;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  .hero-grey {
-    color: #b3b3b3;
-    font-weight: 400;
-  }
-  .hero-black {
-    color: #222;
-    font-weight: 700;
-  }
-  @media (max-width: 700px) {
-    font-size: 1.5rem;
-  }
-`;
-
-const HeroSubtitle = styled.p`
-  font-size: 1.13rem;
-  color: #555;
-  margin: 0 0 1.7rem 0;
-  font-weight: 400;
-  max-width: 420px;
-  @media (max-width: 700px) {
-    font-size: 1.01rem;
-    margin-bottom: 1.1rem;
-  }
-`;
-
-const HeroButton = styled(Link)`
-  background: #fff;
-  color: #222;
-  font-size: 1.1rem;
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  padding: 0.85rem 2.1rem;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  transition: background 0.18s, color 0.18s;
-  margin-top: 1.1rem;
-  &:hover {
-    background: #184B54;
-    color: #fff;
-  }
-`;
-
-const HeroImageWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  min-width: 0;
-  @media (max-width: 900px) {
-    position: static;
-    margin-top: 2.2rem;
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const HeroImage = styled.div`
-  width: 390px;
-  height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1.2rem;
-  font-weight: 500;
-  @media (max-width: 700px) {
-    width: 90vw;
-    max-width: 340px;
-    height: 260px;
-  }
-`;
-
-const CardGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 7rem auto 0 auto;
-  max-width: 600px;
-  margin-bottom: 18rem;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const Card = styled.div`  display: flex;
-  align-items: center;
-  background: ${({ bg }) => bg || COLORS.offWhite};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  min-height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    min-height: 160px;
-  }
-`;
-
-const CardContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
-`;
-
-const CardDesc = styled.p`
-  font-size: 1rem;
-  margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-`;
-
-const CARD_DATA = [
-  {
-    title: 'Custom LLM',
-    desc: 'Keep full control of your models by running them locally or on your own infrastructure, no third-party exposure.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'Adaptive Interfaces',
-    desc: 'Custom UIs that interact seamlessly with AI systems, making complex tasks feel simple and intuitive.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'Tailored Models',
-    desc: 'We build models around your business, trained on your data and workflows.',
-    bg: '#F5F5F5',
-  },
-];
-
-const CTACenter = styled.div`
-  width: 100%;
-  padding: 0 15px;
-  box-sizing: border-box;
-  margin-top: -50px;
-`;
-
-const CTASectionWrapper = styled.section`
-  width: 100%;
-  padding: 2rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  gap: 2.5rem;
-  background: ${COLORS.green};
-  border-radius: 3px;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2.5rem;
-  width: 100%;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const CTAHeading = styled.h2`
-  color: #222;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 1rem;
   line-height: 1.1;
 `;
 
-const CTASubheading = styled.div`
-  color: #222;
-  font-size: 2rem;
-  font-weight: 400;
-  margin-bottom: 2.2rem;
+const HeroSubheading = styled.p`
+  font-size: 1.5rem;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
 `;
 
 const CTAButton = styled(Link)`
-  background: #222;
+  background: ${COLORS.darkTeal};
   color: #fff;
   font-size: 1.25rem;
   font-weight: 600;
@@ -328,86 +57,286 @@ const CTAButton = styled(Link)`
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  margin-top: 0.5rem;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #143e46;
+  }
 `;
 
-const CTAImage = styled.div`
-  width: 370px;
-  height: 260px;
-  background: #eee;
-  border-radius: 3px;
-  flex-shrink: 0;
+const SectionHeading = styled.h2`
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+const SectionSubheading = styled.p`
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
+`;
+
+// --- Problem/Solution ---
+const ProblemSolutionGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+`;
+
+const TextBlock = styled.div``;
+
+const TextHeading = styled.h3`
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+`;
+
+const TextParagraph = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+`;
+
+const DiagramPlaceholder = styled.div`
+  width: 100%;
+  height: 300px;
+  background: #f0f0f0;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: #bbb;
-  @media (max-width: 700px) {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    min-width: 0;
+  color: #aaa;
+  border: 2px dashed #ddd;
+`;
+
+// --- Industry Benefits ---
+const BenefitsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+`;
+
+const BenefitCard = styled.div`
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   }
 `;
 
-const CustomAI = () => {
-  const [openCard, setOpenCard] = React.useState(0);
-  return (
-    <>
-  <main>
-        <HeroSection>
-          <HeroContentBlock>
-            <FloatingIcon>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="12" stroke="#184B54" strokeWidth="3" fill="none" />
-              </svg>
-            </FloatingIcon>
-            <HeroHeading>{HERO_HEADING}</HeroHeading>
-            <HeroSubtitle>{HERO_SUBTITLE}</HeroSubtitle>
-            <HeroButton to="/contact">{HERO_BUTTON}</HeroButton>
-          </HeroContentBlock>
-          <HeroImageWrapper>
-            <HeroImage aria-label={HERO_IMAGE_ALT}></HeroImage>
-          </HeroImageWrapper>
-        </HeroSection>
+const BenefitIcon = styled.div`
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+`;
 
-        <CardGrid>
-          {CARD_DATA.map((card, idx) => {
-            const isOpen = openCard === idx;
-            return (
-              <Card
-                key={card.title}
-                bg={isOpen ? COLORS.green : card.bg}
-                onMouseEnter={() => setOpenCard(idx)}
-                onFocus={() => setOpenCard(idx)}
-                tabIndex={0}
-                aria-label={card.title}
-              >
-                <CardContent>
-                  <CardTitle active={isOpen}>{card.title}</CardTitle>
-                  {isOpen && <CardDesc>{card.desc}</CardDesc>}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </CardGrid>
-  </main>
-      <CTACenter>
-        <CTASectionWrapper>
-          <CTAImageContainer>
-            <CTAContent>
-              <CTAHeading>Want to build custom AI?</CTAHeading>
-              <CTASubheading>We'll help you create, deploy, and own your models.</CTASubheading>
-              <CTAButton to="/contact">Get in touch</CTAButton>
-            </CTAContent>
-            <CTAImage>
-              <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
-            </CTAImage>
-          </CTAImageContainer>
-        </CTASectionWrapper>
-      </CTACenter>
-    </>
-);
+const BenefitTitle = styled.h4`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+`;
+
+const BenefitText = styled.p`
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+`;
+
+// --- Comparison Table ---
+const ComparisonTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 3rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  overflow: hidden;
+
+  th, td {
+    padding: 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    background-color: #f9f9f9;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  td {
+    font-size: 1rem;
+    color: #444;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .check {
+    color: ${COLORS.green};
+    font-weight: bold;
+  }
+
+  .cross {
+    color: #aaa;
+  }
+`;
+
+// --- Security Section ---
+const SecurityGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+`;
+
+const Badge = styled.div`
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+`;
+
+// --- The Component ---
+const CustomAI = () => {
+  return (
+    <PageWrapper>
+      <HeroSection>
+        <HeroHeading>Own Your AI, Own Your Data.</HeroHeading>
+        <HeroSubheading>
+          Finally, enterprise AI that's as secure as your most sensitive data requires. We build custom, on-premise Large Language Models that give you total control.
+        </HeroSubheading>
+        <CTAButton to="/contact">Schedule a Security Assessment</CTAButton>
+      </HeroSection>
+
+      <Section>
+        <SectionHeading>The Problem with Cloud-Based AI</SectionHeading>
+        <SectionSubheading>
+          For industries handling sensitive information, sending data to third-party cloud AI is not just a risk—it's a non-starter. Your data is your most valuable asset; it should never leave your control.
+        </SectionSubheading>
+        <ProblemSolutionGrid>
+          <TextBlock>
+            <TextHeading>The Privacy-First Advantage</TextHeading>
+            <TextParagraph>
+              Our in-house LLMs mean sensitive data never leaves your client's infrastructure. This is crucial for law firms, hospitals, financial institutions, and government agencies where data security is paramount. With 100% data sovereignty, you eliminate the risk of data leakage and ensure compliance with regulations like GDPR, HIPAA, and SOC 2.
+            </TextParagraph>
+          </TextBlock>
+          <DiagramPlaceholder>
+            [Visual Diagram: Data flowing within a secure perimeter]
+          </DiagramPlaceholder>
+        </ProblemSolutionGrid>
+      </Section>
+
+      <Section>
+        <SectionHeading>AI Solutions for Your Industry</SectionHeading>
+        <BenefitsGrid>
+          <BenefitCard>
+            <BenefitIcon>⚖️</BenefitIcon>
+            <BenefitTitle>For Law Firms</BenefitTitle>
+            <BenefitText>
+              AI that can review thousands of legal documents, draft contracts, and perform due diligence while maintaining absolute attorney-client privilege.
+            </BenefitText>
+          </BenefitCard>
+          <BenefitCard>
+            <BenefitIcon>⚕️</BenefitIcon>
+            <BenefitTitle>For Healthcare</BenefitTitle>
+            <BenefitText>
+              Medical AI assistants that analyze patient histories, suggest diagnoses, and help with treatment plans without ever violating HIPAA.
+            </BenefitText>
+          </BenefitCard>
+          <BenefitCard>
+            <BenefitIcon>🏦</BenefitIcon>
+            <BenefitTitle>For Finance</BenefitTitle>
+            <BenefitText>
+              Risk assessment and fraud detection systems that process sensitive financial data entirely on-premise, ensuring full compliance and security.
+            </BenefitText>
+          </BenefitCard>
+        </BenefitsGrid>
+      </Section>
+
+      <Section>
+        <SectionHeading>In-House vs. Cloud AI</SectionHeading>
+        <ComparisonTable>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>In-House LLM (Our Solution)</th>
+              <th>Cloud-Based AI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data Sovereignty</td>
+              <td className="check">100% - Your data never leaves your servers</td>
+              <td className="cross">Data sent to third-party providers</td>
+            </tr>
+            <tr>
+              <td>Customization</td>
+              <td className="check">Trained on your specific domain knowledge</td>
+              <td className="cross">Generic models, limited customization</td>
+            </tr>
+            <tr>
+              <td>Compliance</td>
+              <td className="check">Ready for GDPR, HIPAA, SOC 2</td>
+              <td className="cross">Complex and often insufficient</td>
+            </tr>
+            <tr>
+              <td>Data Leakage Risk</td>
+              <td className="check">Zero risk of third-party leakage</td>
+              <td className="cross">High risk</td>
+            </tr>
+            <tr>
+              <td>Workflow Integration</td>
+              <td className="check">Fully customizable to your exact needs</td>
+              <td className="cross">Limited by API capabilities</td>
+            </tr>
+          </tbody>
+        </ComparisonTable>
+      </Section>
+      
+      <Section>
+        <SectionHeading>Secure, Compliant, and Trustworthy</SectionHeading>
+        <SecurityGrid>
+          <Badge>✓ GDPR</Badge>
+          <Badge>✓ HIPAA</Badge>
+          <Badge>✓ SOC 2 Ready</Badge>
+          <Badge>✓ Data Sovereignty</Badge>
+        </SecurityGrid>
+      </Section>
+
+      <Section style={{ textAlign: 'center', background: '#fff' }}>
+        <SectionHeading>Ready to Take Control of Your AI?</SectionHeading>
+        <SectionSubheading>
+          Process 10,000 documents in minutes, not weeks, with an AI that understands your business.
+        </SectionSubheading>
+        <CTAButton to="/contact">See How It Works</CTAButton>
+      </Section>
+
+    </PageWrapper>
+  );
 };
 
 export default CustomAI; 
