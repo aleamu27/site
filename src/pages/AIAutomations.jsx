@@ -1,410 +1,252 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 import { COLORS } from '../styles/colors';
+import { Link } from 'react-router-dom';
 
-const HERO_HEADING = (
-  <>
-    <span style={{ display: 'inline-block', minWidth: '130px', marginRight: '1.2rem' }}>
-      <span className="hero-grey" style={{ fontSize: '1.7rem' }}>Building</span>
-    </span>
-    <span className="hero-black">Automation</span>
-    <br />
-    <span style={{ display: 'inline-block', minWidth: '56px' }}>
-      <span className="hero-grey">(0→1)</span>
-    </span>
-    <span className="hero-black">workflows</span>
-  </>
-);
-const HERO_SUBTITLE = 'We automate processes to save you time and money.';
-const HERO_BUTTON = 'Automate Now';
-const HERO_IMAGE_ALT = 'Automation Illustration';
-
-const HeroSection = styled.section`
-  position: relative;
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fafbfa;
-  padding: 6vw 0 2vw 0;
-  overflow: visible;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding: 2.5rem 0 1.5rem 0;
-  }
+// --- KEYFRAMES ---
+const float = keyframes`
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 `;
 
-const HeroContentBlock = styled.div`
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 4px 32px 0 rgba(24,75,84,0.07);
-  padding: 3.5rem 3.5rem 2.5rem 3.5rem;
-  min-width: 0;
-  max-width: 540px;
-  margin-right: 3vw;
-  margin-left: 40px;
-  @media (max-width: 900px) {
-    margin: 0 auto 2.5rem auto;
-    padding: 2.2rem 1.2rem 1.5rem 1.2rem;
-    max-width: 98vw;
-    align-items: center;
-    text-align: center;
-  }
+// --- STYLED COMPONENTS ---
+const PageWrapper = styled.main`
+  background-color: #fdfdfd;
 `;
 
-const FloatingIcon = styled.div`
-  position: absolute;
-  left: 12px;
-  top: calc(-2.7rem + 5px);
-  width: 54px;
-  height: 54px;
+const Section = styled.section`
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-of-type { border-bottom: none; }
+  @media (max-width: 768px) { padding: 3.5rem 1.5rem; }
+`;
+
+const HeroSection = styled(Section)`
+  text-align: center;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.1rem;
-  color: #184B54;
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  z-index: 2;
-  @media (max-width: 900px) {
-    left: 50%;
-    transform: translateX(-50%);
-    top: -2.7rem;
-  }
 `;
 
 const HeroHeading = styled.h1`
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-size: 2.7rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  color: #222;
-  margin: 0 0 1.1rem 0;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  .hero-grey {
-    color: #b3b3b3;
-    font-weight: 400;
-  }
-  .hero-black {
-    color: #222;
-    font-weight: 700;
-  }
-  @media (max-width: 700px) {
-    font-size: 1.5rem;
-  }
+  color: ${COLORS.darkTeal};
+  margin-bottom: 1rem;
+  line-height: 1.2;
 `;
 
-const HeroSubtitle = styled.p`
-  font-size: 1.13rem;
+const HeroSubheading = styled.p`
+  font-size: 1.4rem;
   color: #555;
-  margin: 0 0 1.7rem 0;
-  font-weight: 400;
-  max-width: 420px;
-  @media (max-width: 700px) {
-    font-size: 1.01rem;
-    margin-bottom: 1.1rem;
-  }
-`;
-
-const HeroButton = styled(Link)`
-  background: #fff;
-  color: #222;
-  font-size: 1.1rem;
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  padding: 0.85rem 2.1rem;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  transition: background 0.18s, color 0.18s;
-  margin-top: 1.1rem;
-  &:hover {
-    background: #184B54;
-    color: #fff;
-  }
-`;
-
-const HeroImageWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  min-width: 0;
-  @media (max-width: 900px) {
-    position: static;
-    margin-top: 2.2rem;
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const HeroImage = styled.div`
-  width: 390px;
-  height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1.2rem;
-  font-weight: 500;
-  @media (max-width: 700px) {
-    width: 90vw;
-    max-width: 340px;
-    height: 260px;
-  }
-`;
-
-const CardGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 7rem auto 0 auto;
-  max-width: 600px;
-  margin-bottom: 18rem;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ bg }) => bg || '#F5F5F5'};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  min-height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    min-height: 160px;
-  }
-`;
-
-const CardContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
-`;
-
-const CardDesc = styled.p`
-  font-size: 1rem;
-  margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-`;
-
-const CARD_DATA = [
-  {
-    title: 'Workflow Mapping',
-    desc: 'We analyze and map your processes for maximum automation impact.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'Bot Development',
-    desc: 'We build custom bots to automate repetitive and complex tasks.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'Email Automation',
-    desc: 'We create custom email automation flows that save time, reduce manual work, and fit seamlessly into your existing tools.',
-    bg: '#F5F5F5',
-  },
-];
-
-const CTACenter = styled.div`
-  width: 100%;
-  padding: 0 15px;
-  box-sizing: border-box;
-  margin-top: -50px;
-`;
-
-const CTASectionWrapper = styled.section`
-  width: 100%;
-  padding: 2rem;
-  background: ${COLORS.green};
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  gap: 2.5rem;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2.5rem;
-  width: 100%;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const CTAHeading = styled.h2`
-  color: #222;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  line-height: 1.1;
-`;
-
-const CTASubheading = styled.div`
-  color: #222;
-  font-size: 2rem;
-  font-weight: 400;
-  margin-bottom: 2.2rem;
+  max-width: 750px;
+  margin: 0 auto 2.5rem auto;
 `;
 
 const CTAButton = styled(Link)`
-  background: #222;
+  background: ${COLORS.darkTeal};
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 600;
   border: none;
   border-radius: 8px;
-  padding: 1.1rem 2.5rem;
+  padding: 1.2rem 2.8rem;
   text-decoration: none;
   cursor: pointer;
   display: inline-block;
-  margin-top: 0.5rem;
-`;
-
-const CTAImage = styled.div`
-  width: 370px;
-  height: 260px;
-  background: #eee;
-  border-radius: 3px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: #bbb;
-  @media (max-width: 700px) {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    min-width: 0;
+  transition: background 0.2s, transform 0.2s;
+  &:hover {
+    background: #143e46;
+    transform: translateY(-2px);
   }
 `;
 
-const AIAutomations = () => {
-  const [openCard, setOpenCard] = React.useState(0);
-  return (
-    <>
-  <main>
-        <HeroSection>
-          <HeroContentBlock>
-            <FloatingIcon />
-            <HeroHeading>{HERO_HEADING}</HeroHeading>
-            <HeroSubtitle>{HERO_SUBTITLE}</HeroSubtitle>
-            <HeroButton to="/contact">{HERO_BUTTON}</HeroButton>
-          </HeroContentBlock>
-          <HeroImageWrapper>
-            <HeroImage aria-label={HERO_IMAGE_ALT}></HeroImage>
-          </HeroImageWrapper>
-        </HeroSection>
+const SectionHeading = styled.h2`
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
 
-        <CardGrid>
-          {CARD_DATA.map((card, idx) => {
-            const isOpen = openCard === idx;
-            return (
-              <Card
-                key={card.title}
-                bg={isOpen ? '#00C48C' : card.bg}
-                onMouseEnter={() => setOpenCard(idx)}
-                onFocus={() => setOpenCard(idx)}
-                tabIndex={0}
-                aria-label={card.title}
-              >
-                <CardContent>
-                  <CardTitle active={isOpen}>{card.title}</CardTitle>
-                  {isOpen && <CardDesc>{card.desc}</CardDesc>}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </CardGrid>
-  </main>
-      <CTASectionWrapper>
-        <CTAImageContainer>
-          <CTAContent>
-            <CTAHeading>Want to automate your workflow?</CTAHeading>
-            <CTASubheading>Let us help you save time and money.</CTASubheading>
-            <CTAButton to="/contact">Get in touch</CTAButton>
-          </CTAContent>
-          <CTAImage>
-            <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
-          </CTAImage>
-        </CTAImageContainer>
-      </CTASectionWrapper>
-    </>
-);
+const SectionSubheading = styled.p`
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 4rem auto;
+  line-height: 1.6;
+`;
+
+const StatHighlight = styled.div`
+  background: ${COLORS.green};
+  padding: 3rem;
+  text-align: center;
+  border-radius: 12px;
+  margin: 2rem 0;
+`;
+
+const StatText = styled.p`
+  font-size: 1.8rem;
+  color: #222;
+  font-weight: 500;
+  margin: 0;
+  strong { font-weight: 700; }
+`;
+
+const UseCaseGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+`;
+
+const UseCaseCard = styled.div`
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+const UseCaseIcon = styled.div`
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+`;
+
+const UseCaseTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+`;
+
+const UseCaseText = styled.p`
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+`;
+
+const AgentShowcase = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-top: 3rem;
+`;
+
+const AgentCard = styled.div`
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem;
+  width: 250px;
+  text-align: center;
+  border: 1px solid #eee;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+  animation: ${float} 6s ease-in-out infinite;
+  animation-delay: ${props => props.delay || '0s'};
+`;
+
+const AgentAvatar = styled.div`
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+`;
+
+const AgentName = styled.h4`
+  font-size: 1.3rem;
+  font-weight: 600;
+`;
+
+const AgentDescription = styled.p`
+  font-size: 0.9rem;
+  color: #666;
+`;
+
+// --- THE COMPONENT ---
+const AIAutomations = () => {
+  return (
+    <PageWrapper>
+      <HeroSection>
+        <HeroHeading>Stop Working IN Your Business. Start Working ON It.</HeroHeading>
+        <HeroSubheading>
+          Imagine what your business could achieve if nothing fell through the cracks and your team only worked on what truly matters. We build intelligent AI agents to make that a reality.
+        </HeroSubheading>
+        <CTAButton to="/contact">See AI Automation in Action</CTAButton>
+      </HeroSection>
+
+      <Section>
+        <StatHighlight>
+          <StatText>The average employee spends <strong>60%</strong> of their time on repetitive, mundane tasks. <br/>That's 3 days a week lost.</StatText>
+        </StatHighlight>
+        <SectionSubheading style={{marginTop: '4rem'}}>
+          Your team's time is too valuable for copy-paste. We help you turn 40-hour headaches into 4-minute automated processes, unlocking your team's true potential and supercharging productivity.
+        </SectionSubheading>
+      </Section>
+
+      <Section>
+        <SectionHeading>Meet Your New Digital Workforce</SectionHeading>
+        <SectionSubheading>These aren't just tools; they're AI employees trained on your business logic. They work 24/7, never make mistakes, and get smarter over time.</SectionSubheading>
+        <AgentShowcase>
+          <AgentCard delay="0s">
+            <AgentAvatar>💬</AgentAvatar>
+            <AgentName>Conversational Agent</AgentName>
+            <AgentDescription>Handles 80% of customer support tickets and qualifies leads around the clock.</AgentDescription>
+          </AgentCard>
+          <AgentCard delay="0.5s">
+            <AgentAvatar>📄</AgentAvatar>
+            <AgentName>Document Processor</AgentName>
+            <AgentDescription>Extracts data from invoices, forms, and contracts with perfect accuracy.</AgentDescription>
+          </AgentCard>
+          <AgentCard delay="1s">
+            <AgentAvatar>⚙️</AgentAvatar>
+            <AgentName>Workflow Orchestrator</AgentName>
+            <AgentDescription>Connects your existing tools (Slack, Salesforce, etc.) to automate complex processes.</AgentDescription>
+          </AgentCard>
+          <AgentCard delay="1.5s">
+            <AgentAvatar>📈</AgentAvatar>
+            <AgentName>Analytical Agent</AgentName>
+            <AgentDescription>Monitors your KPIs, detects anomalies, and surfaces opportunities in real-time.</AgentDescription>
+          </AgentCard>
+        </AgentShowcase>
+      </Section>
+
+      <Section>
+        <SectionHeading>Transform Every Department</SectionHeading>
+        <UseCaseGrid>
+          <UseCaseCard>
+            <UseCaseIcon>🤝</UseCaseIcon>
+            <UseCaseTitle>Customer Service</UseCaseTitle>
+            <UseCaseText>AI agents handle 80% of support tickets, answer common questions, and escalate only complex issues to your human experts.</UseCaseText>
+          </UseCaseCard>
+          <UseCaseCard>
+            <UseCaseIcon>💰</UseCaseIcon>
+            <UseCaseTitle>Finance & Accounting</UseCaseTitle>
+            <UseCaseText>Automate invoice processing, expense reports, and financial reconciliation without human touch, eliminating costly errors.</UseCaseText>
+          </UseCaseCard>
+          <UseCaseCard>
+            <UseCaseIcon>📈</UseCaseIcon>
+            <UseCaseTitle>Sales & Marketing</UseCaseTitle>
+            <UseCaseText>Automate lead qualification, personalized email campaigns, and follow-ups so your sales team can focus on closing deals.</UseCaseText>
+          </UseCaseCard>
+          <UseCaseCard>
+            <UseCaseIcon>📋</UseCaseIcon>
+            <UseCaseTitle>HR & Recruiting</UseCaseTitle>
+            <UseCaseText>Screen resumes, schedule interviews, and manage onboarding workflows automatically, finding the best talent faster.</UseCaseText>
+          </UseCaseCard>
+        </UseCaseGrid>
+      </Section>
+
+      <Section style={{ textAlign: 'center', background: '#fff' }}>
+        <SectionHeading>Ready for the Time Revolution?</SectionHeading>
+        <SectionSubheading>
+          Most of our clients see over 300% productivity gains within 90 days. Let's calculate the time and money you could be saving.
+        </SectionSubheading>
+        <CTAButton to="/contact">Calculate Your Time Savings</CTAButton>
+      </Section>
+    </PageWrapper>
+  );
 };
 
 export default AIAutomations; 
