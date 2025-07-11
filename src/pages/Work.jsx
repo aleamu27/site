@@ -52,6 +52,78 @@ const VideoItem = styled.div`
   align-items: stretch;
 `;
 
+// --- NEW SERVICES SECTION ---
+
+const ServicesSection = styled.section`
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding: 5rem 15px 4rem 15px;
+  margin-top: 2rem;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+`;
+
+const SectionHeading = styled.h2`
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 1rem;
+`;
+
+const SectionSubheading = styled.p`
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
+`;
+
+const ServiceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const ServiceCard = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #e8e8e8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 70, 100, 0.08);
+  }
+`;
+
+const ServiceIcon = styled.div`
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: ${COLORS.teal};
+`;
+
+const ServiceTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+`;
+
+const ServiceDescription = styled.p`
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+`;
+
+
 const VideoPlaceholderBox = styled.div`
   flex: 1;
   aspect-ratio: 4 / 5;
@@ -309,18 +381,32 @@ const Work = () => (
         </VideoGrid>
       </WorkGridSection>
     </WorkGridWrapper>
-    <CTASectionWrapper>
-      <CTAImageContainer>
-        <CTAContent>
-          <CTAHeading>Want to work with us?</CTAHeading>
-          <CTASubheading>We'd love to hear your ideas!</CTASubheading>
-          <CTAButton to="/contact">Get in touch</CTAButton>
-        </CTAContent>
-        <CTAImage>
-          <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
-        </CTAImage>
-      </CTAImageContainer>
-    </CTASectionWrapper>
+    <ServicesSection>
+      <SectionHeading>Explore Our Capabilities</SectionHeading>
+      <SectionSubheading>This is the work we've done. Here are the capabilities that allow us to do it.</SectionSubheading>
+      <ServiceGrid>
+        <ServiceCard to="/design">
+          <ServiceIcon>🎨</ServiceIcon>
+          <ServiceTitle>Design</ServiceTitle>
+          <ServiceDescription>Where psychology meets pixels to create designs that don't just decorate—they deliver.</ServiceDescription>
+        </ServiceCard>
+        <ServiceCard to="/development">
+          <ServiceIcon>💻</ServiceIcon>
+          <ServiceTitle>Development</ServiceTitle>
+          <ServiceDescription>Secure, scalable, and built for tomorrow. We write code that performs and protects.</ServiceDescription>
+        </ServiceCard>
+        <ServiceCard to="/ai-automations">
+          <ServiceIcon>✨</ServiceIcon>
+          <ServiceTitle>AI & Automation</ServiceTitle>
+          <ServiceDescription>Your new, tireless digital workforce, ready to eliminate repetitive tasks and supercharge productivity.</ServiceDescription>
+        </ServiceCard>
+        <ServiceCard to="/production">
+          <ServiceIcon>🎬</ServiceIcon>
+          <ServiceTitle>Video Production</ServiceTitle>
+          <ServiceDescription>From concept to final cut, we craft cinematic stories that move audiences and drive action.</ServiceDescription>
+        </ServiceCard>
+      </ServiceGrid>
+    </ServicesSection>
   </>
 );
 
