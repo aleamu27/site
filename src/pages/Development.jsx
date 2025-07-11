@@ -163,6 +163,47 @@ const ProcessText = styled.p`
   color: #666;
 `;
 
+// --- Tech & Craftsmanship ---
+const TechGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+`;
+
+const TechCard = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  border: 1px solid #eee;
+`;
+
+const TechTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+`;
+
+const TechList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const TechListItem = styled.li`
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '✓';
+    color: ${COLORS.green};
+    margin-right: 0.75rem;
+    font-weight: bold;
+  }
+`;
+
 // --- Security Stack ---
 const StackGrid = styled.div`
   display: flex;
@@ -223,29 +264,68 @@ const Development = () => {
       </Section>
 
       <Section>
-        <SectionHeading>Cross-Platform Security Expertise</SectionHeading>
+        <SectionHeading>Cross-Platform Development</SectionHeading>
+        <SectionSubheading>
+          We build high-performance, secure applications for every major platform, ensuring a seamless experience for your users everywhere.
+        </SectionSubheading>
         <PlatformGrid>
           <PlatformCard>
             <PlatformIcon>🌐</PlatformIcon>
             <PlatformTitle>Web Applications</PlatformTitle>
-            <PlatformText>PWAs with advanced security headers, CSP, and secure authentication.</PlatformText>
+            <PlatformText>Secure, scalable, and fast progressive web apps, dynamic dashboards, and complex data-intensive platforms using modern frameworks.</PlatformText>
           </PlatformCard>
           <PlatformCard>
             <PlatformIcon>📱</PlatformIcon>
             <PlatformTitle>Mobile Apps</PlatformTitle>
-            <PlatformText>Native iOS/Android with biometric auth and certificate pinning.</PlatformText>
+            <PlatformText>Native iOS and Android applications with a focus on performance, user experience, and ironclad security for sensitive user data.</PlatformText>
           </PlatformCard>
           <PlatformCard>
             <PlatformIcon>💻</PlatformIcon>
             <PlatformTitle>Desktop Apps</PlatformTitle>
-            <PlatformText>Cross-platform apps with secure updates and code signing.</PlatformText>
+            <PlatformText>Cross-platform desktop solutions with secure, signed code and automated update mechanisms for reliable enterprise deployment.</PlatformText>
           </PlatformCard>
           <PlatformCard>
             <PlatformIcon>☁️</PlatformIcon>
             <PlatformTitle>Cloud & Enterprise</PlatformTitle>
-            <PlatformText>Secure microservices, containerization, and API gateway security.</PlatformText>
+            <PlatformText>Robust backend systems, secure microservices architecture, and scalable containerized deployments for enterprise-grade applications.</PlatformText>
           </PlatformCard>
         </PlatformGrid>
+      </Section>
+
+      <Section>
+        <SectionHeading>Technology & Craftsmanship</SectionHeading>
+        <SectionSubheading>
+          Secure code is just the beginning. We write clean, maintainable, and scalable code using modern technologies to build solutions that last.
+        </SectionSubheading>
+        <TechGrid>
+          <TechCard>
+            <TechTitle>Frontend Development</TechTitle>
+            <TechList>
+              <TechListItem>React & Next.js</TechListItem>
+              <TechListItem>Performance Optimization</TechListItem>
+              <TechListItem>UI/UX Implementation</TechListItem>
+              <TechListItem>Component-Based Architecture</TechListItem>
+            </TechList>
+          </TechCard>
+          <TechCard>
+            <TechTitle>Backend Development</TechTitle>
+            <TechList>
+              <TechListItem>Node.js, Python, Go</TechListItem>
+              <TechListItem>REST & GraphQL APIs</TechListItem>
+              <TechListItem>SQL & NoSQL Databases</TechListItem>
+              <TechListItem>Serverless Architecture</TechListItem>
+            </TechList>
+          </TechCard>
+          <TechCard>
+            <TechTitle>Cloud & DevOps</TechTitle>
+            <TechList>
+              <TechListItem>AWS, GCP, Vercel</TechListItem>
+              <TechListItem>Docker & Kubernetes</TechListItem>
+              <TechListItem>CI/CD Automation</TechListItem>
+              <TechListItem>Infrastructure as Code (IaC)</TechListItem>
+            </TechList>
+          </TechCard>
+        </TechGrid>
       </Section>
 
       <Section>
@@ -266,9 +346,9 @@ const Development = () => {
       </Section>
 
       <Section style={{ textAlign: 'center', background: '#fff' }}>
-        <SectionHeading>Ready for a Security Upgrade?</SectionHeading>
+        <SectionHeading>Ready to Build Your Fortress?</SectionHeading>
         <SectionSubheading>
-          Our applications pass security audits on the first try. Let us build a solution you can trust.
+          Our applications pass security audits on the first try. Let's build a solution you can trust, from the architecture up.
         </SectionSubheading>
         <CTAButton to="/contact">Get a Security Architecture Review</CTAButton>
       </Section>
