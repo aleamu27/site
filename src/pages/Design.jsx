@@ -1,412 +1,252 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { COLORS } from '../styles/colors';
 import { Link } from 'react-router-dom';
 
-const HERO_HEADING = (
-  <>
-    <span className="hero-grey" style={{ fontSize: '1.2rem', fontWeight: 400, marginRight: '0.7rem' }}>We create</span>
-    <span className="hero-black" style={{ fontFamily: 'JetBrains Mono, Fira Mono, Menlo, monospace', fontWeight: 700, fontSize: '2.7rem' }}>Design</span>
-    <br />
-    <span className="hero-grey" style={{ fontSize: '2.7rem', fontWeight: 700 }}>from 0-1</span>
-  </>
-);
-const HERO_SUBTITLE = 'We craft digital products and brands with impact.';
-const HERO_BUTTON = 'Start a Project';
-const HERO_IMAGE_ALT = 'Design Illustration';
+// --- KEYFRAMES for animations ---
+const morph = keyframes`
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+`;
 
-const HeroSection = styled.section`
-  position: relative;
-  min-height: 70vh;
+// --- STYLED COMPONENTS ---
+
+const PageWrapper = styled.main`
+  background: #fff;
+  color: #1a1a1a;
+`;
+
+const Section = styled.section`
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-of-type { border-bottom: none; }
+`;
+
+const HeroSection = styled.div`
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fafbfa;
-  padding: 6vw 0 2vw 0;
-  overflow: visible;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    align-items: center;
-    min-height: 0;
-    padding: 2.5rem 0 1.5rem 0;
-  }
-`;
-
-const HeroContentBlock = styled.div`
+  text-align: center;
   position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 4px 32px 0 rgba(24,75,84,0.07);
-  padding: 3.5rem 3.5rem 2.5rem 3.5rem;
-  min-width: 0;
-  max-width: 540px;
-  margin-right: 3vw;
-  margin-left: 40px;
-  @media (max-width: 900px) {
-    margin: 0 auto 2.5rem auto;
-    padding: 2.2rem 1.2rem 1.5rem 1.2rem;
-    max-width: 98vw;
-    align-items: center;
-    text-align: center;
-  }
+  background: radial-gradient(circle, #f5f7fa, #eef2f7);
+  overflow: hidden;
 `;
 
-const FloatingIcon = styled.div`
-  position: absolute;
-  left: 12px;
-  top: calc(-2.7rem + 5px);
-  width: 54px;
-  height: 54px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.1rem;
-  color: #184B54;
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
+const HeroContent = styled.div`
   z-index: 2;
-  @media (max-width: 900px) {
-    left: 50%;
-    transform: translateX(-50%);
-    top: -2.7rem;
-  }
+  position: relative;
 `;
 
 const HeroHeading = styled.h1`
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-size: 2.7rem;
-  font-weight: 700;
-  color: #222;
-  margin: 0 0 1.1rem 0;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  .hero-grey {
-    color: #b3b3b3;
-    font-weight: 400;
-  }
-  .hero-black {
-    color: #222;
-    font-weight: 700;
-  }
-  @media (max-width: 700px) {
-    font-size: 1.5rem;
-  }
-`;
-
-const HeroSubtitle = styled.p`
-  font-size: 1.13rem;
-  color: #555;
-  margin: 0 0 1.7rem 0;
-  font-weight: 400;
-  max-width: 420px;
-  @media (max-width: 700px) {
-    font-size: 1.01rem;
-    margin-bottom: 1.1rem;
-  }
-`;
-
-const HeroButton = styled.a`
-  background: #fff;
-  color: #222;
-  font-size: 1.1rem;
-  font-family: 'JetBrains Mono', 'Fira Mono', 'Menlo', 'monospace';
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  padding: 0.85rem 2.1rem;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  box-shadow: 0 2px 12px rgba(24,75,84,0.10);
-  transition: background 0.18s, color 0.18s;
-  margin-top: 1.1rem;
-  &:hover {
-    background: #184B54;
-    color: #fff;
-  }
-`;
-
-const HeroImageWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  min-width: 0;
-  @media (max-width: 900px) {
-    position: static;
-    margin-top: 2.2rem;
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const HeroImage = styled.div`
-  width: 390px;
-  height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1.2rem;
-  font-weight: 500;
-  @media (max-width: 700px) {
-    width: 90vw;
-    max-width: 340px;
-    height: 260px;
-  }
-`;
-
-const CardGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 7rem auto 0 auto;
-  max-width: 600px;
-  margin-bottom: 18rem;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ bg }) => bg || '#F5F5F5'};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  min-height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    min-height: 160px;
-  }
-`;
-
-const CardContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
-`;
-
-const CardDesc = styled.p`
-  font-size: 1rem;
-  margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-`;
-
-const CARD_DATA = [
-  {
-    title: 'Brand Identity',
-    desc: 'We create memorable brands that stand out and connect.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'UI/UX Design',
-    desc: 'We design intuitive, beautiful interfaces for web and mobile.',
-    bg: '#F5F5F5',
-  },
-  {
-    title: 'Static Design',
-    desc: 'We rapidly create ad, poster and other static designs.',
-    bg: '#F5F5F5',
-  },
-];
-
-const CTACenter = styled.div`
-  width: 100%;
-  padding: 0 15px;
-  box-sizing: border-box;
-  margin-top: -50px;
-`;
-
-const CTASectionWrapper = styled.section`
-  width: 100%;
-  padding: 2rem;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  gap: 2.5rem;
-  background: ${COLORS.green};
-  border-radius: 3px;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const CTAHeading = styled.h2`
-  color: #222;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
+  font-size: 4rem;
+  font-weight: 800;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 0.5rem;
   line-height: 1.1;
+  letter-spacing: -0.02em;
 `;
 
-const CTASubheading = styled.div`
-  color: #222;
-  font-size: 2rem;
+const HeroSubheading = styled.p`
+  font-size: 1.5rem;
+  color: #555;
   font-weight: 400;
-  margin-bottom: 2.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
 `;
 
-const CTAButton = styled(Link)`
-  background: #222;
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 1.1rem 2.5rem;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 0.5rem;
+const AnimatedBlob = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, ${COLORS.teal} 0%, ${COLORS.lightBlue} 100%);
+  opacity: 0.15;
+  animation: ${morph} 15s ease-in-out infinite;
+  z-index: 1;
 `;
 
-const CTAImage = styled.div`
-  width: 370px;
-  height: 260px;
-  background: #eee;
-  border-radius: 3px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const ProblemStatementSection = styled(Section)`
+  text-align: center;
+  background: #fcfdff;
+`;
+
+const Stat = styled.p`
+  font-size: 3rem;
+  font-weight: 700;
+  color: ${COLORS.darkBlue};
+  margin: 0;
+`;
+
+const StatContext = styled.p`
   font-size: 1.2rem;
-  color: #bbb;
-  @media (max-width: 700px) {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    min-width: 0;
+  color: #666;
+  max-width: 700px;
+  margin: 1rem auto 0 auto;
+`;
+
+const ServiceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+`;
+
+const ServiceCard = styled.div`
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 70, 100, 0.08);
   }
 `;
 
-const CTAImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2.5rem;
-  width: 100%;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
+const ServiceIcon = styled.div`
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: ${COLORS.teal};
+`;
+
+const ServiceTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+`;
+
+const ServiceDescription = styled.p`
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+`;
+
+const CtaButton = styled(Link)`
+  display: inline-block;
+  background: linear-gradient(45deg, ${COLORS.darkBlue}, ${COLORS.teal});
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 100, 150, 0.3);
   }
+`;
+
+const SectionHeading = styled.h2`
+  font-size: 2.8rem;
+  text-align: center;
+  font-weight: 700;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 1rem;
+`;
+
+const SectionSubheading = styled.p`
+  font-size: 1.2rem;
+  text-align: center;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
 `;
 
 const Design = () => {
-  const [openCard, setOpenCard] = React.useState(0);
   return (
-    <>
-  <main>
-        <HeroSection>
-          <HeroContentBlock>
-            <FloatingIcon>
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="12" stroke="#184B54" strokeWidth="3" fill="none" />
-              </svg>
-            </FloatingIcon>
-            <HeroHeading>{HERO_HEADING}</HeroHeading>
-            <HeroSubtitle>{HERO_SUBTITLE}</HeroSubtitle>
-            <HeroButton href="mailto:hello@example.com">{HERO_BUTTON}</HeroButton>
-          </HeroContentBlock>
-          <HeroImageWrapper>
-            <HeroImage aria-label={HERO_IMAGE_ALT}></HeroImage>
-          </HeroImageWrapper>
-        </HeroSection>
+    <PageWrapper>
+      <HeroSection>
+        <AnimatedBlob />
+        <HeroContent>
+          <HeroHeading>Design That Converts</HeroHeading>
+          <HeroSubheading>We blend user psychology with aesthetic excellence to create designs that don't just decorate—they deliver.</HeroSubheading>
+          <CtaButton to="/contact">Transform Your Visual Identity</CtaButton>
+        </HeroContent>
+      </HeroSection>
 
-        <CardGrid>
-          {CARD_DATA.map((card, idx) => {
-            const isOpen = openCard === idx;
-            return (
-              <Card
-                key={card.title}
-                bg={isOpen ? '#00C48C' : card.bg}
-                onMouseEnter={() => setOpenCard(idx)}
-                onFocus={() => setOpenCard(idx)}
-                tabIndex={0}
-                aria-label={card.title}
-              >
-                <CardContent>
-                  <CardTitle active={isOpen}>{card.title}</CardTitle>
-                  {isOpen && <CardDesc>{card.desc}</CardDesc>}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </CardGrid>
-  </main>
-      <CTACenter>
-        <CTASectionWrapper>
-          <CTAImageContainer>
-            <CTAContent>
-              <CTAHeading>Want to build your next product?</CTAHeading>
-              <CTASubheading>We'll help you design, develop, and launch it.</CTASubheading>
-              <CTAButton to="/contact">Get in touch</CTAButton>
-            </CTAContent>
-            <CTAImage>
-              <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
-            </CTAImage>
-          </CTAImageContainer>
-        </CTASectionWrapper>
-      </CTACenter>
-    </>
-);
+      <ProblemStatementSection>
+        <Stat>50ms</Stat>
+        <StatContext>That's all the time you have to make a first impression. In a world of infinite scroll, we create design that demands attention, builds trust, and drives action.</StatContext>
+      </ProblemStatementSection>
+
+      <Section>
+        <SectionHeading>Strategy Meets Beauty</SectionHeading>
+        <SectionSubheading>Our design services are built on a foundation of strategic thinking. Every color, shape, and space has a purpose, ensuring your visual identity works as hard as you do.</SectionSubheading>
+        <ServiceGrid>
+          <ServiceCard>
+            <ServiceIcon>🎨</ServiceIcon>
+            <ServiceTitle>Brand Identity</ServiceTitle>
+            <ServiceDescription>From logos to comprehensive brand guidelines, we build visual systems that tell your story and scale with your success.</ServiceDescription>
+          </ServiceCard>
+          <ServiceCard>
+            <ServiceIcon>📱</ServiceIcon>
+            <ServiceTitle>UI/UX Design</ServiceTitle>
+            <ServiceDescription>We craft intuitive, accessible, and delightful interfaces for websites and applications that users love to use.</ServiceDescription>
+          </ServiceCard>
+          <ServiceCard>
+            <ServiceIcon>📈</ServiceIcon>
+            <ServiceTitle>Marketing & Ads</ServiceTitle>
+            <ServiceDescription>Creative campaigns that capture attention, communicate value, and convert prospects into loyal customers.</ServiceDescription>
+          </ServiceCard>
+          <ServiceCard>
+            <ServiceIcon>📦</ServiceIcon>
+            <ServiceTitle>Product & Packaging</ServiceTitle>
+            <ServiceDescription>Designs that sell themselves off the shelf, creating a memorable unboxing experience and lasting brand loyalty.</ServiceDescription>
+          </ServiceCard>
+          <ServiceCard>
+            <ServiceIcon>🏢</ServiceIcon>
+            <ServiceTitle>Environmental Design</ServiceTitle>
+            <ServiceDescription>Transforming physical spaces with signage and wayfinding that guides, informs, and inspires.</ServiceDescription>
+          </ServiceCard>
+          <ServiceCard>
+            <ServiceIcon>✨</ServiceIcon>
+            <ServiceTitle>Motion & Data Viz</ServiceTitle>
+            <ServiceDescription>Bringing brands to life with compelling animations and making complex data instantly understandable.</ServiceDescription>
+          </ServiceCard>
+        </ServiceGrid>
+      </Section>
+      
+      {/* Placeholder for Design Principles / Process Section */}
+      <Section style={{ background: '#f8f9fa' }}>
+        <SectionHeading>Our Design Philosophy</SectionHeading>
+        <SectionSubheading>Beautiful is baseline. Effective is everything. Our process ensures we deliver design that achieves real business goals.</SectionSubheading>
+        {/* Interactive Showcase Placeholder */}
+        <div style={{ textAlign: 'center', padding: '2rem', border: '2px dashed #ddd', borderRadius: '12px' }}>
+          <h3 style={{ color: '#888' }}>Interactive Design Principles Showcase Coming Soon</h3>
+          <p style={{ color: '#aaa' }}>(e.g., Color Psychology Demo, Typography Playground, Grid Visualization)</p>
+        </div>
+      </Section>
+
+      {/* Placeholder for Case Studies Section */}
+      <Section>
+        <SectionHeading>Results You Can See</SectionHeading>
+        <SectionSubheading>We measure our success by the success of our clients. Here’s how our designs have made a measurable impact.</SectionSubheading>
+        <div style={{ textAlign: 'center', padding: '2rem', border: '2px dashed #ddd', borderRadius: '12px' }}>
+          <h3 style={{ color: '#888' }}>Before & After Case Studies Coming Soon</h3>
+          <p style={{ color: '#aaa' }}>(e.g., +200% Conversion, -50% Bounce Rate)</p>
+        </div>
+      </Section>
+
+      <Section style={{ background: COLORS.darkTeal, color: '#fff' }}>
+        <SectionHeading style={{ color: '#fff' }}>Ready to Redefine Your Brand?</SectionHeading>
+        <SectionSubheading style={{ color: '#e0e0e0', maxWidth: '600px' }}>Stop losing customers to better-looking competitors. Let's build a visual identity that wins hearts, minds, and markets.</SectionSubheading>
+        <div style={{ textAlign: 'center' }}>
+          <CtaButton as="a" href="/contact" style={{ background: '#fff', color: COLORS.darkTeal }}>
+            Get a Free Design Audit
+          </CtaButton>
+        </div>
+      </Section>
+    </PageWrapper>
+  );
 };
 
 export default Design; 
