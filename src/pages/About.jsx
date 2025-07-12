@@ -1,250 +1,198 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { COLORS } from '../styles/colors';
+import { Link } from 'react-router-dom';
 
-const HeroTextBlock = styled.div`
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 0 0 2.5rem 0;
-`;
+// --- STYLED COMPONENTS ---
 
-const HeroTextInner = styled.div`
-  font-family: 'Inter', 'system-ui', 'Arial', sans-serif;
-  font-size: clamp(2.1rem, 4vw, 3.2rem);
-  font-weight: 400;
-  color: #222;
-  line-height: 1.13;
-  padding: 1.1rem 0 1.2rem 2.5vw;
-  text-align: left;
-  max-width: 1200px;
-  @media (max-width: 600px) {
-    font-size: 1.3rem;
-    padding-left: 4vw;
-    padding-right: 2vw;
-  }
-`;
-
-const HeroSubText = styled.span`
-  color: #b3b3b3;
+const PageWrapper = styled.main`
+  background: #fff;
+  color: #333;
 `;
 
 const Section = styled.section`
-  max-width: 700px;
-  margin: 12rem auto 0 auto;
-  padding: 0 15px;
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
 `;
+
+const HeroSection = styled(Section)`
+  text-align: center;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background: #f8f9fa;
+  // Placeholder for Oslo skyline image in the background
+`;
+
+const HeroHeading = styled.h1`
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 1rem;
+`;
+
+const HeroSubheading = styled.p`
+  font-size: 1.3rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto;
+`;
+
+const StorySection = styled(Section)`
+  max-width: 800px;
+  
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: ${COLORS.darkTeal};
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    color: #444;
+  }
+
+  blockquote {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: ${COLORS.teal};
+    border-left: 3px solid ${COLORS.lightBlue};
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+  }
+`;
+
+const ValuesSection = styled(Section)`
+  background: #fdfdfd;
+`;
+
+const ValuesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+`;
+
+const ValueCard = styled.div`
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 2rem;
+  border-radius: 8px;
+`;
+
+const ValueTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+`;
+
+const ValueDescription = styled.p`
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+`;
+
+const TeamSection = styled(Section)`
+  text-align: center;
+`;
+
+const CtaSection = styled(Section)`
+  background: ${COLORS.darkTeal};
+  text-align: center;
+  color: #fff;
+
+  h2 {
+    color: #fff;
+    font-size: 2.8rem;
+  }
+
+  p {
+    color: #e0e0e0;
+    max-width: 600px;
+    margin: 1rem auto 2rem auto;
+  }
+`;
+
+const CtaButton = styled(Link)`
+  display: inline-block;
+  background: #fff;
+  color: ${COLORS.darkTeal};
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
 
 const SectionHeading = styled.h2`
-  font-size: 1.35rem;
-  font-weight: 500;
-  color: #222;
-  margin: 0 0 1.2rem 0;
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: ${COLORS.darkTeal};
+  margin-bottom: 4rem;
 `;
 
-const SectionText = styled.p`
-  font-size: 1.18rem;
-  color: #b3b3b3;
-  margin: 0 0 2.2rem 0;
-  line-height: 1.6;
-`;
-
-const WorkGridWrapper = styled.div`
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 32rem;
-  margin-bottom: 5rem;
-  @media (max-width: 700px) {
-    margin-top: 16rem;
-    margin-bottom: 2.5rem;
-  }
-`;
-
-const WorkGridSection = styled.section`
-  margin: 4rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ImagePlaceholderBox = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  height: 320px;
-  background: ${COLORS.green};
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1.3rem;
-  font-weight: 500;
-  margin-left: 2.5vw;
-  margin-bottom: 2.5rem;
-  box-sizing: border-box;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const CardGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 0 auto 7rem auto;
-  max-width: 600px;
-  width: 100%;
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ active }) => (active ? COLORS.green : '#F5F5F5')};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  margin: 0.2rem 0 0 0;
-  cursor: pointer;
-  width: 100%;
-  max-width: 600px;
-  overflow: hidden;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    height: 160px;
-  }
-`;
-
-const CardContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.13rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
-`;
-
-const CardDesc = styled.p`
-  font-size: 1rem;
-  margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-`;
-
-const ABOUT_CARDS = [
-  {
-    title: 'AI Team',
-    desc: 'Our AI specialists and data scientists design, build, and deploy custom models for your business.'
-  },
-  {
-    title: 'Developers',
-    desc: 'Full-stack engineers and architects deliver robust, scalable software and web solutions.'
-  },
-  {
-    title: 'Automation Experts',
-    desc: 'Automation engineers and workflow specialists streamline your processes and integrate your tools.'
-  },
-  {
-    title: 'Production Crew',
-    desc: 'Producers, editors, and creatives bring your content and video projects to life.'
-  },
-  {
-    title: 'Designers',
-    desc: 'UI/UX and brand designers craft beautiful, intuitive digital experiences for your users.'
-  },
-];
-
-const SECTION_TITLES = [
-  'Custom AI',
-  'Development',
-  'Automation',
-  'Production',
-  'Design',
-];
-
-const SECTION_PARAGRAPHS = [
-  'We design and build AI solutions tailored to your business, giving you full control over your data, models, and deployment. From private LLMs to workflow automation, we help you unlock the power of AI on your terms.',
-  'Our engineering team delivers robust, scalable web and software solutions. We handle everything from backend APIs to modern frontends, ensuring your product is fast, secure, and ready to grow.',
-  'We automate repetitive tasks and complex workflows, integrating your tools and data so you can focus on what matters. Our automations are reliable, secure, and built to fit your unique needs.',
-  'From video to digital content, we help you create, launch, and scale your brand\'s story. Our production team brings ideas to life with creativity, speed, and technical excellence.',
-  'We craft digital experiences that are beautiful, intuitive, and effective. Our design team works closely with you to turn ideas into products people love to use.'
-];
 
 const About = () => {
-  const [openCard, setOpenCard] = React.useState(0);
   return (
-    <>
-      <WorkGridWrapper>
-        <WorkGridSection>
-          <HeroTextBlock>
-            <HeroTextInner>
-              We're builders, designers, and engineers <HeroSubText>working</HeroSubText> across AI, software, and content.
-            </HeroTextInner>
-            <ImagePlaceholderBox />
-          </HeroTextBlock>
-        </WorkGridSection>
-      </WorkGridWrapper>
-      <CardGrid>
-        {[0,1,2,3,4].map((idx) => (
-          <React.Fragment key={idx}>
-            <Section>
-              <SectionHeading>{SECTION_TITLES[idx]}</SectionHeading>
-              <SectionText>{SECTION_PARAGRAPHS[idx]}</SectionText>
-            </Section>
-            <Card
-              active={openCard === idx}
-              onMouseEnter={() => setOpenCard(idx)}
-              onFocus={() => setOpenCard(idx)}
-              tabIndex={0}
-              aria-label={ABOUT_CARDS[idx].title}
-            >
-              <CardContent>
-                <CardTitle active={openCard === idx}>{ABOUT_CARDS[idx].title}</CardTitle>
-                {openCard === idx && <CardDesc>{ABOUT_CARDS[idx].desc}</CardDesc>}
-              </CardContent>
-            </Card>
-          </React.Fragment>
-        ))}
-      </CardGrid>
-    </>
+    <PageWrapper>
+      <HeroSection>
+        <HeroHeading>Creating at the intersection of beauty and function.</HeroHeading>
+        <HeroSubheading>Built in Oslo, crafted for the world. We're a creative technology studio that believes the best solutions are born where art and engineering meet.</HeroSubheading>
+      </HeroSection>
+
+      <StorySection>
+        <h2>Our Story</h2>
+        <p>It started in Oslo with a simple belief: technology should be beautiful, and beautiful things should work flawlessly. Born from late nights fueled by endless coffee, we were the ones debugging code while obsessing over pixel-perfect designs.</p>
+        <blockquote>We couldn't find a studio that cared equally about elegant code and stunning visuals, so we became one.</blockquote>
+        <p>Inspired by Nordic design principles and the vibrant energy of Oslo's tech scene, we set out to build a different kind of studio. One where there are no boundaries between disciplines—just a shared passion for solving impossible problems with elegant solutions.</p>
+      </StorySection>
+
+      <ValuesSection>
+        <SectionHeading>What We Believe</SectionHeading>
+        <ValuesGrid>
+          <ValueCard>
+            <ValueTitle>Renaissance Builders</ValueTitle>
+            <ValueDescription>In a world of specialists, we are multi-disciplinary creators. We see every project as a single craft, whether it's a line of code, a frame of video, or a stroke of design.</ValueDescription>
+          </ValueCard>
+          <ValueCard>
+            <ValueTitle>Obsessively Crafted</ValueTitle>
+            <ValueDescription>We are relentless in our pursuit of quality, obsessing over the details others overlook. For us, every pixel is purposeful and every line of code is a brushstroke.</ValueDescription>
+          </ValueCard>
+          <ValueCard>
+            <ValueTitle>Partners, Not Vendors</ValueTitle>
+            <ValueDescription>We build relationships based on transparency, honesty, and a shared desire to create something extraordinary. Your vision becomes our mission.</ValueDescription>
+          </ValueCard>
+        </ValuesGrid>
+      </ValuesSection>
+      
+      <TeamSection>
+        <SectionHeading>Meet the Builders</SectionHeading>
+        <div style={{ padding: '2rem', border: '2px dashed #ddd', borderRadius: '12px', color: '#888' }}>
+          <h3>Team Showcase Coming Soon</h3>
+          <p>Real humans who are exceptional at what they do.</p>
+        </div>
+      </TeamSection>
+      
+      <CtaSection>
+        <h2>Ready to build something extraordinary?</h2>
+        <p>We choose projects that excite us and clients who inspire us. If you have a vision that needs a passionate team to bring it to life, we'd love to hear from you.</p>
+        <CtaButton to="/contact">Start the Conversation</CtaButton>
+      </CtaSection>
+    </PageWrapper>
   );
 };
 
