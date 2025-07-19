@@ -119,6 +119,8 @@ const RightButton = styled(Link)`
 const NAV_LINKS = [
   { to: '/work', label: 'Work', type: 'route' },
   { to: '/about', label: 'About', type: 'route' },
+  { to: '/blog', label: 'Blog', type: 'route' },
+  { to: '/careers', label: 'Careers', type: 'route' },
 ];
 
 const Navbar = () => {
