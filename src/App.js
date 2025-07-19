@@ -11,6 +11,9 @@ import Production from './pages/Production';
 import Work from './pages/Work';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import BlogCMS from './components/BlogCMS';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
@@ -28,6 +31,9 @@ function AppContent() {
         <Route path="/production" element={<Layout><Production /></Layout>} />
         <Route path="/work" element={<Layout><Work /></Layout>} />
         <Route path="/about" element={<Layout><About /></Layout>} />
+        <Route path="/blog" element={<Layout><Blog /></Layout>} />
+        <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
+        <Route path="/blog/new" element={<Layout><BlogCMS /></Layout>} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
       {location.pathname !== '/contact' && <Footer />}

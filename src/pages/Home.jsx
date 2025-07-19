@@ -457,7 +457,7 @@ const Home = () => {
     'Development',
     'Automation',
     'Production',
-    'Design',
+    'Design + Animation',
   ];
   const [hoveredIdx, setHoveredIdx] = React.useState(null);
   const [openCard, setOpenCard] = React.useState(0);
@@ -477,7 +477,7 @@ const Home = () => {
                   'Development': '/development',
                   'Automation': '/ai-automations',
                   'Production': '/production',
-                  'Design': '/design',
+                  'Design + Animation': '/design',
                 };
                 return (
                   <li key={name} style={{margin: '0.7rem 0'}}>
