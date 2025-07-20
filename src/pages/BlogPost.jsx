@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
+import { supabase } from '../lib/supabase';
 
 const BlogPostWrapper = styled.div`
   width: 100vw;
@@ -233,121 +234,155 @@ const NotFound = styled.div`
   }
 `;
 
-// Sample blog post data - in a real app, this would come from a database
-const sampleBlogPosts = {
-  "building-custom-ai-solutions": {
-    id: 1,
-    title: "Building Custom AI Solutions",
-    excerpt: "A deep dive into how we design and implement custom AI solutions for businesses, from initial concept to deployment.",
-    author: "AI Team",
-    date: "June 18, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/think-icon-XcGhWi6uMZbYUDLdGOF4hrLt1iO84M.svg",
-    slug: "building-custom-ai-solutions",
-    content: `
-      <h2>Introduction</h2>
-      <p>Custom AI solutions are transforming how businesses operate, providing unprecedented opportunities for automation, insights, and competitive advantage. In this comprehensive guide, we'll explore the process of building custom AI solutions from the ground up.</p>
-      
-      <h2>The Foundation: Understanding Your Needs</h2>
-      <p>Before diving into development, it's crucial to thoroughly understand your business requirements. This involves:</p>
-      <ul>
-        <li>Identifying specific problems AI can solve</li>
-        <li>Analyzing available data sources</li>
-        <li>Defining success metrics</li>
-        <li>Understanding technical constraints</li>
-      </ul>
-      
-      <h2>Data Strategy</h2>
-      <p>Data is the lifeblood of any AI system. A robust data strategy includes:</p>
-      <blockquote>
-        "The quality of your AI solution is directly proportional to the quality of your data."
-      </blockquote>
-      
-      <h3>Data Collection</h3>
-      <p>Effective data collection involves gathering relevant, high-quality data from various sources while ensuring compliance with privacy regulations.</p>
-      
-      <h3>Data Preprocessing</h3>
-      <p>Raw data often requires cleaning, normalization, and feature engineering before it can be used effectively in AI models.</p>
-      
-      <h2>Model Development</h2>
-      <p>The development phase involves selecting appropriate algorithms, training models, and iterating based on performance metrics.</p>
-      
-      <h2>Deployment and Monitoring</h2>
-      <p>Successful deployment requires careful planning for scalability, monitoring, and continuous improvement of the AI system.</p>
-    `
-  },
-  "modern-web-development-practices": {
-    id: 2,
-    title: "Modern Web Development Practices",
-    excerpt: "Exploring the latest trends and best practices in modern web development, from React to serverless architectures.",
-    author: "Development Team",
-    date: "June 15, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/make-icon-E9ndRsk696DWH9VUZEoTB0QmT5C1Vf.svg",
-    slug: "modern-web-development-practices",
-    content: `
-      <h2>The Evolution of Web Development</h2>
-      <p>Web development has evolved dramatically over the past decade, with new frameworks, tools, and methodologies emerging constantly. Let's explore the current state of modern web development.</p>
-      
-      <h2>Component-Based Architecture</h2>
-      <p>Modern web applications are built using component-based architectures, with React leading the charge. This approach offers:</p>
-      <ul>
-        <li>Reusable components</li>
-        <li>Better maintainability</li>
-        <li>Improved developer experience</li>
-        <li>Enhanced performance</li>
-      </ul>
-      
-      <h2>Serverless and Edge Computing</h2>
-      <p>The rise of serverless computing has revolutionized how we deploy and scale web applications. Edge computing brings computation closer to users, reducing latency and improving performance.</p>
-      
-      <h2>Performance Optimization</h2>
-      <p>Modern web development prioritizes performance through techniques like code splitting, lazy loading, and optimized asset delivery.</p>
-    `
-  },
-  "automation-digital-age": {
-    id: 3,
-    title: "Automation in the Digital Age",
-    excerpt: "How automation is transforming business processes and what it means for the future of work.",
-    author: "Automation Experts",
-    date: "June 12, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/move-icon-fkqWsTq0lrYTggEJCtQn6lc048iSWc.svg",
-    slug: "automation-digital-age",
-    content: `
-      <h2>The Automation Revolution</h2>
-      <p>Automation is no longer a luxury—it's a necessity for businesses looking to stay competitive in the digital age. From simple task automation to complex workflow orchestration, automation is transforming how we work.</p>
-      
-      <h2>Types of Business Automation</h2>
-      <p>Business automation can be categorized into several types:</p>
-      <ul>
-        <li>Process automation</li>
-        <li>Data automation</li>
-        <li>Communication automation</li>
-        <li>Decision automation</li>
-      </ul>
-      
-      <h2>Implementation Strategies</h2>
-      <p>Successful automation implementation requires careful planning and execution. Key considerations include:</p>
-      <blockquote>
-        "Start small, think big, and scale fast."
-      </blockquote>
-      
-      <h2>The Future of Work</h2>
-      <p>As automation becomes more prevalent, the nature of work is changing. Rather than replacing humans, automation is augmenting human capabilities and creating new opportunities.</p>
-    `
-  }
-};
-
 const BlogPost = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  const [relatedPosts, setRelatedPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      const foundPost = sampleBlogPosts[slug];
-      setPost(foundPost);
-      setLoading(false);
-    }, 500);
+    const fetchBlogPost = async () => {
+      try {
+        console.log('📖 Loading blog post:', slug);
+        setLoading(true);
+        setError(null);
+
+        // Try to fetch from Supabase first
+        if (supabase) {
+          console.log('✅ Supabase available, fetching from database...');
+          
+          const { data: posts, error: supabaseError } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('slug', slug)
+            .eq('published', true)
+            .limit(1);
+
+          if (supabaseError) {
+            console.error('❌ Supabase error:', supabaseError);
+            await fetchFromAPI();
+          } else if (posts && posts.length > 0) {
+            const post = posts[0];
+            console.log('✅ Successfully loaded post from Supabase:', post.title);
+            
+            // Transform Supabase data
+            const transformedPost = {
+              id: post.id,
+              title: post.title,
+              excerpt: post.excerpt,
+              author: post.author,
+              date: new Date(post.created_at).toLocaleDateString('no-NO', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }),
+              image: post.image,
+              slug: post.slug,
+              content: post.content
+            };
+
+            setPost(transformedPost);
+            
+            // Fetch related posts
+            await fetchRelatedPosts(post.id);
+          } else {
+            console.warn('📭 No post found with slug:', slug);
+            setPost(null);
+          }
+        } else {
+          console.warn('⚠️ Supabase not available, trying API endpoint...');
+          await fetchFromAPI();
+        }
+      } catch (err) {
+        console.error('❌ Error loading blog post:', err);
+        setError('Failed to load blog post');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchFromAPI = async () => {
+      try {
+        console.log('🌐 Fetching from API endpoint...');
+        
+        const apiUrl = process.env.REACT_APP_API_URL 
+          ? `${process.env.REACT_APP_API_URL}/blog`
+          : '/api/blog';
+        
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+        
+        if (response.ok && result.success && result.data) {
+          const foundPost = result.data.find(p => p.slug === slug);
+          
+          if (foundPost) {
+            console.log('✅ Successfully loaded post from API:', foundPost.title);
+            
+            const transformedPost = {
+              id: foundPost.id,
+              title: foundPost.title,
+              excerpt: foundPost.excerpt,
+              author: foundPost.author,
+              date: new Date(foundPost.created_at).toLocaleDateString('no-NO', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }),
+              image: foundPost.image,
+              slug: foundPost.slug,
+              content: foundPost.content
+            };
+
+            setPost(transformedPost);
+            
+            // Set related posts (exclude current post)
+            const related = result.data
+              .filter(p => p.slug !== slug)
+              .slice(0, 2)
+              .map(p => ({
+                id: p.id,
+                title: p.title,
+                excerpt: p.excerpt,
+                slug: p.slug
+              }));
+            
+            setRelatedPosts(related);
+          } else {
+            console.warn('📭 No post found with slug:', slug);
+            setPost(null);
+          }
+        } else {
+          throw new Error(result?.message || 'Failed to fetch from API');
+        }
+      } catch (apiError) {
+        console.error('❌ API fetch error:', apiError);
+        setError('Unable to load blog post. Please try again later.');
+      }
+    };
+
+    const fetchRelatedPosts = async (currentPostId) => {
+      try {
+        if (supabase) {
+          const { data: posts, error } = await supabase
+            .from('blog_posts')
+            .select('id, title, excerpt, slug')
+            .eq('published', true)
+            .neq('id', currentPostId)
+            .limit(2);
+
+          if (!error && posts) {
+            setRelatedPosts(posts);
+          }
+        }
+      } catch (err) {
+        console.error('❌ Error loading related posts:', err);
+        // Non-critical error, just set empty array
+        setRelatedPosts([]);
+      }
+    };
+
+    fetchBlogPost();
   }, [slug]);
 
   if (loading) {
@@ -355,7 +390,39 @@ const BlogPost = () => {
       <BlogPostWrapper>
         <BlogPostSection>
           <BlogPostContainer>
-            <div>Loading...</div>
+            <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#666' }}>
+              <p>Loading blog post...</p>
+            </div>
+          </BlogPostContainer>
+        </BlogPostSection>
+      </BlogPostWrapper>
+    );
+  }
+
+  if (error) {
+    return (
+      <BlogPostWrapper>
+        <BlogPostSection>
+          <BlogPostContainer>
+            <BackButton to="/blog">← Back to Blog</BackButton>
+            <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#e74c3c' }}>
+              <h3>Error Loading Blog Post</h3>
+              <p>{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                style={{ 
+                  background: '#222', 
+                  color: '#fff', 
+                  border: 'none', 
+                  padding: '0.8rem 1.5rem', 
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  marginTop: '1rem'
+                }}
+              >
+                Try Again
+              </button>
+            </div>
           </BlogPostContainer>
         </BlogPostSection>
       </BlogPostWrapper>
@@ -399,23 +466,28 @@ const BlogPost = () => {
             </BlogPostImage>
           )}
 
-          <BlogPostContent dangerouslySetInnerHTML={{ __html: post.content }} />
+          <BlogPostContent>
+            {/* Simple content rendering - you could enhance this with a markdown parser */}
+            {post.content.split('\n').map((paragraph, index) => {
+              if (paragraph.trim() === '') return null;
+              return <p key={index}>{paragraph}</p>;
+            })}
+          </BlogPostContent>
 
           <BlogPostFooter>
-            <RelatedPosts>
-              <RelatedPostsTitle>Related Posts</RelatedPostsTitle>
-              <RelatedPostsGrid>
-                {Object.values(sampleBlogPosts)
-                  .filter(p => p.slug !== slug)
-                  .slice(0, 2)
-                  .map(relatedPost => (
+            {relatedPosts.length > 0 && (
+              <RelatedPosts>
+                <RelatedPostsTitle>Related Posts</RelatedPostsTitle>
+                <RelatedPostsGrid>
+                  {relatedPosts.map(relatedPost => (
                     <RelatedPostCard key={relatedPost.id} to={`/blog/${relatedPost.slug}`}>
                       <RelatedPostTitle>{relatedPost.title}</RelatedPostTitle>
                       <RelatedPostExcerpt>{relatedPost.excerpt}</RelatedPostExcerpt>
                     </RelatedPostCard>
                   ))}
-              </RelatedPostsGrid>
-            </RelatedPosts>
+                </RelatedPostsGrid>
+              </RelatedPosts>
+            )}
           </BlogPostFooter>
         </BlogPostContainer>
       </BlogPostSection>

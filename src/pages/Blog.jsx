@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { COLORS } from '../styles/colors';
+import { supabase } from '../lib/supabase';
 
 const BlogWrapper = styled.div`
   width: 100vw;
@@ -195,48 +196,158 @@ const AddPostButton = styled(Link)`
   }
 `;
 
-// Sample blog data - in a real app, this would come from a database
-const sampleBlogPosts = [
-  {
-    id: 1,
-    title: "Building Custom AI Solutions",
-    excerpt: "A deep dive into how we design and implement custom AI solutions for businesses, from initial concept to deployment.",
-    author: "AI Team",
-    date: "June 18, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/think-icon-XcGhWi6uMZbYUDLdGOF4hrLt1iO84M.svg",
-    featured: true,
-    slug: "building-custom-ai-solutions"
-  },
-  {
-    id: 2,
-    title: "Modern Web Development Practices",
-    excerpt: "Exploring the latest trends and best practices in modern web development, from React to serverless architectures.",
-    author: "Development Team",
-    date: "June 15, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/make-icon-E9ndRsk696DWH9VUZEoTB0QmT5C1Vf.svg",
-    featured: false,
-    slug: "modern-web-development-practices"
-  },
-  {
-    id: 3,
-    title: "Automation in the Digital Age",
-    excerpt: "How automation is transforming business processes and what it means for the future of work.",
-    author: "Automation Experts",
-    date: "June 12, 2025",
-    image: "https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/move-icon-fkqWsTq0lrYTggEJCtQn6lc048iSWc.svg",
-    featured: false,
-    slug: "automation-digital-age"
-  }
-];
-
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // In a real app, you'd fetch from an API
-    // For now, we'll use the sample data
-    setBlogPosts(sampleBlogPosts);
+    const fetchBlogPosts = async () => {
+      try {
+        console.log('📖 Loading blog posts from Supabase...');
+        setLoading(true);
+        setError(null);
+
+        // Try to fetch from Supabase first
+        if (supabase) {
+          console.log('✅ Supabase available, fetching from database...');
+          
+          const { data: posts, error: supabaseError } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+
+          if (supabaseError) {
+            console.error('❌ Supabase error:', supabaseError);
+            // Fall back to API endpoint
+            await fetchFromAPI();
+          } else {
+            console.log('✅ Successfully loaded', posts?.length || 0, 'posts from Supabase');
+            
+            // Transform Supabase data to match our component format
+            const transformedPosts = posts?.map(post => ({
+              id: post.id,
+              title: post.title,
+              excerpt: post.excerpt,
+              author: post.author,
+              date: new Date(post.created_at).toLocaleDateString('no-NO', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }),
+              image: post.image || null,
+              featured: post.featured,
+              slug: post.slug
+            })) || [];
+
+            setBlogPosts(transformedPosts);
+          }
+        } else {
+          console.warn('⚠️ Supabase not available, trying API endpoint...');
+          await fetchFromAPI();
+        }
+      } catch (err) {
+        console.error('❌ Error loading blog posts:', err);
+        setError('Failed to load blog posts');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchFromAPI = async () => {
+      try {
+        console.log('🌐 Fetching from API endpoint...');
+        
+        const apiUrl = process.env.REACT_APP_API_URL 
+          ? `${process.env.REACT_APP_API_URL}/blog`
+          : '/api/blog';
+        
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+          console.log('✅ Successfully loaded', result.data?.length || 0, 'posts from API');
+          
+          // Transform API data to match our component format
+          const transformedPosts = result.data?.map(post => ({
+            id: post.id,
+            title: post.title,
+            excerpt: post.excerpt,
+            author: post.author,
+            date: new Date(post.created_at).toLocaleDateString('no-NO', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            }),
+            image: post.image || null,
+            featured: post.featured,
+            slug: post.slug
+          })) || [];
+
+          setBlogPosts(transformedPosts);
+        } else {
+          throw new Error(result.message || 'Failed to fetch from API');
+        }
+      } catch (apiError) {
+        console.error('❌ API fetch error:', apiError);
+        setError('Unable to load blog posts. Please try again later.');
+        
+        // As last resort, show empty state
+        setBlogPosts([]);
+      }
+    };
+
+    fetchBlogPosts();
   }, []);
+
+  if (loading) {
+    return (
+      <BlogWrapper>
+        <BlogSection>
+          <HeroTextBlock>
+            <HeroTextInner>
+              Our <HeroSubText>thoughts</HeroSubText>, insights, and perspectives on technology, design, and innovation.
+            </HeroTextInner>
+          </HeroTextBlock>
+          <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#666' }}>
+            <p>Loading blog posts...</p>
+          </div>
+        </BlogSection>
+      </BlogWrapper>
+    );
+  }
+
+  if (error) {
+    return (
+      <BlogWrapper>
+        <BlogSection>
+          <HeroTextBlock>
+            <HeroTextInner>
+              Our <HeroSubText>thoughts</HeroSubText>, insights, and perspectives on technology, design, and innovation.
+            </HeroTextInner>
+          </HeroTextBlock>
+          <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#e74c3c' }}>
+            <h3>Error Loading Blog Posts</h3>
+            <p>{error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              style={{ 
+                background: '#222', 
+                color: '#fff', 
+                border: 'none', 
+                padding: '0.8rem 1.5rem', 
+                borderRadius: '8px',
+                cursor: 'pointer'
+              }}
+            >
+              Try Again
+            </button>
+          </div>
+        </BlogSection>
+      </BlogWrapper>
+    );
+  }
 
   return (
     <BlogWrapper>
@@ -251,7 +362,7 @@ const Blog = () => {
           <EmptyState>
             <h3>No blog posts yet</h3>
             <p>Start writing to share your thoughts and insights with the world.</p>
-            <AddPostButton to="/blog/new">Create your first post</AddPostButton>
+            <AddPostButton to="/blog-cms">Create your first post</AddPostButton>
           </EmptyState>
         ) : (
           <BlogGrid>
@@ -268,9 +379,12 @@ const Blog = () => {
                 </BlogCardAuthor>
               </BlogCard>
             ))}
-            <StaticImageFrame>
-              <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="Static content" />
-            </StaticImageFrame>
+            {/* Only show static image if we have posts */}
+            {blogPosts.length > 0 && (
+              <StaticImageFrame>
+                <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="Static content" />
+              </StaticImageFrame>
+            )}
           </BlogGrid>
         )}
       </BlogSection>
