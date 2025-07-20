@@ -110,23 +110,26 @@ module.exports = async function handler(req, res) {
         });
         
         // Provide more specific error messages
-        let userMessage = 'Database error occurred';
+        let userMessage = supabaseError.message || 'Database error occurred';
         if (supabaseError.message?.includes('relation "blog_posts" does not exist')) {
           userMessage = 'Blog posts table does not exist in database. Please run the SQL setup script.';
         } else if (supabaseError.message?.includes('row-level security')) {
           userMessage = 'Database security policy blocking insert. Check row-level security settings.';
         } else if (supabaseError.message?.includes('duplicate key')) {
           userMessage = 'A blog post with this title already exists.';
+        } else if (supabaseError.message?.includes('column') && supabaseError.message?.includes('does not exist')) {
+          userMessage = `Database column error: ${supabaseError.message}`;
         }
         
         return res.status(500).json({
-          error: 'Database error',
+          error: userMessage,
           message: userMessage,
-          details: supabaseError.message,
-          debug: {
+          details: {
+            originalError: supabaseError.message,
             code: supabaseError.code,
             hint: supabaseError.hint,
-            table: 'blog_posts'
+            table: 'blog_posts',
+            timestamp: new Date().toISOString()
           }
         });
       }
