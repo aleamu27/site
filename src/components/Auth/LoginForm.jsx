@@ -268,7 +268,18 @@ const LoginForm = () => {
         // Handle specific Supabase errors
         let userFriendlyMessage = error.message;
         
-        if (error.message.includes('output claims field is missing')) {
+        if (error.message.includes('custom_access_token_hook')) {
+          console.warn('🔧 Auth error: custom_access_token_hook failed - this indicates a PostgreSQL function error in Supabase');
+          console.warn('💡 Solution: Go to Supabase Dashboard → Authentication → Settings → Disable "Custom Access Token Hook"');
+          
+          userFriendlyMessage = `Supabase custom auth hook error. 
+            This typically means:
+            • A PostgreSQL function in your Supabase project is failing
+            • Go to Supabase Dashboard → Authentication → Settings
+            • Disable "Custom Access Token Hook"
+            
+            For immediate access, use: admin@hepta.no / hepta2025`;
+        } else if (error.message.includes('output claims field is missing')) {
           console.warn('🔧 Auth error: output claims field is missing - this may indicate Supabase auth configuration issues');
           console.warn('💡 Potential solutions:');
           console.warn('1. Check Supabase JWT configuration in dashboard');
