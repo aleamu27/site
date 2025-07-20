@@ -1,38 +1,29 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import styled from 'styled-components';
 
-const LoadingWrapper = styled.div`
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: #666;
-`;
-
-const ProtectedRoute = ({ children, allowedRoles = [] }) => {
-  const { user, profile, loading } = useAuth();
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
-    return <LoadingWrapper>Loading...</LoadingWrapper>;
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '50vh',
+        fontSize: '1.1rem',
+        color: '#666'
+      }}>
+        Loading...
+      </div>
+    );
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // Check if user has required role
-  if (allowedRoles.length > 0 && profile) {
-    if (!allowedRoles.includes(profile.role)) {
-      return <Navigate to="/unauthorized" replace />;
-    }
-  }
-
-  // Check if user is active
-  if (profile && !profile.is_active) {
-    return <Navigate to="/account-disabled" replace />;
+    // Redirect to home page if not authenticated
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;

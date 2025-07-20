@@ -165,34 +165,16 @@ const ArrowIcon = styled.span`
 const EmptyState = styled.div`
   text-align: center;
   padding: 4rem 2rem;
-  color: #b3b3b3;
+  color: #666;
   
   h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #222;
   }
   
   p {
     font-size: 1rem;
     margin-bottom: 2rem;
-  }
-`;
-
-const AddPostButton = styled(Link)`
-  background: #222;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 0.8rem 1.5rem;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.2s ease;
-  
-  &:hover {
-    background: #444;
   }
 `;
 
@@ -362,7 +344,6 @@ const Blog = () => {
           <EmptyState>
             <h3>No blog posts yet</h3>
             <p>Start writing to share your thoughts and insights with the world.</p>
-            <AddPostButton to="/blog-cms">Create your first post</AddPostButton>
           </EmptyState>
         ) : (
           <BlogGrid>
