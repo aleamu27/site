@@ -175,6 +175,62 @@ app.post('/api/contact', async (req, res) => {
         });
       }
 
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({
+          error: 'Please provide a valid email address'
+        });
+      }
+
+      const cleanEmail = email.toLowerCase().trim();
+
+      // Check Supabase connection
+      if (!supabase) {
+        console.error('❌ Supabase not configured for newsletter');
+        return res.status(500).json({
+          error: 'Database not configured',
+          message: 'Newsletter subscription service temporarily unavailable'
+        });
+      }
+
+      // Save newsletter subscriber to Supabase database
+      console.log('💾 Saving newsletter subscriber to database:', cleanEmail);
+      
+      const { data: subscriber, error: supabaseError } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{
+          email: cleanEmail,
+          source: 'website-footer',
+          status: 'active'
+        }])
+        .select()
+        .single();
+
+      if (supabaseError) {
+        console.error('❌ Supabase newsletter error:', {
+          message: supabaseError.message,
+          details: supabaseError.details,
+          code: supabaseError.code
+        });
+        
+        // Handle duplicate email gracefully
+        if (supabaseError.code === '23505' || supabaseError.message?.includes('duplicate')) {
+          return res.json({
+            success: true,
+            message: 'You are already subscribed to our newsletter!',
+            alreadySubscribed: true
+          });
+        }
+        
+        return res.status(500).json({
+          error: 'Failed to save newsletter subscription',
+          message: 'Please try again later'
+        });
+      }
+
+      console.log('✅ Newsletter subscriber saved successfully:', subscriber);
+
       // Send newsletter subscription notification to j@hepta.no
       const { data: notificationData, error: notificationError } = await resend.emails.send({
         from: 'Newsletter <j@hepta.no>',
@@ -186,13 +242,15 @@ app.post('/api/contact', async (req, res) => {
             
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="margin-top: 0; color: #333;">Subscriber Information</h3>
-              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Email:</strong> ${cleanEmail}</p>
               <p><strong>Source:</strong> Website Footer Form</p>
-              <p><strong>Subscribed At:</strong> ${new Date().toISOString()}</p>
+              <p><strong>Subscriber ID:</strong> ${subscriber.id}</p>
+              <p><strong>Subscribed At:</strong> ${new Date(subscriber.created_at).toLocaleString()}</p>
             </div>
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-              <p>This subscription was submitted via hepta.no newsletter form.</p>
+              <p>This subscription was submitted via hepta.no newsletter form and saved to the database.</p>
+              <p>You can view all subscribers in your Supabase dashboard.</p>
             </div>
           </div>
         `,
@@ -200,15 +258,20 @@ app.post('/api/contact', async (req, res) => {
 
       if (notificationError) {
         console.error('Newsletter notification email error:', notificationError);
-        return res.status(400).json({ error: 'Failed to process newsletter subscription', details: notificationError });
+        // Don't fail the whole request if email fails, subscriber is already saved
+        console.log('⚠️ Email notification failed, but subscriber was saved successfully');
+      } else {
+        console.log('📧 Newsletter notification email sent successfully:', notificationData.id);
       }
 
-      console.log('Newsletter subscription notification sent successfully:', notificationData);
-      
       res.json({ 
         success: true, 
-        message: 'Newsletter subscription successful!',
-        subscriptionId: notificationData.id
+        message: 'Thanks for subscribing to our newsletter!',
+        subscriber: {
+          id: subscriber.id,
+          email: subscriber.email,
+          subscribedAt: subscriber.created_at
+        }
       });
       return;
     }
