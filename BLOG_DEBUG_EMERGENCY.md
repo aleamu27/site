@@ -3,68 +3,46 @@
 ## 🔍 **Latest Error Analysis**
 ```
 📡 API Response: {status: 500, statusText: '', ok: false}
-❌ Failed to save blog post: Error: Database error
-ERROR: 42703: column "published" does not exist
-HINT: Perhaps you meant to reference the column "blog_posts.published_at".
+❌ Failed to save blog post: Error: Could not find the 'featured' column of 'blog_posts' in the schema cache
 ```
 
-**PROBLEM IDENTIFIED:** Your table has `published_at` column but our code expects `published` column!
+**PROBLEM IDENTIFIED:** Your table is missing the `featured` column!
 
-## 🛠️ **IMMEDIATE FIX (1 minute)**
+## 🛠️ **IMMEDIATE FIX (30 seconds)**
 
-### **Step 1: Quick Fix - Add Missing Column**
+### **QUICK FIX: Add Missing Columns**
 
-1. **Go to [Supabase Dashboard](https://supabase.com/dashboard)**
-2. **Select your project: ziksrslyraqhygilcvct**
-3. **Go to SQL Editor**
-4. **Paste and RUN this SQL:**
+**Gå til [Supabase Dashboard](https://supabase.com/dashboard) → SQL Editor → Kjør dette:**
 
 ```sql
--- Fix column mismatch: add missing "published" column
+-- Legg til manglende 'featured' kolonne
 ALTER TABLE public.blog_posts 
-ADD COLUMN IF NOT EXISTS published BOOLEAN DEFAULT true;
+ADD COLUMN IF NOT EXISTS featured BOOLEAN DEFAULT false;
 
--- Update existing rows
-UPDATE public.blog_posts 
-SET published = true 
-WHERE published_at IS NOT NULL;
-
-UPDATE public.blog_posts 
-SET published = false 
-WHERE published_at IS NULL;
-```
-
-### **Step 2: Check for Other Missing Columns**
-
-Your table might be missing other columns too. Run this to see what you have:
-
-```sql
--- Check what columns actually exist in your table
+-- Sjekk at alle kolonner nå finnes
 SELECT column_name, data_type, is_nullable, column_default 
 FROM information_schema.columns 
 WHERE table_name = 'blog_posts' 
 ORDER BY ordinal_position;
 ```
 
-**Expected columns our code needs:**
+**Forventede kolonner du skal se:**
 - `id` (uuid)
 - `title` (text)
-- `slug` (text)
-- `excerpt` (text) 
+- `slug` (text) 
+- `excerpt` (text)
 - `content` (text)
 - `author` (text)
 - `image` (text, nullable)
-- `featured` (boolean)
-- `published` (boolean) ← **This was missing!**
+- `featured` (boolean) ← **Denne manglet**
+- `published` (boolean)
 - `created_at` (timestamptz)
 - `updated_at` (timestamptz)
 
-### **Step 3: If Still Getting Errors - Complete Reset**
-
-If you're still getting different column errors, let's just recreate the table properly:
+### **TOTAL RESET (hvis fortsatt problemer)**
 
 ```sql
--- Drop and recreate with ALL correct columns
+-- Drop og opprett tabellen på nytt med ALLE kolonner
 DROP TABLE IF EXISTS public.blog_posts CASCADE;
 
 CREATE TABLE public.blog_posts (
@@ -88,68 +66,64 @@ ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public read access to published blog posts" ON public.blog_posts
     FOR SELECT USING (published = true);
 
--- TEMPORARY: Allow anyone to insert posts (we'll secure this later)
+-- TEMPORARY: Allow anyone to insert posts
 CREATE POLICY "Allow anyone to insert blog posts" ON public.blog_posts
     FOR INSERT WITH CHECK (true);
 ```
 
-## 🔍 **Advanced Debugging**
+## 📧 **NEWSLETTER PROBLEM**
 
-If you're still getting errors after adding the `published` column, let's debug deeper:
+Hvis newsletter ikke fungerer, sjekk dette:
 
-### **Debug Method 1: Check API Logs**
+### **1. Environment Variables**
+I Vercel Dashboard → Settings → Environment Variables:
+```
+RESEND_API_KEY = [Din Resend API Key]
+```
 
-1. **Open Developer Console** (F12)
-2. **Go to Network tab**
-3. **Submit a blog post**
-4. **Click on the failed `/api/blog` request**
-5. **Look at the Response tab for detailed error**
-
-### **Debug Method 2: Test API Directly**
-
+### **2. Test Newsletter Direkte**
+Lim inn i browser console på din side:
 ```javascript
-// Paste this in browser console to test API
-fetch('/api/blog', {
+// Test newsletter subscription
+fetch('/api/contact', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    title: 'Test Post',
-    excerpt: 'Test excerpt',
-    content: 'Test content',
-    author: 'Alex',
-    featured: false
+    email: 'test@example.com',
+    type: 'newsletter'
   })
 }).then(r => r.json()).then(console.log).catch(console.error);
 ```
 
-### **Debug Method 3: Environment Variables**
+### **3. Verifiser Resend Domain**
+1. **Gå til [Resend Dashboard](https://resend.com/domains)**
+2. **Sjekk at `hepta.no` er verifisert**
+3. **Hvis ikke verifisert, legg til DNS records:**
+   ```
+   Type: TXT, Name: _resend, Value: [fra Resend]
+   Type: MX, Name: @, Value: feedback-smtp.resend.com
+   ```
 
-Make sure your environment variables are set correctly:
+## ✅ **Test etter fix**
 
-1. **In Vercel Dashboard:** Settings → Environment Variables
-2. **Check:** `REACT_APP_SUPABASE_ANON_KEY` is set
-3. **Value should start with:** `eyJ...`
-4. **Redeploy after setting**
+### **Blog Test:**
+1. **Kjør SQL-en over**
+2. **Gå til `/blog-cms`** (må være innlogget)
+3. **Lag test post**
+4. **Skal nå fungere!**
 
-## ✅ **Test After Fix**
+### **Newsletter Test:**
+1. **Gå til bunnen av hjemmesiden**
+2. **Skriv inn email i newsletter form**
+3. **Klikk "Join Newsletter"**
+4. **Skal få "Thanks for subscribing!" melding**
 
-1. **Go to `/blog-cms`**
-2. **Try creating a test post again**
-3. **Should now save successfully!**
+## 🔍 **Hvis fortsatt problemer**
 
-## 🔍 **Why This Happened**
+**Debug Method: Network Tab**
+1. **Åpne Developer Console (F12)**
+2. **Gå til Network tab**
+3. **Test blog creation / newsletter signup**
+4. **Se på failed requests for eksakt feilmelding**
 
-Your Supabase table was created with different column names than what our code expects:
-- **Table has:** `published_at` (timestamp)
-- **Code expects:** `published` (boolean)
-
-The fix adds the missing `published` column that our code needs.
-
-## 🚀 **After Success**
-
-Once this works:
-- ✅ **BlogCMS will save posts to Supabase**
-- ✅ **Blog page will load real posts**
-- ✅ **Individual posts will display content**
-
-**Run the SQL fix and test again!** 🎯 
+**Kjør SQL-en og test igjen - skal nå fungere! 🎯** 
