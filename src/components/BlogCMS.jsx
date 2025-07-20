@@ -320,20 +320,53 @@ const BlogCMS = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      // In a real app, you'd send this to your backend
-      console.log('Saving blog post:', formData);
+    try {
+      console.log('📤 Submitting blog post:', formData);
       
-      // Generate a slug from the title
+      // Determine API URL based on environment
+      const apiUrl = process.env.REACT_APP_API_URL 
+        ? `${process.env.REACT_APP_API_URL}/blog`
+        : '/api/blog';
+      
+      console.log('🌐 Blog API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log('📡 API Response:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Blog post saved successfully:', result);
+
+      // Generate a slug from the title for navigation
       const slug = formData.title
         .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/[^a-z0-9æøåàáäâèéëêìíïîòóöôùúüûñç]+/g, '-')
         .replace(/(^-|-$)/g, '');
       
-      setIsSubmitting(false);
+      // Navigate to the blog post (you might want to create this route)
       navigate(`/blog/${slug}`);
-    }, 1000);
+      
+    } catch (error) {
+      console.error('❌ Failed to save blog post:', error);
+      alert(`Failed to save blog post: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handlePreview = () => {

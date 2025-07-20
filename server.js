@@ -18,6 +18,79 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
+// Blog posts endpoint
+app.post('/api/blog', async (req, res) => {
+  try {
+    const { title, excerpt, author, content, image, featured } = req.body;
+
+    console.log('📝 New blog post submission:', {
+      title,
+      excerpt,
+      author,
+      contentLength: content?.length || 0,
+      image: !!image,
+      featured
+    });
+
+    // Validate required fields
+    if (!title || !excerpt || !author || !content) {
+      return res.status(400).json({
+        error: 'Missing required fields',
+        required: ['title', 'excerpt', 'author', 'content']
+      });
+    }
+
+    // Generate slug
+    const slug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9æøåàáäâèéëêìíïîòóöôùúüûñç]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    // Create blog post object
+    const blogPost = {
+      id: Date.now(),
+      title: title.trim(),
+      excerpt: excerpt.trim(),
+      author: author.trim(),
+      content: content.trim(),
+      image: image?.trim() || '',
+      featured: featured || false,
+      slug,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      published: true
+    };
+
+    console.log('✅ Blog post created successfully:', {
+      id: blogPost.id,
+      title: blogPost.title,
+      slug: blogPost.slug
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Blog post created successfully!',
+      data: blogPost
+    });
+
+  } catch (error) {
+    console.error('❌ Blog API error:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+});
+
+// Get blog posts endpoint
+app.get('/api/blog', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Blog posts retrieved',
+    data: []
+  });
+});
+
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
   try {
