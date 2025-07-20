@@ -21,8 +21,58 @@ app.get('/health', (req, res) => {
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
   try {
-    const { company, employees, project, email } = req.body;
+    const { company, employees, project, email, type } = req.body;
 
+    // Handle newsletter subscription
+    if (type === 'newsletter') {
+      console.log('📧 Newsletter subscription request:', { email });
+      
+      if (!email) {
+        return res.status(400).json({
+          error: 'Email is required for newsletter subscription',
+          required: ['email']
+        });
+      }
+
+      // Send newsletter subscription notification to j@hepta.no
+      const { data: notificationData, error: notificationError } = await resend.emails.send({
+        from: 'Newsletter <j@hepta.no>',
+        to: ['j@hepta.no'],
+        subject: `New Newsletter Subscription`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #184B54;">New Newsletter Subscription</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #333;">Subscriber Information</h3>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Source:</strong> Website Footer Form</p>
+              <p><strong>Subscribed At:</strong> ${new Date().toISOString()}</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+              <p>This subscription was submitted via hepta.no newsletter form.</p>
+            </div>
+          </div>
+        `,
+      });
+
+      if (notificationError) {
+        console.error('Newsletter notification email error:', notificationError);
+        return res.status(400).json({ error: 'Failed to process newsletter subscription', details: notificationError });
+      }
+
+      console.log('Newsletter subscription notification sent successfully:', notificationData);
+      
+      res.json({ 
+        success: true, 
+        message: 'Newsletter subscription successful!',
+        subscriptionId: notificationData.id
+      });
+      return;
+    }
+
+    // Handle contact form submission (existing logic)
     // Validate required fields
     if (!company || !employees || !project || !email) {
       return res.status(400).json({
