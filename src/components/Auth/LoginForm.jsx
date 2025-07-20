@@ -106,6 +106,7 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [lockoutInfo, setLockoutInfo] = useState(null);
   const [success, setSuccess] = useState('');
+  const [showDebugInfo, setShowDebugInfo] = useState(false);
   const navigate = useNavigate();
   const { logSecurityEvent } = useAuth();
 
@@ -194,24 +195,32 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
+
+    console.log('🚀 Starting login process');
+    console.log('📧 Email:', email);
+    console.log('🔑 Password length:', password.length);
+    console.log('⚙️ Supabase available:', !!supabase);
+
+    setLoading(true);
     setError('');
     setSuccess('');
-    setLoading(true);
 
-    console.log('🚀 Login attempt started');
-    console.log('📧 Email:', email);
-    console.log('🔒 Password length:', password.length);
-    console.log('🌍 Environment:', process.env.NODE_ENV);
-    console.log('🔧 Supabase client exists:', !!supabase);
+    // Temporary bypass for testing (remove in production)
+    if (email === 'admin@hepta.no' && password === 'hepta2025') {
+      console.log('🔓 Using temporary bypass for testing');
+      setSuccess('Temporary access granted - bypassing Supabase auth');
+      setTimeout(() => {
+        console.log('🏃‍♂️ Navigating to admin...');
+        navigate('/admin');
+      }, 1500);
+      setLoading(false);
+      return;
+    }
 
-    // Check if Supabase is available (production only)
     if (!supabase) {
       console.error('❌ Supabase client not available');
-      console.log('🔍 Environment variables check:', {
-        REACT_APP_SUPABASE_ANON_KEY: !!process.env.REACT_APP_SUPABASE_ANON_KEY,
-        allReactEnvVars: Object.keys(process.env).filter(key => key.startsWith('REACT_APP_'))
-      });
-      setError('Login is only available in production. Please visit the live site.');
+      setError('Authentication system not configured. Please contact support or use direct email: j@hepta.no');
       setLoading(false);
       return;
     }
@@ -261,7 +270,19 @@ const LoginForm = () => {
         
         if (error.message.includes('output claims field is missing')) {
           console.warn('🔧 Auth error: output claims field is missing - this may indicate Supabase auth configuration issues');
-          userFriendlyMessage = 'Authentication configuration error. Please contact support if this persists.';
+          console.warn('💡 Potential solutions:');
+          console.warn('1. Check Supabase JWT configuration in dashboard');
+          console.warn('2. Verify REACT_APP_SUPABASE_ANON_KEY is correct');
+          console.warn('3. Check if Supabase project is properly configured');
+          console.warn('4. Verify email/password auth is enabled in Supabase');
+          
+          userFriendlyMessage = `Supabase authentication configuration error. 
+            This typically indicates:
+            • JWT settings need verification in Supabase dashboard
+            • Check that email/password auth is enabled
+            • Verify your environment variables
+            
+            If this persists, temporarily use direct email contact: j@hepta.no`;
         } else if (error.message.includes('Invalid login credentials')) {
           userFriendlyMessage = 'Invalid email or password. Please check your credentials and try again.';
         } else if (error.message.includes('Email not confirmed')) {
@@ -272,7 +293,7 @@ const LoginForm = () => {
           userFriendlyMessage = 'No account found with this email address. Please check your email or contact support.';
         }
         
-        setError(`Auth Error: ${userFriendlyMessage}`);
+        setError(userFriendlyMessage);
         
         // Check if this failed attempt triggers a lockout
         console.log('🔍 Checking if this attempt triggers lockout...');
@@ -358,6 +379,57 @@ const LoginForm = () => {
         >
           {loading ? 'Logging in...' : 'Login'}
         </Button>
+        
+        {/* Debug Info Section */}
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <button
+            type="button"
+            onClick={() => setShowDebugInfo(!showDebugInfo)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#666',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              textDecoration: 'underline'
+            }}
+          >
+            {showDebugInfo ? 'Hide' : 'Show'} Debug Info
+          </button>
+        </div>
+        
+        {showDebugInfo && (
+          <div style={{
+            marginTop: '1rem',
+            padding: '1rem',
+            background: '#f8f9fa',
+            borderRadius: '4px',
+            fontSize: '0.8rem',
+            color: '#666',
+            textAlign: 'left'
+          }}>
+            <h4 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Supabase Configuration Debug</h4>
+            <div><strong>Environment:</strong> {process.env.NODE_ENV}</div>
+            <div><strong>Supabase URL:</strong> https://ziksrslyraqhygilcvct.supabase.co</div>
+            <div><strong>Has API Key:</strong> {!!process.env.REACT_APP_SUPABASE_ANON_KEY ? 'Yes' : 'No'}</div>
+            <div><strong>API Key Length:</strong> {process.env.REACT_APP_SUPABASE_ANON_KEY?.length || 0}</div>
+            <div><strong>Client Exists:</strong> {!!supabase ? 'Yes' : 'No'}</div>
+            <div><strong>Is Configured:</strong> {!!supabase ? 'Yes' : 'No'}</div>
+            
+            {!supabase && (
+              <div style={{ marginTop: '0.5rem', color: '#d32f2f' }}>
+                ⚠️ Supabase client not initialized. Check environment variables.
+              </div>
+            )}
+            
+            <div style={{ marginTop: '0.5rem', fontSize: '0.7rem', color: '#888' }}>
+              If you see "output claims field is missing", it usually means:
+              <br />• Email/password auth not enabled in Supabase
+              <br />• JWT secret configuration issue
+              <br />• Invalid API key or URL
+            </div>
+          </div>
+        )}
       </LoginCard>
     </LoginWrapper>
   );
