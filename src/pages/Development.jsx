@@ -364,7 +364,7 @@ const Development = () => {
             </FloatingIcon>
             <HeroHeading>{HERO_HEADING}</HeroHeading>
             <HeroSubtitle>{HERO_SUBTITLE}</HeroSubtitle>
-            <HeroButton href="mailto:hello@example.com">{HERO_BUTTON}</HeroButton>
+            <HeroButton href="mailto:j@hepta.no">{HERO_BUTTON}</HeroButton>
           </HeroContentBlock>
           <HeroImageWrapper>
             <HeroImage aria-label={HERO_IMAGE_ALT}></HeroImage>
@@ -398,7 +398,7 @@ const Development = () => {
             <CTAContent>
               <CTAHeading>Want to build your next product?</CTAHeading>
               <CTASubheading>We'll help you design, develop, and launch it.</CTASubheading>
-              <CTAButton href="mailto:hello@example.com">Get in touch</CTAButton>
+              <CTAButton href="mailto:j@hepta.no">Get in touch</CTAButton>
             </CTAContent>
             <CTAImage>
               <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />

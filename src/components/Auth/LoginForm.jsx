@@ -256,8 +256,23 @@ const LoginForm = () => {
         await logLoginAttempt(email, false, error.message);
         console.log('📊 Login attempt logged as failed');
         
-        // Show actual error for debugging
-        setError(`Auth Error: ${error.message}`);
+        // Handle specific Supabase errors
+        let userFriendlyMessage = error.message;
+        
+        if (error.message.includes('output claims field is missing')) {
+          console.warn('🔧 Auth error: output claims field is missing - this may indicate Supabase auth configuration issues');
+          userFriendlyMessage = 'Authentication configuration error. Please contact support if this persists.';
+        } else if (error.message.includes('Invalid login credentials')) {
+          userFriendlyMessage = 'Invalid email or password. Please check your credentials and try again.';
+        } else if (error.message.includes('Email not confirmed')) {
+          userFriendlyMessage = 'Please check your email and click the confirmation link before logging in.';
+        } else if (error.message.includes('Too many requests')) {
+          userFriendlyMessage = 'Too many login attempts. Please wait a few minutes before trying again.';
+        } else if (error.message.includes('User not found')) {
+          userFriendlyMessage = 'No account found with this email address. Please check your email or contact support.';
+        }
+        
+        setError(`Auth Error: ${userFriendlyMessage}`);
         
         // Check if this failed attempt triggers a lockout
         console.log('🔍 Checking if this attempt triggers lockout...');

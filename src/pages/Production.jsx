@@ -363,7 +363,7 @@ const Production = () => {
             </FloatingIcon>
             <HeroHeading>{HERO_HEADING}</HeroHeading>
             <HeroSubtitle>{HERO_SUBTITLE}</HeroSubtitle>
-            <HeroButton href="mailto:hello@example.com">{HERO_BUTTON}</HeroButton>
+            <HeroButton href="mailto:j@hepta.no">{HERO_BUTTON}</HeroButton>
           </HeroContentBlock>
           <HeroImageWrapper>
             <HeroImage aria-label={HERO_IMAGE_ALT}></HeroImage>

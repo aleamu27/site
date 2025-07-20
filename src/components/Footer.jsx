@@ -234,23 +234,77 @@ const Footer = () => {
     setMessage('');
     setMessageType('');
 
+    console.log('📧 Newsletter signup attempt:', { email });
+
     try {
-      // Simulate API call - replace with actual newsletter signup
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const apiUrl = process.env.REACT_APP_API_URL || '/api/contact';
+      console.log('🌐 Newsletter API URL:', apiUrl);
       
-      // For now, just show success message
-      setMessage('Thanks for subscribing!');
+      const requestConfig = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.toLowerCase().trim(),
+          type: 'newsletter'
+        }),
+      };
+      
+      console.log('🚀 Making newsletter subscription request...');
+      const response = await fetch(apiUrl, requestConfig);
+      
+      console.log('📡 Newsletter response received:', {
+        status: response.status,
+        ok: response.ok
+      });
+
+      let data;
+      try {
+        data = await response.json();
+        console.log('📄 Newsletter response data:', data);
+      } catch (parseError) {
+        console.error('❌ Failed to parse newsletter response JSON:', parseError);
+        throw new Error('Invalid response format from server');
+      }
+
+      if (!response.ok) {
+        console.error('❌ Newsletter API request failed:', {
+          status: response.status,
+          error: data.error || 'Unknown error',
+          fullResponse: data
+        });
+        throw new Error(data.error || 'Failed to subscribe to newsletter');
+      }
+
+      console.log('✅ Newsletter subscription successful:', data);
+      setMessage('Thanks for subscribing to our newsletter!');
       setMessageType('success');
       setEmail('');
       
-      // Clear success message after 3 seconds
+      // Clear message after 5 seconds
       setTimeout(() => {
         setMessage('');
         setMessageType('');
-      }, 3000);
+      }, 5000);
+
     } catch (error) {
-      setMessage('Something went wrong. Please try again.');
-      setMessageType('error');
+      console.error('💥 Unexpected newsletter signup error:', error);
+      
+      // Handle specific errors
+      if (error.message.includes('duplicate') || error.message.includes('already subscribed')) {
+        setMessage('You are already subscribed to our newsletter!');
+        setMessageType('success');
+      } else {
+        setMessage('Something went wrong. Please try again later.');
+        setMessageType('error');
+      }
+      
+      // Clear message after 5 seconds
+      setTimeout(() => {
+        setMessage('');
+        setMessageType('');
+      }, 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -292,7 +346,7 @@ const Footer = () => {
             <FooterHeading>Contact</FooterHeading>
             <EmailSection>
               <EmailLabel>Email</EmailLabel>
-              <EmailAddress href="mailto:hey@hepta.biz">hey@hepta.biz</EmailAddress>
+              <EmailAddress href="mailto:j@hepta.no">j@hepta.no</EmailAddress>
             </EmailSection>
             
             <NewsletterSection>
