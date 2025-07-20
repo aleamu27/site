@@ -4,13 +4,15 @@
 ```
 📡 API Response: {status: 500, statusText: '', ok: false}
 ❌ Failed to save blog post: Error: Database error
+ERROR: 42703: column "published" does not exist
+HINT: Perhaps you meant to reference the column "blog_posts.published_at".
 ```
 
-This means the `/api/blog` endpoint is failing. **Most likely cause: blog_posts table doesn't exist in Supabase yet.**
+**PROBLEM IDENTIFIED:** Your table has `published_at` column but our code expects `published` column!
 
-## 🛠️ **IMMEDIATE FIX (2 minutes)**
+## 🛠️ **IMMEDIATE FIX (1 minute)**
 
-### **Step 1: Create the Database Table**
+### **Quick Fix: Add Missing Column**
 
 1. **Go to [Supabase Dashboard](https://supabase.com/dashboard)**
 2. **Select your project: ziksrslyraqhygilcvct**
@@ -18,8 +20,30 @@ This means the `/api/blog` endpoint is failing. **Most likely cause: blog_posts 
 4. **Paste and RUN this SQL:**
 
 ```sql
--- Create blog_posts table
-CREATE TABLE IF NOT EXISTS public.blog_posts (
+-- Fix column mismatch: add missing "published" column
+ALTER TABLE public.blog_posts 
+ADD COLUMN IF NOT EXISTS published BOOLEAN DEFAULT true;
+
+-- Update existing rows
+UPDATE public.blog_posts 
+SET published = true 
+WHERE published_at IS NOT NULL;
+
+UPDATE public.blog_posts 
+SET published = false 
+WHERE published_at IS NULL;
+```
+
+### **Alternative: Complete Fresh Setup**
+
+If you want to start completely fresh, delete and recreate:
+
+```sql
+-- Drop the existing table (if you don't have important data)
+DROP TABLE IF EXISTS public.blog_posts CASCADE;
+
+-- Create new table with correct columns
+CREATE TABLE public.blog_posts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   title TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
@@ -33,10 +57,6 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now())
 );
 
--- Create indexes for performance
-CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON public.blog_posts(slug);
-CREATE INDEX IF NOT EXISTS idx_blog_posts_created_at ON public.blog_posts(created_at DESC);
-
 -- Set up Row Level Security
 ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
 
@@ -49,62 +69,25 @@ CREATE POLICY "Allow anyone to insert blog posts" ON public.blog_posts
     FOR INSERT WITH CHECK (true);
 ```
 
-### **Step 2: Verify Table Exists**
-
-1. **Go to Table Editor** in Supabase
-2. **Look for "blog_posts" table**
-3. **Should have columns:** id, title, slug, excerpt, content, author, image, featured, published, created_at, updated_at
-
-### **Step 3: Test Blog Creation Again**
+## ✅ **Test After Fix**
 
 1. **Go to `/blog-cms`**
-2. **Try creating the test post again**
-3. **Should now save successfully**
+2. **Try creating a test post again**
+3. **Should now save successfully!**
 
-## 🔍 **Other Possible Causes**
+## 🔍 **Why This Happened**
 
-### If table exists but still getting errors:
+Your Supabase table was created with different column names than what our code expects:
+- **Table has:** `published_at` (timestamp)
+- **Code expects:** `published` (boolean)
 
-1. **Check Environment Variables in Vercel:**
-   - Go to Vercel Dashboard → Settings → Environment Variables
-   - Make sure `REACT_APP_SUPABASE_ANON_KEY` is set
-   - Redeploy after adding it
+The fix adds the missing `published` column that our code needs.
 
-2. **Check Supabase Key:**
-   - Get anon key from Supabase Dashboard → Settings → API
-   - Should start with `eyJ...`
+## 🚀 **After Success**
 
-3. **Check Network Tab:**
-   - Open DevTools → Network tab
-   - Try submitting blog post
-   - Look at the `/api/blog` request response
+Once this works:
+- ✅ **BlogCMS will save posts to Supabase**
+- ✅ **Blog page will load real posts**
+- ✅ **Individual posts will display content**
 
-## 🧪 **Quick Test Commands**
-
-Test if Supabase connection works:
-
-```javascript
-// Paste this in browser console on your site
-console.log('Testing Supabase connection...');
-fetch('/api/blog')
-  .then(r => r.json())
-  .then(d => console.log('Blog API response:', d))
-  .catch(e => console.error('API Error:', e));
-```
-
-## ✅ **Success Indicators**
-
-After fixing:
-- ✅ BlogCMS shows "Blog post created successfully!"
-- ✅ Post appears in Supabase Table Editor
-- ✅ Console shows "✅ Blog post saved to Supabase"
-- ✅ No more 500 errors
-
-## 🚀 **Next Steps After Fix**
-
-1. **Test blog creation** - should work now
-2. **Go to `/blog`** - should show your posts
-3. **Click individual posts** - should load content
-4. **Secure the database** - remove the "allow anyone" policy later
-
-**Most likely fix: Just run the SQL script to create the table!** 🎯 
+**Run the SQL fix and test again!** 🎯 

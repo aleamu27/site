@@ -13,8 +13,7 @@ if (!supabaseUrl || !supabaseKey) {
   );
 }
 
-// Initialize the client
-export const supabase = createClient(supabaseUrl, supabaseKey);
+
 
 // Helper to check configuration status
 export const isSupabaseConfigured = () => {
