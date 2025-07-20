@@ -110,15 +110,19 @@ const LoginForm = () => {
   const { logSecurityEvent } = useAuth();
 
   useEffect(() => {
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate('/admin');
-      }
-    });
+    // Check for existing session only if Supabase is available
+    if (supabase) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+          navigate('/admin');
+        }
+      });
+    }
   }, [navigate]);
 
   const checkLoginAttempts = async (email) => {
+    if (!supabase) return false;
+    
     try {
       const { data, error } = await supabase
         .rpc('check_login_attempts', { user_email: email });
@@ -146,6 +150,8 @@ const LoginForm = () => {
   };
 
   const logLoginAttempt = async (email, success, errorMessage = null) => {
+    if (!supabase) return;
+    
     try {
       await supabase
         .from('login_attempts')
@@ -162,6 +168,8 @@ const LoginForm = () => {
   };
 
   const createSession = async (userId) => {
+    if (!supabase) return;
+    
     const sessionToken = crypto.randomUUID();
     const expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24); // 24 hour sessions
@@ -189,6 +197,13 @@ const LoginForm = () => {
     setError('');
     setSuccess('');
     setLoading(true);
+
+    // Check if Supabase is available (production only)
+    if (!supabase) {
+      setError('Login is only available in production. Please visit the live site.');
+      setLoading(false);
+      return;
+    }
 
     // Check if account is locked
     const isLocked = await checkLoginAttempts(email);
