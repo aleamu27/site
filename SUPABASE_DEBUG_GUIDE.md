@@ -1,9 +1,42 @@
 # Supabase "Output Claims Field Missing" Debug Guide
 
-## 🚨 Current Issue
-You're experiencing the error: `Auth Error: output claims field is missing`
+## 🚨 Current Issues
+You're experiencing these errors:
+1. `Auth Error: output claims field is missing`
+2. `Error running hook URI: pg-functions://postgres/auth/custom_access_token_hook`
 
-This is a Supabase authentication configuration error that can be fixed by checking several settings.
+These are Supabase authentication configuration errors that can be fixed by checking several settings.
+
+## 🔧 URGENT FIX: Disable Custom Auth Hook
+
+The `custom_access_token_hook` error suggests there's a broken PostgreSQL function configured in your Supabase project.
+
+### **Step 1: Disable the Custom Hook (Immediate Fix)**
+1. **Go to [Supabase Dashboard](https://supabase.com/dashboard)**
+2. **Select your project**
+3. **Go to Authentication → Settings**
+4. **Look for "Custom Access Token Hook"**
+5. **Either:**
+   - **Disable it completely** (recommended)
+   - **Or fix the PostgreSQL function** (advanced)
+
+### **Step 2: Check Auth Hook Settings**
+In Supabase Dashboard → Authentication → Settings:
+- **Custom Access Token Hook**: Should be **DISABLED** or **EMPTY**
+- **Additional Claims**: Should be **EMPTY** unless you specifically need them
+- **Session Configuration**: Use default settings
+
+### **Step 3: Remove Custom Functions (If Any)**
+If you have custom PostgreSQL functions in your database:
+1. **Go to SQL Editor**
+2. **Check for custom auth functions:**
+   ```sql
+   -- Check for custom auth functions
+   SELECT * FROM pg_proc WHERE proname LIKE '%auth%' OR proname LIKE '%token%';
+   
+   -- If you find custom functions you don't need, drop them:
+   -- DROP FUNCTION IF EXISTS your_custom_function_name;
+   ```
 
 ## 🔍 Debug Steps
 
@@ -70,7 +103,7 @@ If you need immediate access, you can temporarily bypass the auth system:
 
 ```javascript
 // In LoginForm.jsx, add this temporary bypass:
-if (email === 'admin@hepta.no' && password === 'temp-bypass-2025') {
+if (email === 'admin@hepta.no' && password === 'hepta2025') {
   console.log('🔓 Using temporary bypass');
   setSuccess('Temporary access granted');
   setTimeout(() => navigate('/admin'), 1000);
@@ -109,6 +142,11 @@ const { data: user, error } = await supabase
 - Users in your custom `users` table ≠ users in Supabase Auth
 - Need to create user in Supabase Auth system
 
+### Fix 5: **Custom Auth Hook Error (NEW)**
+- Go to Supabase → Authentication → Settings
+- **Disable "Custom Access Token Hook"**
+- Remove any custom PostgreSQL auth functions
+
 ## 🧪 Testing Commands
 
 ### Test Supabase Connection (Browser Console)
@@ -127,18 +165,26 @@ console.log('User test:', { user, error: userError });
 
 ## 📞 Next Steps
 
-1. **Try the debug info** on your login page first
-2. **Check Vercel environment variables**
-3. **Verify Supabase Auth provider settings**
-4. **Create user in Supabase Auth if needed**
-5. **If still failing, use temporary bypass option**
+1. **FIRST: Disable custom auth hook** in Supabase Dashboard
+2. **Try the debug info** on your login page
+3. **Check Vercel environment variables**
+4. **Verify Supabase Auth provider settings**
+5. **Create user in Supabase Auth if needed**
+6. **If still failing, use temporary bypass option**
 
 ## 🆘 Emergency Access
 
 If you need immediate access to your admin panel:
 
-1. **Add temporary bypass** (see Option A above)
+1. **Use temporary bypass:** `admin@hepta.no` / `hepta2025`
 2. **Or contact via email directly:** j@hepta.no
 3. **Or modify the route** to skip auth temporarily
+
+## 🚨 **Priority Fix Order:**
+
+1. **Disable Custom Auth Hook** (solves the PostgreSQL error)
+2. **Check environment variables** (solves the "output claims" error)  
+3. **Create user in Supabase Auth** (solves login failures)
+4. **Use temporary bypass** (immediate access)
 
 The debug info on your login page will show exactly what's misconfigured! 
