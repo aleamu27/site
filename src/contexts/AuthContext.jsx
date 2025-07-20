@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
@@ -141,3 +142,6 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+=======
+ 
+>>>>>>> ec7a60ee54388c5db6c2b36e2833cb0f044f2522

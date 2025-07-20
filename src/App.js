@@ -102,7 +102,9 @@ function App() {
     <AuthProvider>
       <GlobalStyle />
       <Router>
-        <AppContent />
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </Router>
     </AuthProvider>
   );

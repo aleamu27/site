@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co'
@@ -31,3 +32,6 @@ console.log('Supabase Client Status:', {
   configured: isSupabaseConfigured(),
   clientExists: !!supabase
 })
+=======
+ 
+>>>>>>> ec7a60ee54388c5db6c2b36e2833cb0f044f2522
