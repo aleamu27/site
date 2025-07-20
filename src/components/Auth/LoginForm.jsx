@@ -220,7 +220,16 @@ const LoginForm = () => {
 
       if (error) {
         await logLoginAttempt(email, false, error.message);
-        setError('Invalid email or password');
+        console.error('Supabase Auth Error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          status: error.status,
+          statusCode: error.statusCode,
+          name: error.name
+        });
+        
+        // Show actual error for debugging (remove this later)
+        setError(`Auth Error: ${error.message}`);
         
         // Check if this failed attempt triggers a lockout
         await checkLoginAttempts(email);
