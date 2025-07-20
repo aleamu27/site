@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { supabase } from '../../lib/supabase';
@@ -350,6 +349,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-=======
- 
->>>>>>> ec7a60ee54388c5db6c2b36e2833cb0f044f2522
