@@ -10,7 +10,8 @@ console.log('Supabase Debug:', {
   keyLength: supabaseKey ? supabaseKey.length : 0,
   envVars: Object.keys(process.env).filter(key => key.includes('SUPABASE')),
   reactKey: !!process.env.REACT_APP_SUPABASE_KEY,
-  nextKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  nextKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  supabaseClient: !!supabase
 })
 
 // Only create client if we have the key (production) or provide a fallback
@@ -20,5 +21,5 @@ export const supabase = supabaseKey
 
 // Helper function to check if Supabase is properly configured
 export const isSupabaseConfigured = () => {
-  return supabaseUrl && supabaseKey
+  return supabaseUrl && supabaseKey && supabase !== null
 }

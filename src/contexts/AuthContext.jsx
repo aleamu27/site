@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check if Supabase is configured
-    if (!isSupabaseConfigured()) {
+    if (!isSupabaseConfigured() || !supabase) {
       console.warn('Supabase is not configured. Authentication features will be disabled.');
       setLoading(false);
       return;
