@@ -6,5 +6,10 @@
     "api/blog.js": {
       "maxDuration": 10
     }
+  },
+  "build": {
+    "env": {
+      "REACT_APP_SUPABASE_ANON_KEY": "@react_app_supabase_anon_key"
+    }
   }
 } 
