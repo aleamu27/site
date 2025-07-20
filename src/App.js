@@ -49,7 +49,13 @@ function AppContent() {
         
         {/* Protected routes for blog creation */}
         <Route path="/blog/new" element={
-          <ProtectedRoute allowedRoles={['admin', 'editor', 'author']}>
+          <ProtectedRoute>
+            <Layout><BlogCMS /></Layout>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/blog-cms" element={
+          <ProtectedRoute>
             <Layout><BlogCMS /></Layout>
           </ProtectedRoute>
         } />
@@ -59,7 +65,7 @@ function AppContent() {
         
         {/* Protected route for job posting */}
         <Route path="/careers/cms/new" element={
-          <ProtectedRoute allowedRoles={['admin', 'editor']}>
+          <ProtectedRoute>
             <Layout><JobCMS /></Layout>
           </ProtectedRoute>
         } />
