@@ -3,7 +3,15 @@ const { createClient } = require('@supabase/supabase-js');
 // Initialize Supabase
 const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log('🔧 Supabase Debug Info:', {
+  url: supabaseUrl,
+  hasKey: !!supabaseKey,
+  keyLength: supabaseKey ? supabaseKey.length : 0,
+  keyPrefix: supabaseKey ? supabaseKey.substring(0, 10) + '...' : 'MISSING'
+});
+
+const supabase = supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 module.exports = async function handler(req, res) {
   // Set CORS headers
@@ -33,23 +41,31 @@ module.exports = async function handler(req, res) {
         contentLength: content?.length || 0,
         image: !!image,
         featured,
-        hasSupabase: !!supabase
+        hasSupabase: !!supabase,
+        timestamp: new Date().toISOString()
       });
 
       // Validate required fields
       if (!title || !excerpt || !author || !content) {
+        console.error('❌ Validation failed - missing required fields');
         return res.status(400).json({
           error: 'Missing required fields',
-          required: ['title', 'excerpt', 'author', 'content']
+          required: ['title', 'excerpt', 'author', 'content'],
+          received: { title: !!title, excerpt: !!excerpt, author: !!author, content: !!content }
         });
       }
 
       // Check Supabase connection
       if (!supabase) {
-        console.error('❌ Supabase not configured');
+        console.error('❌ Supabase not configured - missing environment variables');
         return res.status(500).json({
           error: 'Database not configured',
-          message: 'Supabase connection failed'
+          message: 'Supabase connection failed - check environment variables',
+          debug: {
+            hasUrl: !!supabaseUrl,
+            hasKey: !!supabaseKey,
+            envVarName: 'REACT_APP_SUPABASE_ANON_KEY'
+          }
         });
       }
 
@@ -71,9 +87,10 @@ module.exports = async function handler(req, res) {
         published: true
       };
 
-      console.log('💾 Saving to Supabase:', {
+      console.log('💾 Attempting to save to Supabase:', {
         slug: blogPostData.slug,
-        title: blogPostData.title
+        title: blogPostData.title,
+        table: 'blog_posts'
       });
 
       // Insert into Supabase
@@ -84,18 +101,41 @@ module.exports = async function handler(req, res) {
         .single();
 
       if (supabaseError) {
-        console.error('❌ Supabase error:', supabaseError);
+        console.error('❌ Detailed Supabase error:', {
+          message: supabaseError.message,
+          details: supabaseError.details,
+          hint: supabaseError.hint,
+          code: supabaseError.code,
+          fullError: supabaseError
+        });
+        
+        // Provide more specific error messages
+        let userMessage = 'Database error occurred';
+        if (supabaseError.message?.includes('relation "blog_posts" does not exist')) {
+          userMessage = 'Blog posts table does not exist in database. Please run the SQL setup script.';
+        } else if (supabaseError.message?.includes('row-level security')) {
+          userMessage = 'Database security policy blocking insert. Check row-level security settings.';
+        } else if (supabaseError.message?.includes('duplicate key')) {
+          userMessage = 'A blog post with this title already exists.';
+        }
+        
         return res.status(500).json({
           error: 'Database error',
-          message: supabaseError.message,
-          details: supabaseError
+          message: userMessage,
+          details: supabaseError.message,
+          debug: {
+            code: supabaseError.code,
+            hint: supabaseError.hint,
+            table: 'blog_posts'
+          }
         });
       }
 
-      console.log('✅ Blog post saved to Supabase:', {
+      console.log('✅ Blog post saved to Supabase successfully:', {
         id: blogPost.id,
         title: blogPost.title,
-        slug: blogPost.slug
+        slug: blogPost.slug,
+        created_at: blogPost.created_at
       });
 
       return res.status(201).json({
@@ -143,10 +183,15 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
 
   } catch (error) {
-    console.error('❌ Blog API error:', error);
+    console.error('❌ Unexpected blog API error:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     return res.status(500).json({
       error: 'Internal server error',
-      message: error.message
+      message: error.message,
+      debug: 'Check server logs for details'
     });
   }
 }; 
