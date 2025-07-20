@@ -14,6 +14,10 @@ import About from './pages/About';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
+// Authentication imports
+import { AuthProvider } from './contexts/AuthContext.jsx';
+import LoginForm from './components/Auth/LoginForm';
+
 function AppContent() {
   const location = useLocation();
   return (
@@ -29,6 +33,7 @@ function AppContent() {
         <Route path="/work" element={<Layout><Work /></Layout>} />
         <Route path="/about" element={<Layout><About /></Layout>} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<LoginForm />} />
       </Routes>
       {location.pathname !== '/contact' && <Footer />}
     </>
@@ -40,7 +45,9 @@ function App() {
     <>
       <GlobalStyle />
       <Router>
-        <AppContent />
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
       </Router>
     </>
   );
