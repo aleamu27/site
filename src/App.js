@@ -22,10 +22,18 @@ import Privacy from './pages/Privacy';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
+// New imports for authentication
+import { AuthProvider } from './contexts/AuthContext.jsx';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
+import LoginForm from './components/Auth/LoginForm';
+import AdminDashboard from './pages/Admin/Dashboard';
+import SessionManager from './components/Auth/SessionManager';
+
 function AppContent() {
   const location = useLocation();
   return (
     <>
+      <SessionManager />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -38,13 +46,51 @@ function AppContent() {
         <Route path="/about" element={<Layout><About /></Layout>} />
         <Route path="/blog" element={<Layout><Blog /></Layout>} />
         <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
-        <Route path="/blog/new" element={<Layout><BlogCMS /></Layout>} />
+        
+        {/* Protected routes for blog creation */}
+        <Route path="/blog/new" element={
+          <ProtectedRoute allowedRoles={['admin', 'editor', 'author']}>
+            <Layout><BlogCMS /></Layout>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/careers" element={<Layout><Careers /></Layout>} />
         <Route path="/careers/:slug" element={<Layout><JobListing /></Layout>} />
-        <Route path="/careers/cms/new" element={<Layout><JobCMS /></Layout>} />
+        
+        {/* Protected route for job posting */}
+        <Route path="/careers/cms/new" element={
+          <ProtectedRoute allowedRoles={['admin', 'editor']}>
+            <Layout><JobCMS /></Layout>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/contact" element={<Contact />} />
+        
+        {/* Authentication routes */}
+        <Route path="/login" element={<LoginForm />} />
+        
+        {/* Admin routes */}
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/admin/*" element={
+          <ProtectedRoute>
+            <Layout>
+              <Routes>
+                <Route path="posts" element={<div>Blog Posts Management</div>} />
+                <Route path="posts/new" element={<BlogCMS />} />
+                <Route path="media" element={<div>Media Library</div>} />
+                <Route path="subscribers" element={<div>Newsletter Subscribers</div>} />
+                <Route path="settings" element={<div>Site Settings</div>} />
+              </Routes>
+            </Layout>
+          </ProtectedRoute>
+        } />
       </Routes>
       {location.pathname !== '/contact' && <Footer />}
     </>
@@ -53,12 +99,12 @@ function AppContent() {
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <GlobalStyle />
       <Router>
         <AppContent />
       </Router>
-    </>
+    </AuthProvider>
   );
 }
 
