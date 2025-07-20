@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { Resend } = require('resend');
+const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 const app = express();
@@ -8,6 +9,11 @@ const port = process.env.PORT || 3001;
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Initialize Supabase
+const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Middleware
 app.use(cors());
@@ -29,7 +35,8 @@ app.post('/api/blog', async (req, res) => {
       author,
       contentLength: content?.length || 0,
       image: !!image,
-      featured
+      featured,
+      hasSupabase: !!supabase
     });
 
     // Validate required fields
@@ -40,28 +47,55 @@ app.post('/api/blog', async (req, res) => {
       });
     }
 
+    // Check Supabase connection
+    if (!supabase) {
+      console.error('❌ Supabase not configured');
+      return res.status(500).json({
+        error: 'Database not configured',
+        message: 'Supabase connection failed'
+      });
+    }
+
     // Generate slug
     const slug = title
       .toLowerCase()
       .replace(/[^a-z0-9æøåàáäâèéëêìíïîòóöôùúüûñç]+/g, '-')
       .replace(/(^-|-$)/g, '');
 
-    // Create blog post object
-    const blogPost = {
-      id: Date.now(),
+    // Create blog post object for Supabase
+    const blogPostData = {
       title: title.trim(),
-      excerpt: excerpt.trim(),
-      author: author.trim(),
-      content: content.trim(),
-      image: image?.trim() || '',
-      featured: featured || false,
       slug,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      excerpt: excerpt.trim(),
+      content: content.trim(),
+      author: author.trim(),
+      image: image?.trim() || null,
+      featured: featured || false,
       published: true
     };
 
-    console.log('✅ Blog post created successfully:', {
+    console.log('💾 Saving to Supabase:', {
+      slug: blogPostData.slug,
+      title: blogPostData.title
+    });
+
+    // Insert into Supabase
+    const { data: blogPost, error: supabaseError } = await supabase
+      .from('blog_posts')
+      .insert([blogPostData])
+      .select()
+      .single();
+
+    if (supabaseError) {
+      console.error('❌ Supabase error:', supabaseError);
+      return res.status(500).json({
+        error: 'Database error',
+        message: supabaseError.message,
+        details: supabaseError
+      });
+    }
+
+    console.log('✅ Blog post saved to Supabase:', {
       id: blogPost.id,
       title: blogPost.title,
       slug: blogPost.slug
@@ -69,7 +103,7 @@ app.post('/api/blog', async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Blog post created successfully!',
+      message: 'Blog post created successfully in Supabase!',
       data: blogPost
     });
 
@@ -83,12 +117,46 @@ app.post('/api/blog', async (req, res) => {
 });
 
 // Get blog posts endpoint
-app.get('/api/blog', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Blog posts retrieved',
-    data: []
-  });
+app.get('/api/blog', async (req, res) => {
+  try {
+    console.log('📖 Fetching blog posts from Supabase');
+
+    if (!supabase) {
+      return res.status(500).json({
+        error: 'Database not configured',
+        message: 'Supabase connection failed'
+      });
+    }
+
+    const { data: blogPosts, error: fetchError } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('published', true)
+      .order('created_at', { ascending: false });
+
+    if (fetchError) {
+      console.error('❌ Error fetching blog posts:', fetchError);
+      return res.status(500).json({
+        error: 'Database error',
+        message: fetchError.message
+      });
+    }
+
+    console.log('✅ Blog posts retrieved:', blogPosts?.length || 0, 'posts');
+
+    res.json({
+      success: true,
+      message: 'Blog posts retrieved successfully',
+      data: blogPosts || []
+    });
+
+  } catch (error) {
+    console.error('❌ Blog fetch error:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
 });
 
 // Contact form submission endpoint
@@ -208,4 +276,5 @@ app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
   console.log('Environment check:');
   console.log('- Resend API Key:', process.env.RESEND_API_KEY ? 'Set' : 'Not set');
+  console.log('- Supabase Anon Key:', process.env.REACT_APP_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY ? 'Set' : 'Not set');
 }); 

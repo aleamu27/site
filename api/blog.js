@@ -1,3 +1,10 @@
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase
+const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 module.exports = async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -16,7 +23,7 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === 'POST') {
-      // Save new blog post
+      // Save new blog post to Supabase
       const { title, excerpt, author, content, image, featured } = req.body;
 
       console.log('📝 New blog post submission:', {
@@ -25,7 +32,8 @@ module.exports = async function handler(req, res) {
         author,
         contentLength: content?.length || 0,
         image: !!image,
-        featured
+        featured,
+        hasSupabase: !!supabase
       });
 
       // Validate required fields
@@ -36,30 +44,55 @@ module.exports = async function handler(req, res) {
         });
       }
 
+      // Check Supabase connection
+      if (!supabase) {
+        console.error('❌ Supabase not configured');
+        return res.status(500).json({
+          error: 'Database not configured',
+          message: 'Supabase connection failed'
+        });
+      }
+
       // Generate slug
       const slug = title
         .toLowerCase()
         .replace(/[^a-z0-9æøåàáäâèéëêìíïîòóöôùúüûñç]+/g, '-')
         .replace(/(^-|-$)/g, '');
 
-      // Create blog post object
-      const blogPost = {
-        id: Date.now(), // Simple ID generation
+      // Create blog post object for Supabase
+      const blogPostData = {
         title: title.trim(),
-        excerpt: excerpt.trim(),
-        author: author.trim(),
-        content: content.trim(),
-        image: image?.trim() || '',
-        featured: featured || false,
         slug,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        excerpt: excerpt.trim(),
+        content: content.trim(),
+        author: author.trim(),
+        image: image?.trim() || null,
+        featured: featured || false,
         published: true
       };
 
-      // In a real app, you'd save this to a database
-      // For now, we'll just return success and the created post
-      console.log('✅ Blog post created successfully:', {
+      console.log('💾 Saving to Supabase:', {
+        slug: blogPostData.slug,
+        title: blogPostData.title
+      });
+
+      // Insert into Supabase
+      const { data: blogPost, error: supabaseError } = await supabase
+        .from('blog_posts')
+        .insert([blogPostData])
+        .select()
+        .single();
+
+      if (supabaseError) {
+        console.error('❌ Supabase error:', supabaseError);
+        return res.status(500).json({
+          error: 'Database error',
+          message: supabaseError.message,
+          details: supabaseError
+        });
+      }
+
+      console.log('✅ Blog post saved to Supabase:', {
         id: blogPost.id,
         title: blogPost.title,
         slug: blogPost.slug
@@ -67,17 +100,42 @@ module.exports = async function handler(req, res) {
 
       return res.status(201).json({
         success: true,
-        message: 'Blog post created successfully!',
+        message: 'Blog post created successfully in Supabase!',
         data: blogPost
       });
     }
 
     if (req.method === 'GET') {
-      // Get blog posts (placeholder)
+      // Get blog posts from Supabase
+      console.log('📖 Fetching blog posts from Supabase');
+
+      if (!supabase) {
+        return res.status(500).json({
+          error: 'Database not configured',
+          message: 'Supabase connection failed'
+        });
+      }
+
+      const { data: blogPosts, error: fetchError } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('published', true)
+        .order('created_at', { ascending: false });
+
+      if (fetchError) {
+        console.error('❌ Error fetching blog posts:', fetchError);
+        return res.status(500).json({
+          error: 'Database error',
+          message: fetchError.message
+        });
+      }
+
+      console.log('✅ Blog posts retrieved:', blogPosts?.length || 0, 'posts');
+
       return res.status(200).json({
         success: true,
-        message: 'Blog posts retrieved',
-        data: []
+        message: 'Blog posts retrieved successfully',
+        data: blogPosts || []
       });
     }
 
