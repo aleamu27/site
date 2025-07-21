@@ -1,8 +1,8 @@
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend only if API key is available
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 // Initialize Supabase
 const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
@@ -100,39 +100,6 @@ module.exports = async function handler(req, res) {
 
       console.log('✅ Newsletter subscriber saved successfully:', subscriber);
 
-      // Send newsletter subscription notification to j@hepta.no
-      const { data: notificationData, error: notificationError } = await resend.emails.send({
-        from: 'Newsletter <j@hepta.no>',
-        to: ['j@hepta.no'],
-        subject: `New Newsletter Subscription`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #184B54;">New Newsletter Subscription</h2>
-            
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #333;">Subscriber Information</h3>
-              <p><strong>Email:</strong> ${cleanEmail}</p>
-              <p><strong>Source:</strong> Website Footer Form</p>
-              <p><strong>Subscriber ID:</strong> ${subscriber.id}</p>
-              <p><strong>Subscribed At:</strong> ${new Date(subscriber.created_at).toLocaleString()}</p>
-            </div>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-              <p>This subscription was submitted via hepta.no newsletter form and saved to the database.</p>
-              <p>You can view all subscribers in your Supabase dashboard.</p>
-            </div>
-          </div>
-        `,
-      });
-
-      if (notificationError) {
-        console.error('Newsletter notification email error:', notificationError);
-        // Don't fail the whole request if email fails, subscriber is already saved
-        console.log('⚠️ Email notification failed, but subscriber was saved successfully');
-      } else {
-        console.log('📧 Newsletter notification email sent successfully:', notificationData.id);
-      }
-
       res.json({ 
         success: true, 
         message: 'Thanks for subscribing to our newsletter!',
@@ -154,44 +121,49 @@ module.exports = async function handler(req, res) {
     }
 
     // Send notification email to j@hepta.no
-    const { data: notificationData, error: notificationError } = await resend.emails.send({
-      from: 'Contact Form <j@hepta.no>', // Your verified domain
-      to: ['j@hepta.no'], // Send form data to you
-      subject: `New Contact Form Submission from ${company}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #184B54;">New Contact Form Submission</h2>
-          
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #333;">Company Information</h3>
-            <p><strong>Company:</strong> ${company}</p>
-            <p><strong>Contact Email:</strong> ${email}</p>
+    if (resend) {
+      const { data: notificationData, error: notificationError } = await resend.emails.send({
+        from: 'Contact Form <j@hepta.no>', // Your verified domain
+        to: ['j@hepta.no'], // Send form data to you
+        subject: `New Contact Form Submission from ${company}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #184B54;">New Contact Form Submission</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #333;">Company Information</h3>
+              <p><strong>Company:</strong> ${company}</p>
+              <p><strong>Contact Email:</strong> ${email}</p>
+            </div>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #333;">Project Details</h3>
+              <p style="line-height: 1.6;">${project}</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+              <p>Reply to: <a href="mailto:${email}">${email}</a></p>
+              <p>This form was submitted via hepta.no contact form.</p>
+            </div>
           </div>
-          
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #333;">Project Details</h3>
-            <p style="line-height: 1.6;">${project}</p>
-          </div>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            <p>Reply to: <a href="mailto:${email}">${email}</a></p>
-            <p>This form was submitted via hepta.no contact form.</p>
-          </div>
-        </div>
-      `,
-    });
+        `,
+      });
 
-    if (notificationError) {
-      console.error('Notification email error:', notificationError);
-      return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
+      if (notificationError) {
+        console.error('Notification email error:', notificationError);
+        return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
+      }
+    } else {
+      console.warn('Resend not configured, skipping notification email.');
     }
 
     // Send thank you email to the user
-    const { data: confirmationData, error: confirmationError } = await resend.emails.send({
-      from: 'Hepta <j@hepta.no>', // Your verified domain
-      to: [email], // Send to the user
-      subject: 'Thank you for reaching out!',
-      html: `<!DOCTYPE html>
+    if (resend) {
+      const { data: confirmationData, error: confirmationError } = await resend.emails.send({
+        from: 'Hepta <j@hepta.no>', // Your verified domain
+        to: [email], // Send to the user
+        subject: 'Thank you for reaching out!',
+        html: `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -466,24 +438,31 @@ module.exports = async function handler(req, res) {
     </div>
 </body>
 </html>`,
-    });
+      });
 
-    if (confirmationError) {
-      console.error('Confirmation email error:', confirmationError);
-      // Don't fail the whole request if confirmation email fails
-      console.log('Notification email sent successfully, but confirmation email failed');
+      if (confirmationError) {
+        console.error('Confirmation email error:', confirmationError);
+        // Don't fail the whole request if confirmation email fails
+        console.log('Notification email sent successfully, but confirmation email failed');
+      }
+    } else {
+      console.warn('Resend not configured, skipping confirmation email.');
     }
 
-    console.log('Notification email sent successfully:', notificationData);
-    if (!confirmationError) {
-      console.log('Confirmation email sent successfully:', confirmationData);
+    if (resend) {
+      console.log('Notification email sent successfully:', notificationData);
+      if (!confirmationError) {
+        console.log('Confirmation email sent successfully:', confirmationData);
+      }
+    } else {
+      console.log('Notification email sent successfully (Resend not configured).');
     }
     
     res.json({ 
       success: true, 
       message: 'Contact form submitted successfully!',
-      notificationEmailId: notificationData.id,
-      confirmationEmailId: confirmationError ? null : confirmationData.id
+      notificationEmailId: resend ? notificationData.id : null,
+      confirmationEmailId: resend ? (confirmationError ? null : confirmationData.id) : null
     });
 
   } catch (error) {
