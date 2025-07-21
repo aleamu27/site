@@ -71,9 +71,36 @@ CREATE POLICY "Allow anyone to insert blog posts" ON public.blog_posts
     FOR INSERT WITH CHECK (true);
 ```
 
-## 📧 **NEWSLETTER PROBLEM**
+## 📧 **NEWSLETTER PROBLEM - Table Missing**
 
-Hvis newsletter ikke fungerer, sjekk dette:
+Hvis newsletter får 500 error, er sannsynligvis `newsletter_subscribers` tabellen ikke opprettet:
+
+### **Newsletter Table Setup**
+```sql
+-- Create newsletter_subscribers table
+CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'unsubscribed', 'bounced')),
+  source TEXT DEFAULT 'website-footer',
+  tags TEXT[] DEFAULT ARRAY[]::TEXT[],
+  subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now()),
+  unsubscribed_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc', now())
+);
+
+-- Set up Row Level Security
+ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to subscribe
+CREATE POLICY "Anyone can subscribe to newsletter" ON public.newsletter_subscribers
+    FOR INSERT WITH CHECK (true);
+
+-- Only authenticated users can read subscribers
+CREATE POLICY "Only authenticated users can view subscribers" ON public.newsletter_subscribers
+    FOR SELECT USING (auth.role() = 'authenticated');
+```
 
 ### **1. Environment Variables**
 I Vercel Dashboard → Settings → Environment Variables:
@@ -113,10 +140,11 @@ fetch('/api/contact', {
 4. **Skal nå fungere!**
 
 ### **Newsletter Test:**
-1. **Gå til bunnen av hjemmesiden**
-2. **Skriv inn email i newsletter form**
-3. **Klikk "Join Newsletter"**
-4. **Skal få "Thanks for subscribing!" melding**
+1. **Kjør newsletter table SQL-en over**
+2. **Gå til bunnen av hjemmesiden**
+3. **Skriv inn email i newsletter form**
+4. **Klikk "Join Newsletter"**
+5. **Skal få "Thanks for subscribing!" melding**
 
 ## 🔍 **Hvis fortsatt problemer**
 
