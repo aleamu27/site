@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-const NAV_BORDER = '1px solid #E5E5E5';
 const NAV_MONO = 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 const NAV_HEIGHT = 38;
 
@@ -113,14 +112,14 @@ const RightButton = styled(Link)`
   }
 `;
 
-// Mobile Navbar Styles (new)
+// Mobile Navbar Styles - Exact Bakken & Bæck copy
 const MobileNavbarContainer = styled.nav`
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   
   @media (max-width: 768px) {
     display: block;
@@ -129,54 +128,61 @@ const MobileNavbarContainer = styled.nav`
 
 const MobileNavHeader = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(159, 159, 159, 0.38);
-  backdrop-filter: blur(10px);
-  border-radius: 0 0 12px 12px;
-  padding: 16px 24px;
-  z-index: 101;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  background: rgba(240, 240, 240, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 14px 20px;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const MobileLogo = styled(Link)`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: #222;
+  gap: 4px;
+`;
+
+const LogoCircle = styled.div`
+  width: 24px;
+  height: 24px;
+  background: #000;
   border-radius: 50%;
-  color: #fff;
-  font-family: ${NAV_MONO};
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
   font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 0.04em;
+  margin-right: 2px;
 `;
 
 const MobileMenuButton = styled.button`
   background: none;
   border: none;
-  color: #222;
-  font-family: ${NAV_MONO};
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
   gap: 8px;
-  
-  &::after {
-    content: '${props => props.isOpen ? '×' : '☰'}';
-    font-size: 1.2rem;
-    margin-left: 4px;
-  }
+  letter-spacing: -0.01em;
+`;
+
+const MenuSeparator = styled.span`
+  color: #666;
+  margin: 0 8px;
 `;
 
 const MobileMenuOverlay = styled.div`
@@ -185,56 +191,57 @@ const MobileMenuOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(200, 200, 200, 0.95);
-  backdrop-filter: blur(20px);
-  z-index: 100;
+  background: rgba(240, 240, 240, 0.95);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-100%)'};
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: ${props => props.isOpen ? 1 : 0};
   visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
 `;
 
-const MobileMenuLinks = styled.div`
+const MobileMenuContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
-  margin-bottom: 48px;
+  gap: 40px;
+  margin-bottom: 60px;
 `;
 
 const MobileMenuLink = styled(Link)`
-  color: #222;
-  font-family: ${NAV_MONO};
-  font-size: 1.2rem;
-  font-weight: 600;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
   text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: opacity 0.2s;
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s ease;
   
   &:hover {
-    opacity: 0.7;
+    opacity: 0.6;
   }
   
   &.active {
-    opacity: 0.7;
+    opacity: 0.6;
   }
 `;
 
 const MobileGetInTouchButton = styled(Link)`
-  background: #222;
+  background: #000;
   color: #fff;
-  font-family: ${NAV_MONO};
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 16px 32px;
-  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 16px 40px;
+  border-radius: 25px;
   text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: opacity 0.2s;
+  letter-spacing: -0.01em;
+  transition: opacity 0.2s ease;
   
   &:hover {
     opacity: 0.9;
@@ -243,16 +250,17 @@ const MobileGetInTouchButton = styled(Link)`
 
 const MobileCloseButton = styled.button`
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 34px;
+  right: 34px;
   background: none;
   border: none;
-  color: #222;
-  font-family: ${NAV_MONO};
-  font-size: 1rem;
-  font-weight: 600;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   padding: 0;
+  letter-spacing: -0.01em;
 `;
 
 const NAV_LINKS = [
@@ -311,23 +319,17 @@ const Navbar = () => {
         <RightButton to="/contact">Get in touch</RightButton>
       </DesktopNavbarContainer>
 
-      {/* Mobile Navbar */}
+      {/* Mobile Navbar - Exact Bakken & Bæck Copy */}
       <MobileNavbarContainer>
         <MobileNavHeader>
           <MobileLogo to="/">
-            {!logoError ? (
-              <img
-                src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                alt="Logo"
-                style={{ width: '20px', height: '20px', objectFit: 'contain', display: 'block' }}
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              'BB'
-            )}
+            <LogoCircle>B</LogoCircle>
+            <LogoCircle>B</LogoCircle>
           </MobileLogo>
-          <MobileMenuButton onClick={toggleMobileMenu} isOpen={mobileMenuOpen}>
-            Get in touch | Menu
+          <MobileMenuButton onClick={toggleMobileMenu}>
+            Get in touch
+            <MenuSeparator>|</MenuSeparator>
+            Menu
           </MobileMenuButton>
         </MobileNavHeader>
 
@@ -336,7 +338,7 @@ const Navbar = () => {
             Close
           </MobileCloseButton>
           
-          <MobileMenuLinks>
+          <MobileMenuContent>
             {NAV_LINKS.map((link) => (
               <MobileMenuLink
                 key={link.to + link.label}
@@ -347,7 +349,7 @@ const Navbar = () => {
                 {link.label}
               </MobileMenuLink>
             ))}
-          </MobileMenuLinks>
+          </MobileMenuContent>
 
           <MobileGetInTouchButton to="/contact" onClick={closeMobileMenu}>
             Get in touch
