@@ -131,14 +131,14 @@ const MobileNavHeader = styled.div`
   top: 20px;
   left: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(248, 248, 248, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 12px 20px;
   z-index: 1001;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
 `;
@@ -242,12 +242,16 @@ const MobileGetInTouchButton = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 15px;
   font-weight: 500;
-  padding: 12px 28px;
-  border-radius: 18px;
+  padding: 12px 20px;
+  border-radius: 6px;
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
   margin-top: 8px;
+  width: calc(100% - 16px);
+  margin-left: 8px;
+  margin-right: 8px;
+  text-align: center;
   
   &:hover {
     opacity: 0.9;
