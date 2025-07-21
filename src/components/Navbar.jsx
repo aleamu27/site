@@ -135,16 +135,16 @@ const MobileNavHeader = styled.div`
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: ${props => props.isOpen ? '20px 20px 30px 20px' : '12px 20px'};
+  padding: 12px 20px;
   z-index: 1001;
-  display: flex;
-  flex-direction: ${props => props.isOpen ? 'column' : 'row'};
-  align-items: ${props => props.isOpen ? 'center' : 'center'};
-  justify-content: ${props => props.isOpen ? 'flex-start' : 'space-between'};
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  min-height: ${props => props.isOpen ? 'auto' : '52px'};
+  overflow: hidden;
+`;
+
+const MobileHeaderContent = styled.div`
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `;
 
 const MobileHeaderTop = styled.div`
@@ -152,7 +152,7 @@ const MobileHeaderTop = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: ${props => props.isOpen ? '25px' : '0'};
+  min-height: 28px;
 `;
 
 const MobileLogo = styled(Link)`
@@ -202,34 +202,26 @@ const MenuSeparator = styled.span`
   margin: 0 8px;
 `;
 
-const MobileCloseButton = styled.button`
-  background: none;
-  border: none;
-  color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
-  letter-spacing: -0.01em;
+const MobileMenuDropdown = styled.div`
+  opacity: ${props => props.isOpen ? 1 : 0};
+  max-height: ${props => props.isOpen ? '300px' : '0'};
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  margin-top: ${props => props.isOpen ? '20px' : '0'};
 `;
 
 const MobileMenuContent = styled.div`
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
-  width: 100%;
-  margin-bottom: 25px;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-10px)'};
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  gap: 16px;
+  padding-bottom: 8px;
 `;
 
 const MobileMenuLink = styled(Link)`
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   text-decoration: none;
   letter-spacing: -0.01em;
@@ -248,14 +240,14 @@ const MobileGetInTouchButton = styled(Link)`
   background: #000;
   color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
-  padding: 14px 36px;
-  border-radius: 20px;
+  padding: 12px 28px;
+  border-radius: 18px;
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
-  display: ${props => props.isOpen ? 'block' : 'none'};
+  margin-top: 8px;
   
   &:hover {
     opacity: 0.9;
@@ -320,48 +312,52 @@ const Navbar = () => {
 
       {/* Mobile Navbar - Exact Bakken & Bæck Copy */}
       <MobileNavbarContainer>
-        <MobileNavHeader isOpen={mobileMenuOpen}>
-          <MobileHeaderTop isOpen={mobileMenuOpen}>
-            <MobileLogo to="/">
-              {!logoError ? (
-                <MobileLogoImage
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                  alt="Hepta Logo"
-                  onError={() => setLogoError(true)}
-                />
-              ) : (
-                <MobileLogoFallback>H</MobileLogoFallback>
-              )}
-            </MobileLogo>
-            <MobileMenuButton onClick={toggleMobileMenu}>
-              {mobileMenuOpen ? (
-                'Close'
-              ) : (
-                <>
+        <MobileNavHeader>
+          <MobileHeaderContent>
+            <MobileHeaderTop>
+              <MobileLogo to="/">
+                {!logoError ? (
+                  <MobileLogoImage
+                    src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                    alt="Hepta Logo"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <MobileLogoFallback>H</MobileLogoFallback>
+                )}
+              </MobileLogo>
+              <MobileMenuButton onClick={toggleMobileMenu}>
+                {mobileMenuOpen ? (
+                  'Close'
+                ) : (
+                  <>
+                    Get in touch
+                    <MenuSeparator>|</MenuSeparator>
+                    Menu
+                  </>
+                )}
+              </MobileMenuButton>
+            </MobileHeaderTop>
+
+            <MobileMenuDropdown isOpen={mobileMenuOpen}>
+              <MobileMenuContent>
+                {NAV_LINKS.map((link) => (
+                  <MobileMenuLink
+                    key={link.to}
+                    to={link.to}
+                    className={location.pathname === link.to ? 'active' : ''}
+                    onClick={closeMobileMenu}
+                  >
+                    {link.label}
+                  </MobileMenuLink>
+                ))}
+
+                <MobileGetInTouchButton to="/contact" onClick={closeMobileMenu}>
                   Get in touch
-                  <MenuSeparator>|</MenuSeparator>
-                  Menu
-                </>
-              )}
-            </MobileMenuButton>
-          </MobileHeaderTop>
-
-          <MobileMenuContent isOpen={mobileMenuOpen}>
-            {NAV_LINKS.map((link) => (
-              <MobileMenuLink
-                key={link.to}
-                to={link.to}
-                className={location.pathname === link.to ? 'active' : ''}
-                onClick={closeMobileMenu}
-              >
-                {link.label}
-              </MobileMenuLink>
-            ))}
-          </MobileMenuContent>
-
-          <MobileGetInTouchButton isOpen={mobileMenuOpen} to="/contact" onClick={closeMobileMenu}>
-            Get in touch
-          </MobileGetInTouchButton>
+                </MobileGetInTouchButton>
+              </MobileMenuContent>
+            </MobileMenuDropdown>
+          </MobileHeaderContent>
         </MobileNavHeader>
       </MobileNavbarContainer>
     </>
