@@ -265,7 +265,7 @@ const BlogCMS = () => {
     title: '',
     excerpt: '',
     author: '',
-    image: '',
+    featured_image: '',
     featured: false,
     content: ''
   });
@@ -422,12 +422,12 @@ const BlogCMS = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label htmlFor="image">Featured Image URL</Label>
+              <Label htmlFor="featured_image">Featured Image URL</Label>
               <Input
-                id="image"
-                name="image"
+                id="featured_image"
+                name="featured_image"
                 type="url"
-                value={formData.image}
+                value={formData.featured_image}
                 onChange={handleInputChange}
                 placeholder="https://example.com/image.jpg"
               />

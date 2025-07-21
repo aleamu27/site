@@ -27,14 +27,14 @@ app.get('/health', (req, res) => {
 // Blog posts endpoint
 app.post('/api/blog', async (req, res) => {
   try {
-    const { title, excerpt, author, content, image, featured } = req.body;
+    const { title, excerpt, author, content, featured_image, featured } = req.body;
 
     console.log('📝 New blog post submission:', {
       title,
       excerpt,
       author,
       contentLength: content?.length || 0,
-      image: !!image,
+      featured_image: !!featured_image,
       featured,
       hasSupabase: !!supabase
     });
@@ -69,7 +69,7 @@ app.post('/api/blog', async (req, res) => {
       excerpt: excerpt.trim(),
       content: content.trim(),
       author: author.trim(),
-      image: image?.trim() || null,
+      featured_image: featured_image?.trim() || null,
       featured: featured || false,
       published: true
     };
