@@ -131,17 +131,17 @@ const MobileNavHeader = styled.div`
   top: 20px;
   left: 20px;
   right: 20px;
-  background: rgba(240, 240, 240, 0.85);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 14px 20px;
+  padding: 12px 20px;
   z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 const MobileLogo = styled(Link)`
@@ -150,19 +150,25 @@ const MobileLogo = styled(Link)`
   gap: 4px;
 `;
 
-const LogoCircle = styled.div`
-  width: 24px;
-  height: 24px;
+const MobileLogoImage = styled.img`
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+`;
+
+const MobileLogoFallback = styled.div`
+  width: 32px;
+  height: 32px;
   background: #000;
-  border-radius: 50%;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  margin-right: 2px;
 `;
 
 const MobileMenuButton = styled.button`
@@ -191,16 +197,16 @@ const MobileMenuOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(240, 240, 240, 0.95);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-100%)'};
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   opacity: ${props => props.isOpen ? 1 : 0};
   visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
 `;
@@ -209,17 +215,17 @@ const MobileMenuContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-  margin-bottom: 60px;
+  gap: 35px;
+  margin-bottom: 50px;
 `;
 
 const MobileMenuLink = styled(Link)`
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 400;
   text-decoration: none;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
   
   &:hover {
@@ -237,8 +243,8 @@ const MobileGetInTouchButton = styled(Link)`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 16px;
   font-weight: 500;
-  padding: 16px 40px;
-  border-radius: 25px;
+  padding: 14px 36px;
+  border-radius: 20px;
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
@@ -256,19 +262,19 @@ const MobileCloseButton = styled.button`
   border: none;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   padding: 0;
   letter-spacing: -0.01em;
 `;
 
+// Correct navigation links for your site
 const NAV_LINKS = [
   { to: '/work', label: 'Work' },
   { to: '/about', label: 'About' },
-  { to: '/blog', label: 'Journal' },
-  { to: '/careers', label: 'Clients' },
-  { to: '/careers', label: 'Join us' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/careers', label: 'Careers' },
 ];
 
 const Navbar = () => {
@@ -302,7 +308,7 @@ const Navbar = () => {
             )}
           </Logo>
           <NavLinks>
-            {NAV_LINKS.slice(0, 4).map((link) => (
+            {NAV_LINKS.map((link) => (
               <NavLink key={link.to}>
                 <Link
                   to={link.to}
@@ -323,8 +329,15 @@ const Navbar = () => {
       <MobileNavbarContainer>
         <MobileNavHeader>
           <MobileLogo to="/">
-            <LogoCircle>B</LogoCircle>
-            <LogoCircle>B</LogoCircle>
+            {!logoError ? (
+              <MobileLogoImage
+                src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                alt="Hepta Logo"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <MobileLogoFallback>H</MobileLogoFallback>
+            )}
           </MobileLogo>
           <MobileMenuButton onClick={toggleMobileMenu}>
             Get in touch
@@ -341,7 +354,7 @@ const Navbar = () => {
           <MobileMenuContent>
             {NAV_LINKS.map((link) => (
               <MobileMenuLink
-                key={link.to + link.label}
+                key={link.to}
                 to={link.to}
                 className={location.pathname === link.to ? 'active' : ''}
                 onClick={closeMobileMenu}
