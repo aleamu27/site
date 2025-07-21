@@ -167,34 +167,19 @@ const Careers = () => {
   
   const jobs = [
     {
-      title: 'Creative Lead',
-      description: 'We are looking for a creative leader who can inspire and guide our design team. You will be responsible for developing creative strategies, mentoring designers, and ensuring our work meets the highest standards.',
-      slug: 'creative-lead'
-    },
-    {
-      title: 'Lead Product Designer',
-      description: 'Join us as a Lead Product Designer to create exceptional user experiences. You will work closely with product managers and developers to design intuitive, beautiful, and functional digital products.',
-      slug: 'lead-product-designer'
-    },
-    {
-      title: 'Senior Creative Strategist',
-      description: 'As a Senior Creative Strategist, you will develop innovative creative strategies that drive business results. You will collaborate with clients and internal teams to deliver compelling creative solutions.',
-      slug: 'senior-creative-strategist'
-    },
-    {
-      title: 'Senior Motion Designer',
-      description: 'We are seeking a Senior Motion Designer to bring our designs to life through animation and motion graphics. You will create engaging visual experiences that enhance user interactions and brand storytelling.',
-      slug: 'senior-motion-designer'
-    },
-    {
-      title: 'Senior Product Manager',
-      description: 'Join our product team as a Senior Product Manager. You will lead product strategy, work with cross-functional teams, and ensure we deliver products that users love and that drive business growth.',
-      slug: 'senior-product-manager'
-    },
-    {
-      title: 'Open application',
+      title: 'Open Application',
       description: 'Do not see a position that fits? We are always looking for talented individuals to join our team. Send us your application and let us know how you can contribute to our mission.',
       slug: 'open-application'
+    },
+    {
+      title: 'Senior Animator',
+      description: 'We are seeking a skilled Senior Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
+      slug: 'senior-animator'
+    },
+    {
+      title: 'Accountant',
+      description: 'Join our finance team as an Accountant. You will be responsible for managing financial records, preparing reports, and ensuring compliance with accounting standards and regulations.',
+      slug: 'accountant'
     }
   ];
 
