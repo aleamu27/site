@@ -131,7 +131,7 @@ const MobileNavHeader = styled.div`
   top: 20px;
   left: 20px;
   right: 20px;
-  background: rgba(248, 248, 248, 0.85);
+  background: rgba(159,159,159,0.38);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 8px;
