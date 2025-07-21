@@ -32,14 +32,14 @@ module.exports = async function handler(req, res) {
   try {
     if (req.method === 'POST') {
       // Save new blog post to Supabase
-      const { title, excerpt, author, content, image, featured } = req.body;
+      const { title, excerpt, author, content, featured_image, featured } = req.body;
 
       console.log('📝 New blog post submission:', {
         title,
         excerpt,
         author,
         contentLength: content?.length || 0,
-        image: !!image,
+        featured_image: !!featured_image,
         featured,
         hasSupabase: !!supabase,
         timestamp: new Date().toISOString()
@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
         excerpt: excerpt.trim(),
         content: content.trim(),
         author: author.trim(),
-        image: image?.trim() || null,
+        featured_image: featured_image?.trim() || null,
         featured: featured || false,
         published: true
       };

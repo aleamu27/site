@@ -218,7 +218,7 @@ const Blog = () => {
                 month: 'long',
                 day: 'numeric'
               }),
-              image: post.image || null,
+              image: post.featured_image || null,
               featured: post.featured,
               slug: post.slug
             })) || [];
@@ -262,7 +262,7 @@ const Blog = () => {
               month: 'long',
               day: 'numeric'
             }),
-            image: post.image || null,
+            image: post.featured_image || null,
             featured: post.featured,
             slug: post.slug
           })) || [];

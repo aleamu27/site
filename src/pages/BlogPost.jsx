@@ -277,7 +277,7 @@ const BlogPost = () => {
                 month: 'long',
                 day: 'numeric'
               }),
-              image: post.image,
+              image: post.featured_image,
               slug: post.slug,
               content: post.content
             };
@@ -329,7 +329,7 @@ const BlogPost = () => {
                 month: 'long',
                 day: 'numeric'
               }),
-              image: foundPost.image,
+              image: foundPost.featured_image,
               slug: foundPost.slug,
               content: foundPost.content
             };
