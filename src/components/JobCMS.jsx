@@ -322,7 +322,7 @@ const JobCMS = () => {
                 type="text"
                 value={jobData.location}
                 onChange={(e) => handleInputChange('location', e.target.value)}
-                placeholder="e.g., Oslo, Barcelona, Amsterdam"
+                placeholder="e.g., Oslo"
                 required
               />
             </FormGroup>

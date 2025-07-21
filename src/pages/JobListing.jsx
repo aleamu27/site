@@ -119,154 +119,9 @@ const JobListing = () => {
   
   // Mock job data - in real implementation, this would come from an API
   const jobData = {
-    'creative-lead': {
-      title: 'Creative Lead',
-      location: 'Oslo, Barcelona, Amsterdam',
-      type: 'Full-time',
-      department: 'Creative',
-      description: 'We are looking for a creative leader who can inspire and guide our design team. You will be responsible for developing creative strategies, mentoring designers, and ensuring our work meets the highest standards.',
-      responsibilities: [
-        'Lead and mentor a team of designers and creatives',
-        'Develop and execute creative strategies for client projects',
-        'Collaborate with cross-functional teams to deliver exceptional work',
-        'Ensure creative quality and consistency across all deliverables',
-        'Present creative concepts to clients and stakeholders'
-      ],
-      requirements: [
-        '8+ years of experience in creative leadership roles',
-        'Strong portfolio demonstrating creative excellence',
-        'Experience managing and mentoring creative teams',
-        'Excellent communication and presentation skills',
-        'Ability to work in a fast-paced, collaborative environment'
-      ],
-      benefits: [
-        'Competitive salary and benefits package',
-        'Flexible working arrangements',
-        'Professional development opportunities',
-        'Creative and collaborative work environment',
-        'Opportunity to work with global brands'
-      ],
-      applyLink: 'https://example.com/apply/creative-lead'
-    },
-    'lead-product-designer': {
-      title: 'Lead Product Designer',
-      location: 'Oslo, London, Barcelona, Amsterdam',
-      type: 'Full-time',
-      department: 'Product',
-      description: 'Join us as a Lead Product Designer to create exceptional user experiences. You will work closely with product managers and developers to design intuitive, beautiful, and functional digital products.',
-      responsibilities: [
-        'Lead the design process from concept to implementation',
-        'Create user-centered design solutions',
-        'Collaborate with product managers and developers',
-        'Conduct user research and usability testing',
-        'Mentor junior designers and provide design guidance'
-      ],
-      requirements: [
-        '6+ years of product design experience',
-        'Strong portfolio showcasing UX/UI work',
-        'Experience with design systems and component libraries',
-        'Proficiency in design tools (Figma, Sketch, etc.)',
-        'Understanding of user research and testing methodologies'
-      ],
-      benefits: [
-        'Competitive salary and equity options',
-        'Health and wellness benefits',
-        'Professional development budget',
-        'Modern office spaces with great amenities',
-        'Regular team events and activities'
-      ],
-      applyLink: 'https://example.com/apply/lead-product-designer'
-    },
-    'senior-creative-strategist': {
-      title: 'Senior Creative Strategist',
-      location: 'Oslo, Barcelona, Amsterdam',
-      type: 'Full-time',
-      department: 'Strategy',
-      description: 'As a Senior Creative Strategist, you will develop innovative creative strategies that drive business results. You will collaborate with clients and internal teams to deliver compelling creative solutions.',
-      responsibilities: [
-        'Develop creative strategies for client campaigns',
-        'Conduct market research and competitive analysis',
-        'Create compelling creative briefs and presentations',
-        'Collaborate with creative and account teams',
-        'Present strategies to clients and stakeholders'
-      ],
-      requirements: [
-        '7+ years of experience in creative strategy',
-        'Experience in advertising or creative agencies',
-        'Strong analytical and strategic thinking skills',
-        'Excellent presentation and communication abilities',
-        'Understanding of brand strategy and marketing principles'
-      ],
-      benefits: [
-        'Competitive salary with performance bonuses',
-        'Comprehensive health insurance',
-        'Flexible work arrangements',
-        'Professional development opportunities',
-        'Creative and dynamic work environment'
-      ],
-      applyLink: 'https://example.com/apply/senior-creative-strategist'
-    },
-    'senior-motion-designer': {
-      title: 'Senior Motion Designer',
-      location: 'Oslo, Barcelona, Amsterdam',
-      type: 'Full-time',
-      department: 'Creative',
-      description: 'We are seeking a Senior Motion Designer to bring our designs to life through animation and motion graphics. You will create engaging visual experiences that enhance user interactions and brand storytelling.',
-      responsibilities: [
-        'Create compelling motion graphics and animations',
-        'Develop motion design systems and guidelines',
-        'Collaborate with designers and developers',
-        'Ensure animations enhance user experience',
-        'Stay current with motion design trends and tools'
-      ],
-      requirements: [
-        '5+ years of motion design experience',
-        'Strong portfolio demonstrating motion work',
-        'Proficiency in After Effects, Cinema 4D, or similar tools',
-        'Understanding of animation principles and timing',
-        'Experience with web and mobile animation'
-      ],
-      benefits: [
-        'Competitive salary and benefits',
-        'Latest design and animation tools',
-        'Creative and collaborative environment',
-        'Opportunity to work on diverse projects',
-        'Professional development support'
-      ],
-      applyLink: 'https://example.com/apply/senior-motion-designer'
-    },
-    'senior-product-manager': {
-      title: 'Senior Product Manager',
-      location: 'Oslo, Barcelona, Amsterdam',
-      type: 'Full-time',
-      department: 'Product',
-      description: 'Join our product team as a Senior Product Manager. You will lead product strategy, work with cross-functional teams, and ensure we deliver products that users love and that drive business growth.',
-      responsibilities: [
-        'Define product vision, strategy, and roadmap',
-        'Lead cross-functional product development teams',
-        'Conduct user research and market analysis',
-        'Define product requirements and specifications',
-        'Monitor product performance and iterate based on data'
-      ],
-      requirements: [
-        '8+ years of product management experience',
-        'Experience leading product development teams',
-        'Strong analytical and strategic thinking skills',
-        'Excellent communication and leadership abilities',
-        'Understanding of agile development methodologies'
-      ],
-      benefits: [
-        'Competitive salary with equity options',
-        'Comprehensive health and wellness benefits',
-        'Flexible work arrangements',
-        'Professional development and learning opportunities',
-        'Modern office environment with great amenities'
-      ],
-      applyLink: 'https://example.com/apply/senior-product-manager'
-    },
     'open-application': {
       title: 'Open Application',
-      location: 'Oslo, Barcelona, Amsterdam',
+      location: 'Oslo',
       type: 'Various',
       department: 'All Departments',
       description: 'Do not see a position that fits? We are always looking for talented individuals to join our team. Send us your application and let us know how you can contribute to our mission.',
@@ -292,6 +147,73 @@ const JobListing = () => {
         'Opportunity to grow with the company'
       ],
       applyLink: 'https://example.com/apply/open-application'
+    },
+    'senior-animator': {
+      title: 'Senior Animator',
+      location: 'Oslo',
+      type: 'Full-time',
+      department: 'Creative',
+      description: 'We are seeking a skilled Senior Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
+      responsibilities: [
+        'Create high-quality 2D and 3D animations for digital platforms',
+        'Develop motion graphics for video content and web applications',
+        'Collaborate with designers and directors to bring concepts to life',
+        'Maintain consistency in animation style and quality standards',
+        'Optimize animations for various platforms and devices',
+        'Mentor junior animators and provide creative guidance'
+      ],
+      requirements: [
+        '5+ years of professional animation experience',
+        'Proficiency in After Effects, Cinema 4D, and Adobe Creative Suite',
+        'Strong understanding of animation principles and motion design',
+        'Experience with 3D animation and rendering',
+        'Portfolio demonstrating diverse animation styles and techniques',
+        'Excellent attention to detail and ability to meet deadlines'
+      ],
+      benefits: [
+        'Competitive salary and performance bonuses',
+        'Health insurance and wellness programs',
+        'Flexible working hours and remote work options',
+        'Access to latest animation software and hardware',
+        'Professional development and conference attendance',
+        'Creative freedom to explore new animation techniques'
+      ],
+      applyLink: 'mailto:j@hepta.no?subject=Application for Senior Animator Position'
+    },
+    'accountant': {
+      title: 'Accountant',
+      location: 'Oslo',
+      type: 'Full-time',
+      department: 'Finance',
+      description: 'Join our finance team as an Accountant. You will be responsible for managing financial records, preparing reports, and ensuring compliance with accounting standards and regulations.',
+      responsibilities: [
+        'Maintain accurate financial records and bookkeeping',
+        'Prepare monthly, quarterly, and annual financial reports',
+        'Handle accounts payable and receivable processes',
+        'Assist with budget preparation and financial planning',
+        'Ensure compliance with tax regulations and accounting standards',
+        'Support audit processes and work with external auditors',
+        'Process invoices and manage expense reporting systems'
+      ],
+      requirements: [
+        'Bachelor\'s degree in Accounting, Finance, or related field',
+        '3+ years of accounting experience in a professional environment',
+        'Proficiency in accounting software (QuickBooks, Xero, or similar)',
+        'Strong knowledge of Norwegian accounting standards and tax regulations',
+        'Excellent attention to detail and analytical skills',
+        'Strong communication skills in Norwegian and English',
+        'CPA certification or working towards it is a plus'
+      ],
+      benefits: [
+        'Competitive salary and annual bonus',
+        'Comprehensive health and dental insurance',
+        'Pension scheme and financial planning support',
+        'Professional development and certification support',
+        'Flexible working arrangements',
+        'Modern office in central Oslo',
+        'Team building activities and company events'
+      ],
+      applyLink: 'mailto:j@hepta.no?subject=Application for Accountant Position'
     }
   };
 
