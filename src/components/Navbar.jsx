@@ -131,17 +131,28 @@ const MobileNavHeader = styled.div`
   top: 20px;
   left: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 20px;
-  padding: 12px 20px;
+  padding: ${props => props.isOpen ? '20px 20px 30px 20px' : '12px 20px'};
   z-index: 1001;
+  display: flex;
+  flex-direction: ${props => props.isOpen ? 'column' : 'row'};
+  align-items: ${props => props.isOpen ? 'center' : 'center'};
+  justify-content: ${props => props.isOpen ? 'flex-start' : 'space-between'};
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  min-height: ${props => props.isOpen ? 'auto' : '52px'};
+`;
+
+const MobileHeaderTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-bottom: ${props => props.isOpen ? '25px' : '0'};
 `;
 
 const MobileLogo = styled(Link)`
@@ -191,38 +202,34 @@ const MenuSeparator = styled.span`
   margin: 0 8px;
 `;
 
-const MobileMenuOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-100%)'};
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+const MobileCloseButton = styled.button`
+  background: none;
+  border: none;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: -0.01em;
 `;
 
 const MobileMenuContent = styled.div`
-  display: flex;
+  display: ${props => props.isOpen ? 'flex' : 'none'};
   flex-direction: column;
   align-items: center;
-  gap: 35px;
-  margin-bottom: 50px;
+  gap: 25px;
+  width: 100%;
+  margin-bottom: 25px;
+  opacity: ${props => props.isOpen ? 1 : 0};
+  transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-10px)'};
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `;
 
 const MobileMenuLink = styled(Link)`
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   text-decoration: none;
   letter-spacing: -0.01em;
@@ -248,25 +255,11 @@ const MobileGetInTouchButton = styled(Link)`
   text-decoration: none;
   letter-spacing: -0.01em;
   transition: opacity 0.2s ease;
+  display: ${props => props.isOpen ? 'block' : 'none'};
   
   &:hover {
     opacity: 0.9;
   }
-`;
-
-const MobileCloseButton = styled.button`
-  position: absolute;
-  top: 34px;
-  right: 34px;
-  background: none;
-  border: none;
-  color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
-  letter-spacing: -0.01em;
 `;
 
 // Correct navigation links for your site
@@ -327,31 +320,33 @@ const Navbar = () => {
 
       {/* Mobile Navbar - Exact Bakken & Bæck Copy */}
       <MobileNavbarContainer>
-        <MobileNavHeader>
-          <MobileLogo to="/">
-            {!logoError ? (
-              <MobileLogoImage
-                src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                alt="Hepta Logo"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <MobileLogoFallback>H</MobileLogoFallback>
-            )}
-          </MobileLogo>
-          <MobileMenuButton onClick={toggleMobileMenu}>
-            Get in touch
-            <MenuSeparator>|</MenuSeparator>
-            Menu
-          </MobileMenuButton>
-        </MobileNavHeader>
+        <MobileNavHeader isOpen={mobileMenuOpen}>
+          <MobileHeaderTop isOpen={mobileMenuOpen}>
+            <MobileLogo to="/">
+              {!logoError ? (
+                <MobileLogoImage
+                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                  alt="Hepta Logo"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <MobileLogoFallback>H</MobileLogoFallback>
+              )}
+            </MobileLogo>
+            <MobileMenuButton onClick={toggleMobileMenu}>
+              {mobileMenuOpen ? (
+                'Close'
+              ) : (
+                <>
+                  Get in touch
+                  <MenuSeparator>|</MenuSeparator>
+                  Menu
+                </>
+              )}
+            </MobileMenuButton>
+          </MobileHeaderTop>
 
-        <MobileMenuOverlay isOpen={mobileMenuOpen}>
-          <MobileCloseButton onClick={closeMobileMenu}>
-            Close
-          </MobileCloseButton>
-          
-          <MobileMenuContent>
+          <MobileMenuContent isOpen={mobileMenuOpen}>
             {NAV_LINKS.map((link) => (
               <MobileMenuLink
                 key={link.to}
@@ -364,10 +359,10 @@ const Navbar = () => {
             ))}
           </MobileMenuContent>
 
-          <MobileGetInTouchButton to="/contact" onClick={closeMobileMenu}>
+          <MobileGetInTouchButton isOpen={mobileMenuOpen} to="/contact" onClick={closeMobileMenu}>
             Get in touch
           </MobileGetInTouchButton>
-        </MobileMenuOverlay>
+        </MobileNavHeader>
       </MobileNavbarContainer>
     </>
   );
