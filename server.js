@@ -7,8 +7,8 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend only if API key is available
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 // Initialize Supabase
 const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
@@ -232,36 +232,40 @@ app.post('/api/contact', async (req, res) => {
       console.log('✅ Newsletter subscriber saved successfully:', subscriber);
 
       // Send newsletter subscription notification to j@hepta.no
-      const { data: notificationData, error: notificationError } = await resend.emails.send({
-        from: 'Newsletter <j@hepta.no>',
-        to: ['j@hepta.no'],
-        subject: `New Newsletter Subscription`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #184B54;">New Newsletter Subscription</h2>
-            
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #333;">Subscriber Information</h3>
-              <p><strong>Email:</strong> ${cleanEmail}</p>
-              <p><strong>Source:</strong> Website Footer Form</p>
-              <p><strong>Subscriber ID:</strong> ${subscriber.id}</p>
-              <p><strong>Subscribed At:</strong> ${new Date(subscriber.created_at).toLocaleString()}</p>
+      if (resend) {
+        const { data: notificationData, error: notificationError } = await resend.emails.send({
+          from: 'Newsletter <j@hepta.no>',
+          to: ['j@hepta.no'],
+          subject: `New Newsletter Subscription`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #184B54;">New Newsletter Subscription</h2>
+              
+              <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #333;">Subscriber Information</h3>
+                <p><strong>Email:</strong> ${cleanEmail}</p>
+                <p><strong>Source:</strong> Website Footer Form</p>
+                <p><strong>Subscriber ID:</strong> ${subscriber.id}</p>
+                <p><strong>Subscribed At:</strong> ${new Date(subscriber.created_at).toLocaleString()}</p>
+              </div>
+              
+              <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+                <p>This subscription was submitted via hepta.no newsletter form and saved to the database.</p>
+                <p>You can view all subscribers in your Supabase dashboard.</p>
+              </div>
             </div>
-            
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-              <p>This subscription was submitted via hepta.no newsletter form and saved to the database.</p>
-              <p>You can view all subscribers in your Supabase dashboard.</p>
-            </div>
-          </div>
-        `,
-      });
+          `,
+        });
 
-      if (notificationError) {
-        console.error('Newsletter notification email error:', notificationError);
-        // Don't fail the whole request if email fails, subscriber is already saved
-        console.log('⚠️ Email notification failed, but subscriber was saved successfully');
+        if (notificationError) {
+          console.error('Newsletter notification email error:', notificationError);
+          // Don't fail the whole request if email fails, subscriber is already saved
+          console.log('⚠️ Email notification failed, but subscriber was saved successfully');
+        } else {
+          console.log('📧 Newsletter notification email sent successfully:', notificationData.id);
+        }
       } else {
-        console.log('📧 Newsletter notification email sent successfully:', notificationData.id);
+        console.warn('⚠️ Resend not configured, skipping newsletter notification email.');
       }
 
       res.json({ 
@@ -286,45 +290,53 @@ app.post('/api/contact', async (req, res) => {
     }
 
     // Send email using Resend
-    const { data, error } = await resend.emails.send({
-      from: 'Contact Form <j@hepta.no>', // Your verified domain
-      to: [email], // Send to the user who submitted the form
-      bcc: ['j@hepta.no'], // You'll receive notifications here
-      subject: `New Contact Form Submission from ${company}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #184B54;">New Contact Form Submission</h2>
-          
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #333;">Company Information</h3>
-            <p><strong>Company:</strong> ${company}</p>
-            <p><strong>Number of Employees:</strong> ${employees}</p>
-            <p><strong>Contact Email:</strong> ${email}</p>
+    if (resend) {
+      const { data, error } = await resend.emails.send({
+        from: 'Contact Form <j@hepta.no>', // Your verified domain
+        to: [email], // Send to the user who submitted the form
+        bcc: ['j@hepta.no'], // You'll receive notifications here
+        subject: `New Contact Form Submission from ${company}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #184B54;">New Contact Form Submission</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #333;">Company Information</h3>
+              <p><strong>Company:</strong> ${company}</p>
+              <p><strong>Number of Employees:</strong> ${employees}</p>
+              <p><strong>Contact Email:</strong> ${email}</p>
+            </div>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="margin-top: 0; color: #333;">Project Details</h3>
+              <p style="line-height: 1.6;">${project}</p>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+              <p>This email was sent from your website contact form.</p>
+            </div>
           </div>
-          
-          <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="margin-top: 0; color: #333;">Project Details</h3>
-            <p style="line-height: 1.6;">${project}</p>
-          </div>
-          
-          <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            <p>This email was sent from your website contact form.</p>
-          </div>
-        </div>
-      `,
-    });
+        `,
+      });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return res.status(400).json({ error: 'Failed to send email', details: error });
+      if (error) {
+        console.error('Resend error:', error);
+        return res.status(400).json({ error: 'Failed to send email', details: error });
+      }
+
+      console.log('Email sent successfully:', data);
+      res.json({ 
+        success: true, 
+        message: 'Contact form submitted successfully!',
+        emailId: data.id 
+      });
+    } else {
+      console.warn('⚠️ Resend not configured, skipping contact form email.');
+      res.status(503).json({
+        error: 'Service Unavailable',
+        message: 'Email sending service is temporarily unavailable.'
+      });
     }
-
-    console.log('Email sent successfully:', data);
-    res.json({ 
-      success: true, 
-      message: 'Contact form submitted successfully!',
-      emailId: data.id 
-    });
 
   } catch (error) {
     console.error('Server error:', error);
