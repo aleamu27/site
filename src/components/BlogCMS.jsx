@@ -282,38 +282,64 @@ const BlogCMS = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      console.log('ℹ️ No file selected');
+      return;
+    }
+
+    console.log('📤 Starting image upload:', {
+      name: file.name,
+      size: file.size,
+      type: file.type
+    });
 
     setIsUploadingImage(true);
     
     try {
-      console.log('📤 Starting image upload:', file.name);
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error(`Invalid file type: ${file.type}. Only JPEG, PNG, GIF, and WebP images are allowed.`);
+      }
+
+      // Validate file size (5MB)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        throw new Error(`File too large: ${(file.size / 1024 / 1024).toFixed(2)}MB. Maximum size is 5MB.`);
+      }
 
       // Create FormData for file upload
       const uploadData = new FormData();
       uploadData.append('image', file);
 
-      // Determine API URL based on environment
-      const apiUrl = process.env.REACT_APP_API_URL 
-        ? `${process.env.REACT_APP_API_URL}/upload-image`
-        : '/api/upload-image';
+      console.log('📦 FormData created:', {
+        hasFile: uploadData.has('image'),
+        fileName: file.name,
+        fileSize: file.size
+      });
+
+      // Use relative path for production, full URL for local dev
+      const apiUrl = '/api/upload-image';
 
       console.log('🌐 Upload API URL:', apiUrl);
 
       const response = await fetch(apiUrl, {
         method: 'POST',
         body: uploadData,
+        // Don't set Content-Type header - let browser set it with boundary for FormData
       });
 
       console.log('📡 Upload response:', {
         status: response.status,
         statusText: response.statusText,
-        ok: response.ok
+        ok: response.ok,
+        headers: Object.fromEntries(response.headers.entries())
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+        console.error('❌ Server error:', errorData);
+        throw new Error(errorData.message || errorData.error || `HTTP ${response.status}: ${response.statusText}`);
       }
 
       const result = await response.json();
