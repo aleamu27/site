@@ -1,0 +1,104 @@
+title,slug,excerpt,content,author,featured_image,featured,published,created_at,updated_at,published_at
+"Welcome to the Hepta Blog","welcome-to-hepta-blog","We're excited to launch our new blog where we'll share client work, industry insights, and behind-the-scenes looks at how we approach design and development projects.","We've been working on something exciting behind the scenes, and today we're thrilled to introduce the Hepta blog.
+
+After months of building incredible projects for our clients, we realized we had stories to tell. Stories about the challenges we've solved, the technologies we've explored, and the creative processes that drive our work.
+
+This blog will be our space to share:
+
+**Client Work & Case Studies**
+We'll pull back the curtain on some of our favorite projects (with permission, of course). You'll see the thinking behind our design decisions, the technical hurdles we've overcome, and the results we've achieved together with our clients.
+
+**Industry Insights**
+The design and development landscape moves fast. We'll share our thoughts on emerging trends, new tools we're experimenting with, and honest takes on what's working (and what isn't) in the industry.
+
+**Process & Philosophy**
+How do we approach a new project? What's our design thinking process? How do we balance creativity with technical constraints? We'll dive deep into the methodologies that guide our work.
+
+**Behind the Scenes**
+Building a design and development studio means constant learning. We'll share lessons learned, mistakes made, and insights gained along the way.
+
+We're not here to add to the noise – there's already plenty of surface-level content out there. Instead, we want to share genuine insights from the trenches of client work. Real problems, real solutions, real results.
+
+Whether you're a fellow designer, a developer, a business owner considering a digital project, or just someone curious about how good digital experiences come together, we hope you'll find value in what we share.
+
+Thanks for joining us on this journey. We're excited to share what we've learned and what we're discovering along the way.","Alexander Amundsen","https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg",true,true,"2024-02-15T10:00:00Z","2024-02-15T10:00:00Z","2024-02-15T10:00:00Z"
+"The Reality of AI Automation in 2024","reality-of-ai-automation-2024","After implementing AI solutions for clients over the past year, here's what we've learned about what actually works and what's just hype.","We've been hearing about AI automation revolutionizing everything for what feels like forever now. But after a year of actually implementing AI solutions for our clients, I wanted to share some honest reflections on what's working, what isn't, and where we see genuine value.
+
+**The Good: Where AI Actually Delivers**
+
+The wins have been surprisingly specific. We've seen real value in:
+
+*Content processing at scale* - One client needed to categorize thousands of product descriptions. An AI solution that would have taken months to build manually was running in weeks.
+
+*Customer service enhancement* - Not replacing humans, but giving support teams better tools. AI-powered ticket routing and suggested responses have genuinely improved response times.
+
+*Design system maintenance* - We've started using AI to help audit design consistency across large websites. It catches things human eyes miss after hours of review.
+
+**The Overhyped: Where Reality Hits**
+
+But let's be honest about where things fall short:
+
+*Creative work* - AI can generate variations, but the strategic thinking, brand understanding, and client relationships that drive great creative work? Still very much human territory.
+
+*Complex problem solving* - AI is great at pattern recognition, but when clients come to us with unique business challenges, the solution usually requires understanding context that can't be fed into a prompt.
+
+*Quality vs. speed trade-offs* - Yes, AI can work faster, but we've learned that the time saved on the first draft often gets spent on refinement and quality control.
+
+**What We've Changed**
+
+Our approach has evolved. Instead of asking ""How can AI replace this process?"" we ask ""How can AI augment what we're already doing well?""
+
+We use AI for research, brainstorming, and handling repetitive tasks. But the core work – understanding client needs, making strategic decisions, crafting user experiences – that remains fundamentally human.
+
+**Looking Forward**
+
+The most interesting developments aren't in AI replacing workflows, but in AI enabling new types of collaboration between humans and machines. We're seeing clients ask for solutions that would have been impossible or prohibitively expensive just two years ago.
+
+The key is staying realistic about capabilities while remaining open to genuine opportunities. AI automation isn't going to transform everything overnight, but it is quietly making certain types of work more efficient and opening up new possibilities.
+
+The future probably isn't humans vs. AI – it's humans with AI vs. humans without it.","Alexander Amundsen","",false,true,"2024-03-20T14:30:00Z","2024-03-20T14:30:00Z","2024-03-20T14:30:00Z"
+"Why We Still Design in the Browser","why-we-design-in-browser","In an age of sophisticated design tools, we've found that designing directly in code often leads to better results. Here's why we've doubled down on this approach.","There's an ongoing debate in the design world about tools and workflows. While many teams have moved to increasingly sophisticated design software, we've been going in the opposite direction – designing more and more directly in the browser.
+
+This might seem counterintuitive. After all, why would you write CSS when you could drag and drop in Figma?
+
+**The Problem with Perfect Mockups**
+
+Traditional design tools excel at creating pixel-perfect representations. But here's the thing: the web isn't pixel-perfect. It's responsive, interactive, and unpredictable.
+
+We've seen too many projects where beautiful static designs fell apart when they met real content, real screen sizes, and real user interactions. The gap between design and implementation often becomes a source of frustration for everyone involved.
+
+**What Changes When You Design in Code**
+
+When we design directly in the browser, several things happen:
+
+*Constraints become visible immediately* - You can't design something that's impossible to build because you're building it as you design it.
+
+*Performance considerations are front of mind* - It's harder to ignore the weight of that hero image when you're actually loading it.
+
+*Responsive behavior is natural* - Instead of designing separate mobile and desktop versions, you're designing the system that adapts between them.
+
+*Collaboration improves* - Developers aren't trying to interpret static images; they're working with living, breathing prototypes.
+
+**The Learning Curve**
+
+This approach isn't without challenges. It requires designers who are comfortable with code and developers who understand design principles. It can feel slower at first, especially for teams used to rapid visual iteration.
+
+But we've found that the time invested upfront pays dividends later. Implementation becomes translation rather than interpretation. QA becomes refinement rather than major reconstruction.
+
+**When We Still Use Traditional Tools**
+
+We're not purists. We still use Figma for:
+- Initial concept exploration
+- Client presentations
+- Complex illustrations
+- Team collaboration on visual direction
+
+But for interface design, especially for complex, interactive experiences, we've found that designing in the browser produces better results.
+
+**The Bigger Picture**
+
+This isn't really about tools – it's about bringing design and development closer together. The best digital experiences come from teams that understand both the creative possibilities and technical realities of the medium they're working in.
+
+In our experience, designing in the browser doesn't limit creativity – it channels it in directions that actually work for users.
+
+The web is a unique medium with its own strengths and constraints. The closer we can get to working within that medium rather than around it, the better our results tend to be.","Alexander Amundsen","",false,true,"2024-12-10T09:00:00Z","2024-12-10T09:00:00Z","2024-12-10T09:00:00Z" 
