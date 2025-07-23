@@ -47,11 +47,23 @@ app.get('/health', (req, res) => {
 app.post('/api/upload-image', upload.single('image'), async (req, res) => {
   try {
     console.log('📤 Image upload request received');
+    console.log('📋 Request details:', {
+      hasFile: !!req.file,
+      bodyKeys: Object.keys(req.body || {}),
+      headers: req.headers['content-type'],
+      method: req.method
+    });
 
     if (!req.file) {
+      console.error('❌ No file found in request');
       return res.status(400).json({
         error: 'No file provided',
-        message: 'Please provide an image file to upload'
+        message: 'Please provide an image file to upload',
+        debug: {
+          hasFile: !!req.file,
+          bodyKeys: Object.keys(req.body || {}),
+          contentType: req.headers['content-type']
+        }
       });
     }
 
