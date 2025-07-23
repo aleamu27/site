@@ -200,10 +200,10 @@ const AdminDashboard = () => {
 
       <h2>Quick Actions</h2>
       <QuickActions>
-        <ActionCard to="/admin/posts/new">Create New Post</ActionCard>
-        <ActionCard to="/admin/portfolio/new">Add Portfolio Item</ActionCard>
-        <ActionCard to="/admin/media">Manage Media</ActionCard>
-        <ActionCard to="/admin/subscribers">View Subscribers</ActionCard>
+        <ActionCard to="/blog/manage">Administrer Blogg</ActionCard>
+        <ActionCard to="/blog/cms">Nytt Blogginnlegg</ActionCard>
+        <ActionCard to="/job-cms">Administrer Jobber</ActionCard>
+        <ActionCard to="/admin/subscribers">Se Abonnenter</ActionCard>
       </QuickActions>
     </DashboardWrapper>
   );

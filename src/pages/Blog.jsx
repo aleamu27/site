@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { COLORS } from '../styles/colors';
+import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 
 const BlogWrapper = styled.div`
@@ -54,6 +55,30 @@ const HeroTextInner = styled.div`
 
 const HeroSubText = styled.span`
   color: #b3b3b3;
+`;
+
+const AdminBar = styled.div`
+  width: 100vw;
+  padding: 0 2.5vw;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const AdminLink = styled(Link)`
+  background: ${COLORS.green};
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: #2a8a3a;
+  }
 `;
 
 const BlogGrid = styled.div`
@@ -179,6 +204,7 @@ const EmptyState = styled.div`
 `;
 
 const Blog = () => {
+  const { user } = useAuth();
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -337,8 +363,14 @@ const Blog = () => {
         <HeroTextBlock>
           <HeroTextInner>
             Our <HeroSubText>thoughts</HeroSubText>, insights, and perspectives on technology, design, and innovation.
-          </HeroTextInner>
-        </HeroTextBlock>
+                      </HeroTextInner>
+          </HeroTextBlock>
+          
+          {user && (
+            <AdminBar>
+              <AdminLink to="/blog/manage">Administrer Blogg</AdminLink>
+            </AdminBar>
+          )}
         
         {blogPosts.length === 0 ? (
           <EmptyState>
