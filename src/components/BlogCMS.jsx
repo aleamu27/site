@@ -270,6 +270,7 @@ const BlogCMS = () => {
     content: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -277,6 +278,61 @@ const BlogCMS = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    
+    try {
+      console.log('📤 Starting image upload:', file.name);
+
+      // Create FormData for file upload
+      const uploadData = new FormData();
+      uploadData.append('image', file);
+
+      // Determine API URL based on environment
+      const apiUrl = process.env.REACT_APP_API_URL 
+        ? `${process.env.REACT_APP_API_URL}/upload-image`
+        : '/api/upload-image';
+
+      console.log('🌐 Upload API URL:', apiUrl);
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: uploadData,
+      });
+
+      console.log('📡 Upload response:', {
+        status: response.status,
+        statusText: response.statusText,
+        ok: response.ok
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Image uploaded successfully:', result);
+
+      // Update form data with the uploaded image URL
+      setFormData(prev => ({
+        ...prev,
+        featured_image: result.data.url
+      }));
+
+      alert('Image uploaded successfully!');
+
+    } catch (error) {
+      console.error('❌ Failed to upload image:', error);
+      alert(`Failed to upload image: ${error.message}`);
+    } finally {
+      setIsUploadingImage(false);
+    }
   };
 
   const handleToolbarClick = (format) => {
@@ -422,15 +478,19 @@ const BlogCMS = () => {
             </FormGroup>
 
             <FormGroup>
-              <Label htmlFor="featured_image">Featured Image URL</Label>
+              <Label htmlFor="featured_image">Featured Image</Label>
               <Input
-                id="featured_image"
-                name="featured_image"
-                type="url"
-                value={formData.featured_image}
-                onChange={handleInputChange}
-                placeholder="https://example.com/image.jpg"
+                id="featured_image_file"
+                name="featured_image_file"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
               />
+              {formData.featured_image && (
+                <div style={{ marginTop: '0.5rem' }}>
+                  <small style={{ color: '#666' }}>Uploaded: {formData.featured_image}</small>
+                </div>
+              )}
             </FormGroup>
 
             <FormGroup>
@@ -478,8 +538,8 @@ const BlogCMS = () => {
             </FormGroup>
 
             <ButtonGroup>
-              <Button type="submit" className="primary" disabled={isSubmitting}>
-                {isSubmitting ? 'Publishing...' : 'Publish Post'}
+              <Button type="submit" className="primary" disabled={isSubmitting || isUploadingImage}>
+                {isSubmitting ? 'Publishing...' : isUploadingImage ? 'Uploading Image...' : 'Publish Post'}
               </Button>
               <Button type="button" className="secondary" onClick={handlePreview}>
                 Preview
