@@ -90,6 +90,14 @@
     <priority>0.7</priority>
   </url>
   
+  <!-- GDPR Checklist - High priority tool/lead magnet -->
+  <url>
+    <loc>https://hepta.no/gdpr-checklist</loc>
+    <lastmod>2024-12-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
   <!-- Contact Page - Medium priority (important but not for SEO content) -->
   <url>
     <loc>https://hepta.no/contact</loc>

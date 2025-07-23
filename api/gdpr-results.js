@@ -33,7 +33,6 @@ module.exports = async function handler(req, res) {
     const {
       email,
       subscribeNewsletter,
-      score,
       checkedCount,
       totalItems,
       categories
@@ -41,7 +40,6 @@ module.exports = async function handler(req, res) {
 
     console.log('📊 Processing GDPR results submission:', {
       email,
-      score,
       checkedCount,
       totalItems,
       subscribeNewsletter
@@ -81,7 +79,7 @@ module.exports = async function handler(req, res) {
     }
 
     // Generate detailed results HTML
-    const resultsHtml = generateResultsHtml(score, checkedCount, totalItems, categories);
+    const resultsHtml = generateResultsHtml(checkedCount, totalItems, categories);
 
     // Send results email
     if (resend) {
@@ -91,7 +89,7 @@ module.exports = async function handler(req, res) {
         const { data: emailData, error: emailError } = await resend.emails.send({
           from: 'Hepta <noreply@hepta.no>',
           to: [email],
-          subject: `Your GDPR Compliance Results - ${score}% Complete`,
+          subject: `Your Personalized GDPR Compliance Analysis`,
           html: resultsHtml,
         });
 
@@ -120,8 +118,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: 'Results sent successfully',
-      score
+      message: 'Analysis sent successfully'
     });
 
   } catch (error) {
@@ -138,44 +135,154 @@ module.exports = async function handler(req, res) {
   }
 };
 
-function generateResultsHtml(score, checkedCount, totalItems, categories) {
-  const getScoreColor = (score) => {
-    if (score >= 80) return '#34C759';
-    if (score >= 60) return '#FF9500';
-    return '#FF3B30';
+function generateResultsHtml(checkedCount, totalItems, categories) {
+  const getComplianceLevel = (checkedCount, totalItems) => {
+    const ratio = checkedCount / totalItems;
+    if (ratio >= 0.9) return { level: 'strong', color: '#34C759' };
+    if (ratio >= 0.7) return { level: 'developing', color: '#FF9500' };
+    if (ratio >= 0.5) return { level: 'basic', color: '#FF9500' };
+    return { level: 'needs-attention', color: '#FF3B30' };
   };
 
-  const getScoreDescription = (score) => {
-    if (score >= 90) return "Excellent! Your GDPR compliance is very strong.";
-    if (score >= 80) return "Good! You're well on your way to GDPR compliance.";
-    if (score >= 60) return "Fair. There are several areas that need attention.";
-    if (score >= 40) return "Needs improvement. Consider prioritizing GDPR compliance.";
-    return "Critical. Immediate action required for GDPR compliance.";
+  const compliance = getComplianceLevel(checkedCount, totalItems);
+  
+  const getOverallAnalysis = (compliance, checkedCount, totalItems) => {
+    const gaps = totalItems - checkedCount;
+    
+    if (compliance.level === 'strong') {
+      return `Your organization demonstrates strong GDPR compliance practices with ${checkedCount} out of ${totalItems} areas well-managed. The ${gaps} remaining areas represent opportunities for further strengthening your data protection framework.`;
+    } else if (compliance.level === 'developing') {
+      return `Your organization has a solid foundation with ${checkedCount} out of ${totalItems} compliance areas in place. However, ${gaps} critical areas need attention to ensure full GDPR compliance and avoid potential regulatory risks.`;
+    } else if (compliance.level === 'basic') {
+      return `Your organization has basic compliance measures with ${checkedCount} out of ${totalItems} areas addressed. The ${gaps} missing areas represent significant compliance gaps that require immediate attention to meet GDPR requirements.`;
+    } else {
+      return `Your organization has significant GDPR compliance gaps with only ${checkedCount} out of ${totalItems} areas properly addressed. The ${gaps} missing areas pose serious regulatory risks and require urgent action to avoid potential fines and legal issues.`;
+    }
   };
+
+  const getPriorityRecommendations = (categories) => {
+    const criticalAreas = categories.filter(category => {
+      const yesAnswers = category.items.filter(item => item.answer === true).length;
+      const categoryScore = yesAnswers / category.items.length;
+      return categoryScore < 0.5;
+    });
+
+    if (criticalAreas.length === 0) {
+      return [
+        "Continue regular compliance reviews and updates",
+        "Document all processes for audit readiness", 
+        "Train staff on latest GDPR developments",
+        "Consider advanced privacy-by-design implementations"
+      ];
+    }
+
+    const recommendations = [];
+    criticalAreas.forEach(area => {
+      switch(area.id) {
+        case 1:
+          recommendations.push("Conduct comprehensive data audit and mapping exercise");
+          break;
+        case 2:
+          recommendations.push("Document legal basis for all data processing activities");
+          break;
+        case 3:
+          recommendations.push("Implement clear consent mechanisms and privacy notices");
+          break;
+        case 4:
+          recommendations.push("Establish data subject rights fulfillment procedures");
+          break;
+        case 5:
+          recommendations.push("Implement robust data security measures and encryption");
+          break;
+        case 6:
+          recommendations.push("Develop comprehensive data breach response plan");
+          break;
+        case 7:
+          recommendations.push("Review and update all vendor data processing agreements");
+          break;
+        case 8:
+          recommendations.push("Create proper documentation and record-keeping systems");
+          break;
+        case 9:
+          recommendations.push("Assign GDPR responsibilities and provide staff training");
+          break;
+        case 10:
+          recommendations.push("Establish regular compliance review and update processes");
+          break;
+      }
+    });
+
+    return recommendations.slice(0, 4); // Top 4 priorities
+  };
+
+  const overallAnalysis = getOverallAnalysis(compliance, checkedCount, totalItems);
+  const priorityRecommendations = getPriorityRecommendations(categories);
 
   const categoriesHtml = categories.map(category => {
-    const categoryScore = Math.round((category.items.filter(item => item.checked).length / category.items.length) * 100);
-    const categoryColor = getScoreColor(categoryScore);
+    const categoryYesItems = category.items.filter(item => item.answer === true).length;
+    const categoryTotalItems = category.items.length;
+    const categoryRatio = categoryYesItems / categoryTotalItems;
     
-    const itemsHtml = category.items.map(item => 
-      `<tr>
+    let categoryStatus, categoryColor, categoryAdvice;
+    if (categoryRatio >= 0.8) {
+      categoryStatus = "Strong";
+      categoryColor = "#34C759";
+      categoryAdvice = "Well managed - continue current practices";
+    } else if (categoryRatio >= 0.5) {
+      categoryStatus = "Developing";
+      categoryColor = "#FF9500";
+      categoryAdvice = "Good foundation - focus on completing remaining items";
+    } else {
+      categoryStatus = "Needs Attention";
+      categoryColor = "#FF3B30";
+      categoryAdvice = "Priority area - requires immediate action";
+    }
+    
+    const itemsHtml = category.items.map(item => {
+      let icon, color, answer;
+      if (item.answer === true) {
+        icon = '✅';
+        color = '#34C759';
+        answer = 'Yes';
+      } else if (item.answer === false) {
+        icon = '❌';
+        color = '#FF3B30';
+        answer = 'No';
+      } else {
+        icon = '❓';
+        color = '#FF9500';
+        answer = 'Not Answered';
+      }
+      
+      return `<tr>
         <td style="padding: 8px; border-bottom: 1px solid #f0f0f0;">
-          <span style="color: ${item.checked ? '#34C759' : '#FF3B30'}; font-weight: bold; margin-right: 8px;">
-            ${item.checked ? '✅' : '❌'}
+          <span style="color: ${color}; font-weight: bold; margin-right: 8px;">
+            ${icon}
           </span>
           ${item.text}
+          <span style="float: right; color: ${color}; font-weight: bold; font-size: 12px;">
+            ${answer}
+          </span>
         </td>
-      </tr>`
-    ).join('');
+      </tr>`;
+    }).join('');
 
     return `
       <div style="margin-bottom: 30px; background: white; border-radius: 8px; padding: 20px; border: 1px solid #f0f0f0;">
-        <h3 style="margin: 0 0 15px 0; color: #222; display: flex; align-items: center; gap: 10px;">
+        <h3 style="margin: 0 0 5px 0; color: #222; display: flex; align-items: center; gap: 10px;">
           <span style="background: ${categoryColor}; color: white; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">
             ${category.id}
           </span>
-          ${category.title} (${categoryScore}%)
+          ${category.title}
         </h3>
+        <div style="margin-bottom: 15px;">
+          <span style="background: ${categoryColor}; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">
+            ${categoryStatus}
+          </span>
+          <span style="margin-left: 10px; color: #666; font-style: italic;">
+            ${categoryAdvice}
+          </span>
+        </div>
         <table style="width: 100%; border-collapse: collapse;">
           ${itemsHtml}
         </table>
@@ -195,13 +302,10 @@ function generateResultsHtml(score, checkedCount, totalItems, categories) {
       <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px 30px;">
         <!-- Header -->
         <div style="text-align: center; margin-bottom: 40px;">
-          <h1 style="color: #222; margin: 0 0 10px 0; font-size: 28px;">Your GDPR Compliance Results</h1>
-          <div style="background: ${getScoreColor(score)}; color: white; padding: 20px; border-radius: 12px; margin: 20px 0;">
-            <div style="font-size: 48px; font-weight: bold; margin-bottom: 10px;">${score}%</div>
-            <div style="font-size: 18px;">${getScoreDescription(score)}</div>
-            <div style="font-size: 14px; margin-top: 10px; opacity: 0.9;">
-              Completed ${checkedCount} out of ${totalItems} compliance items
-            </div>
+          <h1 style="color: #222; margin: 0 0 20px 0; font-size: 28px;">Your Personalized GDPR Compliance Analysis</h1>
+          <div style="background: ${compliance.color}; color: white; padding: 20px; border-radius: 12px; margin: 20px 0; text-align: left;">
+            <h2 style="margin: 0 0 15px 0; font-size: 20px;">Executive Summary</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.5;">${overallAnalysis}</p>
           </div>
         </div>
 
@@ -211,15 +315,34 @@ function generateResultsHtml(score, checkedCount, totalItems, categories) {
           ${categoriesHtml}
         </div>
 
-        <!-- Next Steps -->
+        <!-- Priority Recommendations -->
         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-          <h3 style="color: #222; margin: 0 0 15px 0;">Next Steps</h3>
+          <h3 style="color: #222; margin: 0 0 15px 0;">Priority Action Items</h3>
           <ul style="margin: 0; padding-left: 20px;">
-            <li style="margin-bottom: 8px;">Review areas marked with ❌ - these need immediate attention</li>
-            <li style="margin-bottom: 8px;">Create an action plan to address compliance gaps</li>
-            <li style="margin-bottom: 8px;">Consider consulting with a GDPR specialist for complex issues</li>
-            <li style="margin-bottom: 8px;">Schedule regular compliance reviews (quarterly recommended)</li>
+            ${priorityRecommendations.map(rec => `<li style="margin-bottom: 8px;">${rec}</li>`).join('')}
           </ul>
+        </div>
+
+        <!-- Consulting Offer -->
+        <div style="background: linear-gradient(135deg, #34C759, #2a8a3a); color: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; text-align: center;">
+          <h3 style="margin: 0 0 15px 0; font-size: 22px;">Ready to Strengthen Your GDPR Compliance?</h3>
+          <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 1.5;">
+            Our GDPR experts can help you address these compliance gaps with a personalized consultation session. 
+            We'll create a tailored action plan and guide you through implementation.
+          </p>
+          <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <h4 style="margin: 0 0 10px 0; font-size: 18px;">What's Included:</h4>
+            <ul style="margin: 0; padding-left: 20px; text-align: left;">
+              <li style="margin-bottom: 5px;">Detailed review of your current compliance status</li>
+              <li style="margin-bottom: 5px;">Customized action plan with priorities and timelines</li>
+              <li style="margin-bottom: 5px;">Templates and documentation to support implementation</li>
+              <li style="margin-bottom: 5px;">Ongoing support during implementation phase</li>
+            </ul>
+          </div>
+          <p style="margin: 0; font-size: 14px;">
+            <strong>Book your consultation:</strong> Reply to this email or contact us at 
+            <a href="mailto:j@hepta.no" style="color: white; text-decoration: underline;">j@hepta.no</a>
+          </p>
         </div>
 
         <!-- Contact -->

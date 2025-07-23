@@ -81,18 +81,41 @@ const CategoryNumber = styled.span`
   font-weight: 600;
 `;
 
-const ChecklistItem = styled.label`
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  padding: 0.75rem;
+const ChecklistItem = styled.div`
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
   
   &:hover {
     background-color: #f8f9fa;
+  }
+`;
+
+const RadioGroup = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+`;
+
+const RadioOption = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  
+  input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: ${COLORS.green};
+  }
+  
+  &:hover {
+    color: ${COLORS.green};
   }
 `;
 
@@ -119,18 +142,12 @@ const ResultsSection = styled.div`
   text-align: center;
 `;
 
-const ScoreDisplay = styled.div`
-  font-size: 2rem;
-  font-weight: 700;
-  color: ${props => props.score >= 80 ? COLORS.green : props.score >= 60 ? '#f39c12' : '#e74c3c'};
-  margin-bottom: 1rem;
-`;
-
-const ScoreDescription = styled.p`
+const AnalysisDescription = styled.p`
   font-size: 1.1rem;
   color: #666;
   margin-bottom: 2rem;
   line-height: 1.6;
+  text-align: center;
 `;
 
 const EmailForm = styled.form`
@@ -327,26 +344,26 @@ const GDPRChecklist = () => {
     }
   ];
 
-  const handleCheckboxChange = (categoryId, itemIndex) => {
+  const handleRadioChange = (categoryId, itemIndex, value) => {
     const key = `${categoryId}-${itemIndex}`;
     setCheckedItems(prev => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: value === 'yes'
     }));
   };
 
-  const calculateScore = () => {
-    const totalItems = checklistData.reduce((sum, category) => sum + category.items.length, 0);
-    const checkedCount = Object.values(checkedItems).filter(Boolean).length;
-    return Math.round((checkedCount / totalItems) * 100);
+
+
+  const getTotalCheckedItems = () => {
+    return Object.values(checkedItems).filter(value => value === true).length;
   };
 
-  const getScoreDescription = (score) => {
-    if (score >= 90) return "Excellent! Your GDPR compliance is very strong.";
-    if (score >= 80) return "Good! You're well on your way to GDPR compliance.";
-    if (score >= 60) return "Fair. There are several areas that need attention.";
-    if (score >= 40) return "Needs improvement. Consider prioritizing GDPR compliance.";
-    return "Critical. Immediate action required for GDPR compliance.";
+  const getTotalAnsweredItems = () => {
+    return Object.values(checkedItems).filter(value => value !== undefined).length;
+  };
+
+  const getTotalItems = () => {
+    return checklistData.reduce((sum, category) => sum + category.items.length, 0);
   };
 
   const handleShowResults = () => {
@@ -359,14 +376,12 @@ const GDPRChecklist = () => {
 
     setIsSubmitting(true);
     try {
-      const score = calculateScore();
       const totalItems = checklistData.reduce((sum, category) => sum + category.items.length, 0);
-      const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+      const checkedCount = getTotalCheckedItems();
       
       const resultsData = {
         email,
         subscribeNewsletter,
-        score,
         checkedCount,
         totalItems,
         checkedItems,
@@ -375,7 +390,7 @@ const GDPRChecklist = () => {
           title: category.title,
           items: category.items.map((item, index) => ({
             text: item,
-            checked: checkedItems[`${category.id}-${index}`] || false
+            answer: checkedItems[`${category.id}-${index}`]
           }))
         }))
       };
@@ -392,7 +407,13 @@ const GDPRChecklist = () => {
         throw new Error('Failed to send results');
       }
 
-      alert('Results sent to your email! Check your inbox.');
+      alert('Your personalized GDPR analysis has been sent to your email! Check your inbox for detailed recommendations.');
+      
+      // Reset form
+      setEmail('');
+      setSubscribeNewsletter(false);
+      setShowResults(false);
+      setCheckedItems({});
       
     } catch (error) {
       console.error('Error submitting results:', error);
@@ -402,7 +423,7 @@ const GDPRChecklist = () => {
     }
   };
 
-  const score = calculateScore();
+
 
   return (
     <ChecklistWrapper>
@@ -420,16 +441,38 @@ const GDPRChecklist = () => {
                 <CategoryNumber>{category.id}</CategoryNumber>
                 {category.title}
               </CategoryTitle>
-              {category.items.map((item, index) => (
-                <ChecklistItem key={index}>
-                  <Checkbox
-                    type="checkbox"
-                    checked={checkedItems[`${category.id}-${index}`] || false}
-                    onChange={() => handleCheckboxChange(category.id, index)}
-                  />
-                  <ChecklistText>{item}</ChecklistText>
-                </ChecklistItem>
-              ))}
+              {category.items.map((item, index) => {
+                const key = `${category.id}-${index}`;
+                const currentValue = checkedItems[key];
+                
+                return (
+                  <ChecklistItem key={index}>
+                    <ChecklistText>{item}</ChecklistText>
+                    <RadioGroup>
+                      <RadioOption>
+                        <input
+                          type="radio"
+                          name={key}
+                          value="yes"
+                          checked={currentValue === true}
+                          onChange={() => handleRadioChange(category.id, index, 'yes')}
+                        />
+                        Yes
+                      </RadioOption>
+                      <RadioOption>
+                        <input
+                          type="radio"
+                          name={key}
+                          value="no"
+                          checked={currentValue === false}
+                          onChange={() => handleRadioChange(category.id, index, 'no')}
+                        />
+                        No
+                      </RadioOption>
+                    </RadioGroup>
+                  </ChecklistItem>
+                );
+              })}
             </CategorySection>
           ))}
 
@@ -444,18 +487,29 @@ const GDPRChecklist = () => {
 
           {!showResults ? (
             <ResultsSection>
-              <SubmitButton onClick={handleShowResults}>
-                See My Results
+              <AnalysisDescription>
+                Complete the checklist above ({getTotalAnsweredItems()} of {getTotalItems()} answered) to get your personalized analysis.
+              </AnalysisDescription>
+              <SubmitButton 
+                onClick={handleShowResults}
+                disabled={getTotalAnsweredItems() < getTotalItems()}
+              >
+                Get My GDPR Analysis
               </SubmitButton>
+              {getTotalAnsweredItems() < getTotalItems() && (
+                <p style={{ color: '#666', fontSize: '0.9rem', marginTop: '1rem' }}>
+                  Please answer all {getTotalItems()} questions to proceed.
+                </p>
+              )}
             </ResultsSection>
           ) : (
             <ResultsSection>
-              <ScoreDisplay score={score}>{score}%</ScoreDisplay>
-              <ScoreDescription>{getScoreDescription(score)}</ScoreDescription>
-              <p>You've completed {Object.values(checkedItems).filter(Boolean).length} out of {checklistData.reduce((sum, category) => sum + category.items.length, 0)} items.</p>
+              <AnalysisDescription>
+                Get your personalized GDPR compliance analysis with specific recommendations and improvement strategies delivered directly to your inbox.
+              </AnalysisDescription>
               
               <EmailForm onSubmit={handleSubmitResults}>
-                <FormTitle>Get Your Detailed Results</FormTitle>
+                <FormTitle>Get Your Personalized GDPR Analysis</FormTitle>
                 <FormGroup>
                   <Label htmlFor="email">Email Address *</Label>
                   <Input
@@ -481,7 +535,7 @@ const GDPRChecklist = () => {
                 </CheckboxGroup>
                 
                 <SubmitButton type="submit" disabled={isSubmitting || !email}>
-                  {isSubmitting ? 'Sending Results...' : 'Send My Results'}
+                  {isSubmitting ? 'Preparing Your Analysis...' : 'Send My Personalized Analysis'}
                 </SubmitButton>
               </EmailForm>
             </ResultsSection>
