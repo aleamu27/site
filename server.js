@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
+const { put } = require('@vercel/blob');
+const multer = require('multer');
 require('dotenv').config();
 
 const app = express();
@@ -15,13 +17,92 @@ const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Configure multer for file uploads
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.'));
+    }
+  }
+});
+
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
+});
+
+// Image upload endpoint
+app.post('/api/upload-image', upload.single('image'), async (req, res) => {
+  try {
+    console.log('📤 Image upload request received');
+
+    if (!req.file) {
+      return res.status(400).json({
+        error: 'No file provided',
+        message: 'Please provide an image file to upload'
+      });
+    }
+
+    const file = req.file;
+    console.log('📁 Uploading file:', {
+      filename: file.originalname,
+      type: file.mimetype,
+      size: `${(file.size / 1024 / 1024).toFixed(2)}MB`
+    });
+
+    // Generate a unique filename with timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileExtension = file.originalname.split('.').pop();
+    const uniqueFilename = `blog-images/${timestamp}-${file.originalname.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+
+    // Upload to Vercel Blob
+    const blob = await put(uniqueFilename, file.buffer, {
+      access: 'public',
+      contentType: file.mimetype,
+    });
+
+    console.log('✅ File uploaded successfully:', {
+      url: blob.url,
+      size: blob.size,
+      pathname: blob.pathname
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Image uploaded successfully',
+      data: {
+        url: blob.url,
+        pathname: blob.pathname,
+        size: blob.size,
+        filename: uniqueFilename,
+        originalFilename: file.originalname
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Image upload error:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
+
+    res.status(500).json({
+      error: 'Failed to upload image',
+      message: error.message
+    });
+  }
 });
 
 // Blog posts endpoint
