@@ -75,7 +75,7 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'PUT') {
       // Update blog post
-      const { title, excerpt, author, content, featured_image, featured } = req.body;
+      const { title, excerpt, author, content, featured_image, featured, created_at } = req.body;
 
       console.log('✏️ Updating blog post:', id, { title });
 
@@ -110,6 +110,15 @@ module.exports = async function handler(req, res) {
         featured: featured || false,
         updated_at: new Date().toISOString()
       };
+
+      // Only update created_at if a new date is provided
+      if (created_at && created_at.trim()) {
+        const newCreatedAt = new Date(created_at);
+        if (!isNaN(newCreatedAt.getTime())) {
+          updateData.created_at = newCreatedAt.toISOString();
+          console.log('🕒 Updating created_at to:', updateData.created_at);
+        }
+      }
 
       const { data: updatedPost, error: updateError } = await supabase
         .from('blog_posts')
