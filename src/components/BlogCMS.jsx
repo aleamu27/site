@@ -273,7 +273,8 @@ const BlogCMS = () => {
     author: '',
     featured_image: '',
     featured: false,
-    content: ''
+    content: '',
+    created_at: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -298,13 +299,22 @@ const BlogCMS = () => {
       const result = await response.json();
       
       if (result.success && result.data) {
+        // Convert created_at to datetime-local format for the input
+        let formattedDate = '';
+        if (result.data.created_at) {
+          const date = new Date(result.data.created_at);
+          // Format as YYYY-MM-DDTHH:MM for datetime-local input
+          formattedDate = date.toISOString().slice(0, 16);
+        }
+        
         setFormData({
           title: result.data.title || '',
           excerpt: result.data.excerpt || '',
           author: result.data.author || '',
           featured_image: result.data.featured_image || '',
           featured: result.data.featured || false,
-          content: result.data.content || ''
+          content: result.data.content || '',
+          created_at: formattedDate
         });
       }
     } catch (error) {
@@ -579,6 +589,23 @@ const BlogCMS = () => {
               />
             </FormGroup>
 
+            {isEditing && (
+              <FormGroup>
+                <Label htmlFor="created_at">Publiseringsdato</Label>
+                <Input
+                  id="created_at"
+                  name="created_at"
+                  type="datetime-local"
+                  value={formData.created_at}
+                  onChange={handleInputChange}
+                  placeholder="Velg publiseringsdato og tid"
+                />
+                <small style={{ color: '#666', fontSize: '0.8rem', marginTop: '0.25rem', display: 'block' }}>
+                  La stå tom for å beholde opprinnelig dato
+                </small>
+              </FormGroup>
+            )}
+
             <FormGroup>
               <Label htmlFor="featured_image">Featured Image</Label>
               <Input
@@ -656,11 +683,18 @@ const BlogCMS = () => {
              <PreviewSection>
                <PreviewTitle>Preview</PreviewTitle>
                <PreviewCard>
-                 <PreviewDate>{new Date().toLocaleDateString('en-US', { 
-                   year: 'numeric', 
-                   month: 'long', 
-                   day: 'numeric' 
-                 })}</PreviewDate>
+                 <PreviewDate>{formData.created_at ? 
+                   new Date(formData.created_at).toLocaleDateString('en-US', { 
+                     year: 'numeric', 
+                     month: 'long', 
+                     day: 'numeric' 
+                   }) :
+                   new Date().toLocaleDateString('en-US', { 
+                     year: 'numeric', 
+                     month: 'long', 
+                     day: 'numeric' 
+                   })
+                 }</PreviewDate>
                  <PreviewPostTitle>{formData.title}</PreviewPostTitle>
                  <PreviewExcerpt>{formData.excerpt}</PreviewExcerpt>
                  <PreviewAuthor>By {formData.author}</PreviewAuthor>
