@@ -51,37 +51,54 @@ module.exports = async function handler(req, res) {
     }
     const buffer = Buffer.concat(chunks);
     
-    // Parse the form data manually (simple parsing for image field)
-    const bodyStr = buffer.toString();
-    const parts = bodyStr.split(`--${boundary}`);
+    // Parse the form data manually - work with raw bytes, not strings
+    const boundaryBuffer = Buffer.from(`--${boundary}`);
+    const parts = [];
+    let start = 0;
+    let boundaryIndex;
+    
+    // Split buffer by boundary
+    while ((boundaryIndex = buffer.indexOf(boundaryBuffer, start)) !== -1) {
+      if (start !== boundaryIndex) {
+        parts.push(buffer.slice(start, boundaryIndex));
+      }
+      start = boundaryIndex + boundaryBuffer.length;
+    }
     
     let fileBuffer = null;
     let filename = '';
     let fileContentType = '';
     
     for (const part of parts) {
-      if (part.includes('name="image"')) {
-        // Extract filename
-        const filenameMatch = part.match(/filename="([^"]+)"/);
+      // Convert only the headers to string to check for the image field
+      const headerEndIndex = part.indexOf(Buffer.from('\r\n\r\n'));
+      if (headerEndIndex === -1) continue;
+      
+      const headers = part.slice(0, headerEndIndex).toString();
+      
+      if (headers.includes('name="image"')) {
+        // Extract filename from headers
+        const filenameMatch = headers.match(/filename="([^"]+)"/);
         if (filenameMatch) {
           filename = filenameMatch[1];
         }
         
-        // Extract content type
-        const contentTypeMatch = part.match(/Content-Type:\s*([^\r\n]+)/);
+        // Extract content type from headers
+        const contentTypeMatch = headers.match(/Content-Type:\s*([^\r\n]+)/);
         if (contentTypeMatch) {
-          fileContentType = contentTypeMatch[1];
+          fileContentType = contentTypeMatch[1].trim();
         }
         
-        // Extract file data (everything after double CRLF)
-        const dataStartIndex = part.indexOf('\r\n\r\n');
-        if (dataStartIndex !== -1) {
-          const fileDataStr = part.substring(dataStartIndex + 4);
-          // Remove trailing boundary marker
-          const endIndex = fileDataStr.lastIndexOf('\r\n');
-          const cleanFileData = endIndex !== -1 ? fileDataStr.substring(0, endIndex) : fileDataStr;
-          fileBuffer = Buffer.from(cleanFileData, 'binary');
+        // Extract file data - everything after the double CRLF
+        const fileDataStart = headerEndIndex + 4; // Skip \r\n\r\n
+        let fileDataEnd = part.length;
+        
+        // Remove trailing \r\n if present
+        if (part[fileDataEnd - 2] === 0x0D && part[fileDataEnd - 1] === 0x0A) {
+          fileDataEnd -= 2;
         }
+        
+        fileBuffer = part.slice(fileDataStart, fileDataEnd);
         break;
       }
     }
