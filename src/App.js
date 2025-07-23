@@ -20,6 +20,7 @@ import Careers from './pages/Careers';
 import JobListing from './pages/JobListing';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import GDPRChecklist from './pages/GDPRChecklist';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
@@ -85,6 +86,7 @@ function AppContent() {
         
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/gdpr-checklist" element={<Layout><GDPRChecklist /></Layout>} />
         <Route path="/contact" element={<Contact />} />
         
         {/* Authentication routes */}
