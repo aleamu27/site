@@ -91,29 +91,7 @@ const BlogCard = styled(Link)`
   }
 `;
 
-const StaticImageFrame = styled.div`
-  width: 280px;
-  height: 380px;
-  background: #f5f5f5;
-  border-radius: 8px;
-  border: 1px solid #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1rem;
-  overflow: hidden;
-  position: relative;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 6px;
-  }
-`;
+
 
 const BlogCardDate = styled.div`
   font-size: 0.9rem;
@@ -360,12 +338,7 @@ const Blog = () => {
                 </BlogCardAuthor>
               </BlogCard>
             ))}
-            {/* Only show static image if we have posts */}
-            {blogPosts.length > 0 && (
-              <StaticImageFrame>
-                <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="Static content" />
-              </StaticImageFrame>
-            )}
+
           </BlogGrid>
         )}
       </BlogSection>
