@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { COLORS } from '../styles/colors';
+import { useAuth } from '../contexts/AuthContext';
 
 const CMSWrapper = styled.div`
   width: 100vw;
@@ -261,6 +262,11 @@ const PreviewAuthor = styled.div`
 
 const BlogCMS = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get('edit');
+  const isEditing = !!editId;
+  
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
@@ -271,6 +277,44 @@ const BlogCMS = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isEditing && editId) {
+      fetchPostForEditing(editId);
+    }
+  }, [isEditing, editId]);
+
+  const fetchPostForEditing = async (postId) => {
+    try {
+      setIsLoading(true);
+      
+      const response = await fetch(`/api/blog-edit?id=${postId}`);
+      
+      if (!response.ok) {
+        throw new Error('Kunne ikke hente blogginnlegg for redigering');
+      }
+      
+      const result = await response.json();
+      
+      if (result.success && result.data) {
+        setFormData({
+          title: result.data.title || '',
+          excerpt: result.data.excerpt || '',
+          author: result.data.author || '',
+          featured_image: result.data.featured_image || '',
+          featured: result.data.featured || false,
+          content: result.data.content || ''
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching post for editing:', error);
+      alert(`Feil ved henting av blogginnlegg: ${error.message}`);
+      navigate('/blog/manage');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -403,17 +447,22 @@ const BlogCMS = () => {
     setIsSubmitting(true);
     
     try {
-      console.log('📤 Submitting blog post:', formData);
+      console.log('📤 Submitting blog post:', { isEditing, formData });
       
-      // Determine API URL based on environment
-      const apiUrl = process.env.REACT_APP_API_URL 
-        ? `${process.env.REACT_APP_API_URL}/blog`
-        : '/api/blog';
+      let apiUrl, method;
       
-      console.log('🌐 Blog API URL:', apiUrl);
+      if (isEditing) {
+        apiUrl = `/api/blog-edit?id=${editId}`;
+        method = 'PUT';
+      } else {
+        apiUrl = '/api/blog';
+        method = 'POST';
+      }
+      
+      console.log('🌐 Blog API URL:', apiUrl, 'Method:', method);
       
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -434,18 +483,14 @@ const BlogCMS = () => {
       const result = await response.json();
       console.log('✅ Blog post saved successfully:', result);
 
-      // Generate a slug from the title for navigation
-      const slug = formData.title
-        .toLowerCase()
-        .replace(/[^a-z0-9æøåàáäâèéëêìíïîòóöôùúüûñç]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+      alert(isEditing ? 'Blogginnlegg oppdatert!' : 'Blogginnlegg publisert!');
       
-      // Navigate to the blog post (you might want to create this route)
-      navigate(`/blog/${slug}`);
+      // Navigate to blog management or the post
+      navigate('/blog/manage');
       
     } catch (error) {
       console.error('❌ Failed to save blog post:', error);
-      alert(`Failed to save blog post: ${error.message}`);
+      alert(`Feil ved lagring: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -456,13 +501,44 @@ const BlogCMS = () => {
     console.log('Preview:', formData);
   };
 
+  // Check authentication
+  if (!user) {
+    return (
+      <CMSWrapper>
+        <CMSSection>
+          <CMSContainer>
+            <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+              <h2>Ikke autorisert</h2>
+              <p>Du må være logget inn for å administrere blogginnlegg.</p>
+              <Link to="/">Gå til forsiden</Link>
+            </div>
+          </CMSContainer>
+        </CMSSection>
+      </CMSWrapper>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <CMSWrapper>
+        <CMSSection>
+          <CMSContainer>
+            <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#666' }}>
+              <p>Laster blogginnlegg...</p>
+            </div>
+          </CMSContainer>
+        </CMSSection>
+      </CMSWrapper>
+    );
+  }
+
   return (
     <CMSWrapper>
       <CMSSection>
         <CMSContainer>
-          <BackButton to="/blog">← Back to Blog</BackButton>
+          <BackButton to="/blog/manage">← Tilbake til Administrasjon</BackButton>
           
-          <CMSTitle>Create New Blog Post</CMSTitle>
+          <CMSTitle>{isEditing ? 'Rediger Blogginnlegg' : 'Opprett Nytt Blogginnlegg'}</CMSTitle>
           
           <Form onSubmit={handleSubmit}>
             <FormGroup>
@@ -564,11 +640,14 @@ const BlogCMS = () => {
             </FormGroup>
 
             <ButtonGroup>
-              <Button type="submit" className="primary" disabled={isSubmitting || isUploadingImage}>
-                {isSubmitting ? 'Publishing...' : isUploadingImage ? 'Uploading Image...' : 'Publish Post'}
+              <Button type="submit" className="primary" disabled={isSubmitting || isUploadingImage || isLoading}>
+                {isSubmitting ? (isEditing ? 'Oppdaterer...' : 'Publiserer...') : 
+                 isUploadingImage ? 'Laster opp bilde...' : 
+                 isLoading ? 'Laster...' :
+                 (isEditing ? 'Oppdater Innlegg' : 'Publiser Innlegg')}
               </Button>
               <Button type="button" className="secondary" onClick={handlePreview}>
-                Preview
+                Forhåndsvis
               </Button>
             </ButtonGroup>
           </Form>

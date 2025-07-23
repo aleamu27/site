@@ -8,6 +8,9 @@
     },
     "api/upload-image.js": {
       "maxDuration": 30
+    },
+    "api/blog-edit.js": {
+      "maxDuration": 10
     }
   }
 } 

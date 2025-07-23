@@ -14,6 +14,7 @@ import About from './pages/About';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BlogCMS from './components/BlogCMS';
+import BlogManagement from './components/BlogManagement';
 import JobCMS from './components/JobCMS';
 import Careers from './pages/Careers';
 import JobListing from './pages/JobListing';
@@ -47,7 +48,19 @@ function AppContent() {
         <Route path="/blog" element={<Layout><Blog /></Layout>} />
         <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
         
-        {/* Protected routes for blog creation */}
+        {/* Protected routes for blog management */}
+        <Route path="/blog/manage" element={
+          <ProtectedRoute>
+            <Layout><BlogManagement /></Layout>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/blog/cms" element={
+          <ProtectedRoute>
+            <Layout><BlogCMS /></Layout>
+          </ProtectedRoute>
+        } />
+        
         <Route path="/blog/new" element={
           <ProtectedRoute>
             <Layout><BlogCMS /></Layout>
