@@ -60,6 +60,36 @@
     <priority>0.7</priority>
   </url>
   
+  <!-- Blog Main Page - High priority content -->
+  <url>
+    <loc>https://hepta.no/blog</loc>
+    <lastmod>2024-12-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Blog Posts - Good SEO content -->
+  <url>
+    <loc>https://hepta.no/blog/welcome-to-hepta-blog</loc>
+    <lastmod>2024-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://hepta.no/blog/reality-of-ai-automation-2024</loc>
+    <lastmod>2024-03-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://hepta.no/blog/why-we-design-in-browser</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
   <!-- Contact Page - Medium priority (important but not for SEO content) -->
   <url>
     <loc>https://hepta.no/contact</loc>
