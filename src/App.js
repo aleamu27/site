@@ -30,11 +30,13 @@ import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginForm from './components/Auth/LoginForm';
 import AdminDashboard from './pages/Admin/Dashboard';
 import SessionManager from './components/Auth/SessionManager';
+import ScrollToTop from './components/ScrollToTop';
 
 function AppContent() {
   const location = useLocation();
   return (
     <>
+      <ScrollToTop />
       <SessionManager />
       <Navbar />
       <Routes>
