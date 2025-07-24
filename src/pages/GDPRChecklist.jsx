@@ -3,21 +3,23 @@ import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 const CenteredPage = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
+  padding-top: 80px; /* Account for fixed navbar */
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fafbfa;
-  overflow: hidden;
   box-sizing: border-box;
+  @media (max-width: 768px) {
+    padding-top: 60px; /* Less padding on mobile */
+  }
 `;
 
 const FormWrapper = styled.div`
   width: 100%;
-  height: 100vh;
   max-width: 520px;
   margin: 0;
   padding: 2rem;
@@ -26,9 +28,12 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   box-sizing: border-box;
-  overflow-y: auto;
   @media (max-width: 600px) {
     padding: 1rem;
+  }
+  @media (max-height: 600px) {
+    justify-content: flex-start;
+    padding-top: 1rem;
   }
 `;
 
