@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -33,6 +33,7 @@ import SessionManager from './components/Auth/SessionManager';
 import ScrollToTop from './components/ScrollToTop';
 
 function AppContent() {
+  const location = useLocation();
   return (
     <>
       <ScrollToTop />
