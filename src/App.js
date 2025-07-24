@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -30,11 +30,12 @@ import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginForm from './components/Auth/LoginForm';
 import AdminDashboard from './pages/Admin/Dashboard';
 import SessionManager from './components/Auth/SessionManager';
+import ScrollToTop from './components/ScrollToTop';
 
 function AppContent() {
-  const location = useLocation();
   return (
     <>
+      <ScrollToTop />
       <SessionManager />
       <Navbar />
       <Routes>
