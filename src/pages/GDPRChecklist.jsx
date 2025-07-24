@@ -149,6 +149,34 @@ const Input = styled.input`
   }
 `;
 
+const Button = styled.button`
+  background: none;
+  color: #222;
+  font-size: 1.13rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
+  cursor: pointer;
+  transition: color 0.18s;
+  box-shadow: none;
+  &:hover {
+    color: ${COLORS.green};
+  }
+  &:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
 const Confirmation = styled.div`
   font-size: 1.18rem;
   color: ${COLORS.green};
