@@ -1,52 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 
-const ChecklistWrapper = styled.div`
+const CenteredPage = styled.div`
+  min-height: 100vh;
   width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafbfa;
+`;
+
+const FormWrapper = styled.div`
+  width: 100%;
+  max-width: 520px;
+  min-height: 400px;
+  margin: 0 auto;
+  padding: 2.5rem 2.2rem 2.2rem 2.2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 8rem;
-  margin-bottom: 5rem;
-  @media (max-width: 700px) {
-    margin-top: 6rem;
-    margin-bottom: 2.5rem;
+  align-items: flex-start;
+  box-sizing: border-box;
+  @media (max-width: 600px) {
+    padding: 1.2rem 0.7rem;
+    min-height: 300px;
   }
 `;
 
-const ChecklistSection = styled.section`
-  margin: 4rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const ChecklistContainer = styled.div`
-  max-width: 800px;
-  width: 100%;
-  padding: 0 2.5vw;
-  box-sizing: border-box;
-`;
-
-const Title = styled.h1`
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  font-weight: 600;
+const StepTitle = styled.h2`
+  font-size: 1.35rem;
+  font-weight: 500;
   color: #222;
-  margin: 0 0 1rem 0;
-  text-align: center;
+  margin: 0 0 1.2rem 0;
+  line-height: 1.4;
 `;
 
-const Subtitle = styled.p`
-  font-size: 1.1rem;
-  color: #666;
-  text-align: center;
-  margin: 0 0 3rem 0;
-  line-height: 1.6;
+const Progress = styled.div`
+  font-size: 0.98rem;
+  color: #b3b3b3;
+  margin-bottom: 1.2rem;
+`;
+
+const CategoryLabel = styled.div`
+  font-size: 0.9rem;
+  color: ${COLORS.green};
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 `;
 
 const CategorySection = styled.div`
@@ -119,148 +120,79 @@ const RadioOption = styled.label`
   }
 `;
 
-const Checkbox = styled.input`
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  cursor: pointer;
-  accent-color: ${COLORS.green};
-`;
 
-const ChecklistText = styled.span`
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #333;
-  flex: 1;
-`;
-
-const ResultsSection = styled.div`
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 2rem;
-  margin: 3rem 0;
-  text-align: center;
-`;
-
-const AnalysisDescription = styled.p`
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  text-align: center;
-`;
-
-const EmailForm = styled.form`
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid #e0e0e0;
-  margin-top: 2rem;
-`;
-
-const FormTitle = styled.h3`
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #222;
-  margin: 0 0 1rem 0;
-  text-align: center;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 1.5rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 0.5rem;
-`;
 
 const Input = styled.input`
   width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 1rem;
+  font-size: 1.13rem;
+  padding: 0.9rem 1.1rem 0.4rem 1.1rem;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  border-radius: 0;
+  margin-bottom: 1.7rem;
+  background: transparent;
+  color: #222;
   font-family: inherit;
-  transition: border-color 0.2s ease;
+  box-shadow: none;
   box-sizing: border-box;
-  
+  min-height: 56px;
+  height: 56px;
+  @media (max-width: 600px) {
+    font-size: 1rem;
+    min-height: 44px;
+    height: 44px;
+  }
   &:focus {
     outline: none;
-    border-color: ${COLORS.green};
+    border-bottom: 2px solid #e0e0e0;
+    background: transparent;
   }
 `;
 
-const CheckboxGroup = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-`;
-
-const CheckboxLabel = styled.label`
-  font-size: 0.9rem;
-  color: #666;
-  cursor: pointer;
-  line-height: 1.4;
-`;
-
-const SubmitButton = styled.button`
-  background: ${COLORS.green};
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 1rem 2rem;
-  font-size: 1rem;
+const Button = styled.button`
+  background: none;
+  color: #222;
+  font-size: 1.13rem;
   font-weight: 600;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 0.5rem;
+  margin-right: 2rem;
   cursor: pointer;
-  transition: background 0.2s ease;
-  width: 100%;
-  margin-top: 1rem;
-  
+  transition: color 0.18s;
+  box-shadow: none;
   &:hover {
-    background: #2a8a3a;
+    color: ${COLORS.green};
   }
-  
   &:disabled {
-    background: #ccc;
+    color: #ccc;
     cursor: not-allowed;
   }
 `;
 
-const TipSection = styled.div`
-  background: #e8f5e8;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  border-left: 4px solid ${COLORS.green};
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 `;
 
-const TipTitle = styled.h3`
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #222;
-  margin: 0 0 0.5rem 0;
+const Confirmation = styled.div`
+  font-size: 1.18rem;
+  color: ${COLORS.green};
+  margin-top: 2.5rem;
+  text-align: center;
 `;
 
-const TipText = styled.p`
-  font-size: 0.95rem;
-  color: #555;
-  margin: 0;
-  line-height: 1.5;
-`;
 
-const GDPRChecklist = () => {
-  const [checkedItems, setCheckedItems] = useState({});
-  const [email, setEmail] = useState('');
-  const [subscribeNewsletter, setSubscribeNewsletter] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showResults, setShowResults] = useState(false);
 
-  const checklistData = [
+
+
+
+
+// Create flat array of all questions with category info
+const createQuestions = () => {
+  const categories = [
     {
       id: 1,
       title: "Data Audit & Mapping",
@@ -344,55 +276,129 @@ const GDPRChecklist = () => {
     }
   ];
 
-  const handleRadioChange = (categoryId, itemIndex, value) => {
-    const key = `${categoryId}-${itemIndex}`;
-    setCheckedItems(prev => ({
-      ...prev,
-      [key]: value === 'yes'
-    }));
+  const questions = [];
+  categories.forEach(category => {
+    category.items.forEach((item, index) => {
+      questions.push({
+        id: `${category.id}-${index}`,
+        categoryId: category.id,
+        categoryTitle: category.title,
+        question: item,
+        questionNumber: questions.length + 1
+      });
+    });
+  });
+
+  // Add email collection steps
+  questions.push({
+    id: 'email',
+    type: 'email',
+    categoryTitle: 'Contact Information',
+    question: 'What is your email address?',
+    placeholder: 'you@email.com',
+    questionNumber: questions.length + 1
+  });
+
+  questions.push({
+    id: 'newsletter',
+    type: 'newsletter',
+    categoryTitle: 'Newsletter Subscription',
+    question: 'Subscribe to our newsletter for GDPR updates and compliance tips?',
+    questionNumber: questions.length + 1
+  });
+
+  return questions;
+};
+
+const GDPRChecklist = () => {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  
+  const questions = createQuestions();
+
+  useEffect(() => {
+    console.log('📋 GDPR Checklist initialized');
+    console.log('📊 Total questions:', questions.length);
+  }, []);
+
+  const handleAnswerChange = (value) => {
+    const currentQuestion = questions[step];
+    if (currentQuestion.type === 'email') {
+      setEmail(value);
+    } else {
+      setAnswers(prev => ({
+        ...prev,
+        [currentQuestion.id]: value === 'yes'
+      }));
+    }
   };
 
-
-
-  const getTotalCheckedItems = () => {
-    return Object.values(checkedItems).filter(value => value === true).length;
+  const handleNext = () => {
+    if (step < questions.length - 1) {
+      setStep(step + 1);
+    }
   };
 
-  const getTotalAnsweredItems = () => {
-    return Object.values(checkedItems).filter(value => value !== undefined).length;
+  const handlePrevious = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    }
   };
 
-  const getTotalItems = () => {
-    return checklistData.reduce((sum, category) => sum + category.items.length, 0);
+  const canProceed = () => {
+    const currentQuestion = questions[step];
+    
+    if (currentQuestion.type === 'email') {
+      return email && /\S+@\S+\.\S+/.test(email);
+    } else if (currentQuestion.type === 'newsletter') {
+      return true; // Newsletter step is mandatory but automatically proceeds
+    } else {
+      return answers[currentQuestion.id] !== undefined;
+    }
   };
 
-  const handleShowResults = () => {
-    setShowResults(true);
-  };
+  const isLastStep = step === questions.length - 1;
 
-  const handleSubmitResults = async (e) => {
-    e.preventDefault();
-    if (!email) return;
-
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const totalItems = checklistData.reduce((sum, category) => sum + category.items.length, 0);
-      const checkedCount = getTotalCheckedItems();
+      // Count yes answers
+      const yesCount = Object.values(answers).filter(answer => answer === true).length;
+      const totalQuestions = questions.filter(q => !q.type).length; // Exclude email/newsletter questions
       
+      // Convert answers back to category format for the API
+      const categories = [];
+      const categoryMap = {};
+      
+      questions.forEach(q => {
+        if (!q.type) { // Skip email/newsletter questions
+          if (!categoryMap[q.categoryId]) {
+            categoryMap[q.categoryId] = {
+              id: q.categoryId,
+              title: q.categoryTitle,
+              items: []
+            };
+          }
+          categoryMap[q.categoryId].items.push({
+            text: q.question,
+            answer: answers[q.id]
+          });
+        }
+      });
+      
+      Object.values(categoryMap).forEach(category => {
+        categories.push(category);
+      });
+
       const resultsData = {
         email,
-        subscribeNewsletter,
-        checkedCount,
-        totalItems,
-        checkedItems,
-        categories: checklistData.map(category => ({
-          id: category.id,
-          title: category.title,
-          items: category.items.map((item, index) => ({
-            text: item,
-            answer: checkedItems[`${category.id}-${index}`]
-          }))
-        }))
+        subscribeNewsletter: true, // Always true since it's mandatory
+        checkedCount: yesCount,
+        totalItems: totalQuestions,
+        categories
       };
 
       const response = await fetch('/api/gdpr-results', {
@@ -407,13 +413,7 @@ const GDPRChecklist = () => {
         throw new Error('Failed to send results');
       }
 
-      alert('Your personalized GDPR analysis has been sent to your email! Check your inbox for detailed recommendations.');
-      
-      // Reset form
-      setEmail('');
-      setSubscribeNewsletter(false);
-      setShowResults(false);
-      setCheckedItems({});
+      setSubmitted(true);
       
     } catch (error) {
       console.error('Error submitting results:', error);
@@ -425,124 +425,113 @@ const GDPRChecklist = () => {
 
 
 
+  if (submitted) {
+    return (
+      <CenteredPage>
+        <FormWrapper>
+          <Confirmation>
+            Your personalized GDPR analysis has been sent to your email! 
+            Check your inbox for detailed recommendations and next steps.
+          </Confirmation>
+        </FormWrapper>
+      </CenteredPage>
+    );
+  }
+
+  const currentQuestion = questions[step];
+
   return (
-    <ChecklistWrapper>
-      <ChecklistSection>
-        <ChecklistContainer>
-          <Title>GDPR Compliance Checklist</Title>
-          <Subtitle>
-            Use this comprehensive checklist to assess your organization's GDPR compliance status. 
-            Check each item that applies to your current practices.
-          </Subtitle>
+    <CenteredPage>
+      <FormWrapper>
+        <Progress>
+          {step + 1} of {questions.length}
+        </Progress>
+        
+        <CategoryLabel>
+          {currentQuestion.categoryTitle}
+        </CategoryLabel>
+        
+        <StepTitle>
+          {currentQuestion.question}
+        </StepTitle>
 
-          {checklistData.map((category) => (
-            <CategorySection key={category.id}>
-              <CategoryTitle>
-                <CategoryNumber>{category.id}</CategoryNumber>
-                {category.title}
-              </CategoryTitle>
-              {category.items.map((item, index) => {
-                const key = `${category.id}-${index}`;
-                const currentValue = checkedItems[key];
-                
-                return (
-                  <ChecklistItem key={index}>
-                    <ChecklistText>{item}</ChecklistText>
-                    <RadioGroup>
-                      <RadioOption>
-                        <input
-                          type="radio"
-                          name={key}
-                          value="yes"
-                          checked={currentValue === true}
-                          onChange={() => handleRadioChange(category.id, index, 'yes')}
-                        />
-                        Yes
-                      </RadioOption>
-                      <RadioOption>
-                        <input
-                          type="radio"
-                          name={key}
-                          value="no"
-                          checked={currentValue === false}
-                          onChange={() => handleRadioChange(category.id, index, 'no')}
-                        />
-                        No
-                      </RadioOption>
-                    </RadioGroup>
-                  </ChecklistItem>
-                );
-              })}
-            </CategorySection>
-          ))}
+        {currentQuestion.type === 'email' ? (
+          <>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={currentQuestion.placeholder}
+            />
+          </>
+        ) : currentQuestion.type === 'newsletter' ? (
+          <>
+            <p style={{ fontSize: '1rem', color: '#666', marginBottom: '2rem' }}>
+              By subscribing, you'll receive valuable GDPR compliance tips, updates, and resources to help you stay compliant.
+            </p>
+            <RadioGroup>
+              <RadioOption>
+                <input
+                  type="radio"
+                  name="newsletter"
+                  value="yes"
+                  checked={true}
+                  readOnly
+                />
+                Yes, subscribe me to the newsletter
+              </RadioOption>
+            </RadioGroup>
+          </>
+        ) : (
+          <RadioGroup>
+            <RadioOption>
+              <input
+                type="radio"
+                name={currentQuestion.id}
+                value="yes"
+                checked={answers[currentQuestion.id] === true}
+                onChange={() => handleAnswerChange('yes')}
+              />
+              Yes
+            </RadioOption>
+            <RadioOption>
+              <input
+                type="radio"
+                name={currentQuestion.id}
+                value="no"
+                checked={answers[currentQuestion.id] === false}
+                onChange={() => handleAnswerChange('no')}
+              />
+              No
+            </RadioOption>
+          </RadioGroup>
+        )}
 
-          <TipSection>
-            <TipTitle>✅ Tip: Use It Like a Survey</TipTitle>
-            <TipText>
-              Print it or copy to a form — then tick your answers, one box at a time.
-              Write a short note whenever you check "No" or "Unsure"—this becomes your to-do list.
-              Celebrate the "Yes"es—that means you're making progress!
-            </TipText>
-          </TipSection>
-
-          {!showResults ? (
-            <ResultsSection>
-              <AnalysisDescription>
-                Complete the checklist above ({getTotalAnsweredItems()} of {getTotalItems()} answered) to get your personalized analysis.
-              </AnalysisDescription>
-              <SubmitButton 
-                onClick={handleShowResults}
-                disabled={getTotalAnsweredItems() < getTotalItems()}
-              >
-                Get My GDPR Analysis
-              </SubmitButton>
-              {getTotalAnsweredItems() < getTotalItems() && (
-                <p style={{ color: '#666', fontSize: '0.9rem', marginTop: '1rem' }}>
-                  Please answer all {getTotalItems()} questions to proceed.
-                </p>
-              )}
-            </ResultsSection>
-          ) : (
-            <ResultsSection>
-              <AnalysisDescription>
-                Get your personalized GDPR compliance analysis with specific recommendations and improvement strategies delivered directly to your inbox.
-              </AnalysisDescription>
-              
-              <EmailForm onSubmit={handleSubmitResults}>
-                <FormTitle>Get Your Personalized GDPR Analysis</FormTitle>
-                <FormGroup>
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    placeholder="Enter your email address"
-                  />
-                </FormGroup>
-                
-                <CheckboxGroup>
-                  <Checkbox
-                    id="newsletter"
-                    type="checkbox"
-                    checked={subscribeNewsletter}
-                    onChange={(e) => setSubscribeNewsletter(e.target.checked)}
-                  />
-                  <CheckboxLabel htmlFor="newsletter">
-                    Yes, I'd like to subscribe to your newsletter for more compliance tips and updates
-                  </CheckboxLabel>
-                </CheckboxGroup>
-                
-                <SubmitButton type="submit" disabled={isSubmitting || !email}>
-                  {isSubmitting ? 'Preparing Your Analysis...' : 'Send My Personalized Analysis'}
-                </SubmitButton>
-              </EmailForm>
-            </ResultsSection>
+        <ButtonGroup>
+          {step > 0 && (
+            <Button onClick={handlePrevious}>
+              Previous
+            </Button>
           )}
-        </ChecklistContainer>
-      </ChecklistSection>
-    </ChecklistWrapper>
+          
+          {isLastStep ? (
+            <Button 
+              onClick={handleSubmit}
+              disabled={isSubmitting || !canProceed()}
+            >
+              {isSubmitting ? 'Sending Analysis...' : 'Get My GDPR Analysis'}
+            </Button>
+          ) : (
+            <Button 
+              onClick={handleNext}
+              disabled={!canProceed()}
+            >
+              Next
+            </Button>
+          )}
+        </ButtonGroup>
+      </FormWrapper>
+    </CenteredPage>
   );
 };
 
