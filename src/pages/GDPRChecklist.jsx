@@ -5,27 +5,30 @@ import { COLORS } from '../styles/colors';
 const CenteredPage = styled.div`
   height: 100vh;
   width: 100vw;
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fafbfa;
   overflow: hidden;
+  box-sizing: border-box;
 `;
 
 const FormWrapper = styled.div`
   width: 100%;
+  height: 100vh;
   max-width: 520px;
-  max-height: 90vh;
-  margin: 0 auto;
-  padding: 2.5rem 2.2rem 2.2rem 2.2rem;
+  margin: 0;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
   box-sizing: border-box;
   overflow-y: auto;
   @media (max-width: 600px) {
-    padding: 1.2rem 0.7rem;
-    max-height: 95vh;
+    padding: 1rem;
   }
 `;
 
@@ -186,6 +189,42 @@ const Confirmation = styled.div`
   text-align: center;
 `;
 
+const ConsentGroup = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+`;
+
+const ConsentCheckbox = styled.input`
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: ${COLORS.green};
+  flex-shrink: 0;
+`;
+
+const ConsentText = styled.label`
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+  cursor: pointer;
+  
+  a {
+    color: ${COLORS.green};
+    text-decoration: underline;
+    
+    &:hover {
+      color: #2a8a3a;
+    }
+  }
+`;
+
 
 
 
@@ -308,6 +347,7 @@ const GDPRChecklist = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   
@@ -353,7 +393,7 @@ const GDPRChecklist = () => {
     const currentQuestion = questions[step];
     
     if (currentQuestion.type === 'email') {
-      return email && /\S+@\S+\.\S+/.test(email);
+      return email && /\S+@\S+\.\S+/.test(email) && consent;
     } else {
       return answers[currentQuestion.id] !== undefined;
     }
@@ -462,8 +502,23 @@ const GDPRChecklist = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={currentQuestion.placeholder}
             />
-            <p style={{ fontSize: '0.95rem', color: '#666', marginBottom: '1rem', lineHeight: '1.4' }}>
-              📧 Your analysis will be sent to this email<br/>
+            
+            <ConsentGroup>
+              <ConsentCheckbox
+                type="checkbox"
+                id="consent"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+              />
+              <ConsentText htmlFor="consent">
+                I consent to receiving my GDPR analysis and newsletter updates via email. 
+                You can read our <a href="/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a> to 
+                learn how we handle your data.
+              </ConsentText>
+            </ConsentGroup>
+            
+            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '1rem', lineHeight: '1.4' }}>
+              📧 Your personalized analysis will be sent to this email<br/>
               📈 You'll also receive valuable GDPR compliance tips and updates
             </p>
           </>
