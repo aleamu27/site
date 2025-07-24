@@ -204,6 +204,7 @@ const AdminDashboard = () => {
         <ActionCard to="/blog/cms">Nytt Blogginnlegg</ActionCard>
         <ActionCard to="/job-cms">Administrer Jobber</ActionCard>
         <ActionCard to="/admin/subscribers">Se Abonnenter</ActionCard>
+        <ActionCard to="/gdpr-checklist">GDPR Sjekkliste</ActionCard>
       </QuickActions>
     </DashboardWrapper>
   );
