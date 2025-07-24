@@ -3,27 +3,29 @@ import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 const CenteredPage = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fafbfa;
+  overflow: hidden;
 `;
 
 const FormWrapper = styled.div`
   width: 100%;
   max-width: 520px;
-  min-height: 400px;
+  max-height: 90vh;
   margin: 0 auto;
   padding: 2.5rem 2.2rem 2.2rem 2.2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   box-sizing: border-box;
+  overflow-y: auto;
   @media (max-width: 600px) {
     padding: 1.2rem 0.7rem;
-    min-height: 300px;
+    max-height: 95vh;
   }
 `;
 
@@ -289,21 +291,13 @@ const createQuestions = () => {
     });
   });
 
-  // Add email collection steps
+  // Add email collection step (combined with newsletter)
   questions.push({
     id: 'email',
     type: 'email',
-    categoryTitle: 'Contact Information',
-    question: 'What is your email address?',
+    categoryTitle: 'Get Your Analysis',
+    question: 'Enter your email to receive your personalized GDPR analysis',
     placeholder: 'you@email.com',
-    questionNumber: questions.length + 1
-  });
-
-  questions.push({
-    id: 'newsletter',
-    type: 'newsletter',
-    categoryTitle: 'Newsletter Subscription',
-    question: 'Subscribe to our newsletter for GDPR updates and compliance tips?',
     questionNumber: questions.length + 1
   });
 
@@ -333,6 +327,13 @@ const GDPRChecklist = () => {
         ...prev,
         [currentQuestion.id]: value === 'yes'
       }));
+      
+      // Auto-advance to next question after answering Yes/No
+      setTimeout(() => {
+        if (step < questions.length - 1) {
+          setStep(step + 1);
+        }
+      }, 300); // Small delay for better UX
     }
   };
 
@@ -353,8 +354,6 @@ const GDPRChecklist = () => {
     
     if (currentQuestion.type === 'email') {
       return email && /\S+@\S+\.\S+/.test(email);
-    } else if (currentQuestion.type === 'newsletter') {
-      return true; // Newsletter step is mandatory but automatically proceeds
     } else {
       return answers[currentQuestion.id] !== undefined;
     }
@@ -463,24 +462,10 @@ const GDPRChecklist = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={currentQuestion.placeholder}
             />
-          </>
-        ) : currentQuestion.type === 'newsletter' ? (
-          <>
-            <p style={{ fontSize: '1rem', color: '#666', marginBottom: '2rem' }}>
-              By subscribing, you'll receive valuable GDPR compliance tips, updates, and resources to help you stay compliant.
+            <p style={{ fontSize: '0.95rem', color: '#666', marginBottom: '1rem', lineHeight: '1.4' }}>
+              📧 Your analysis will be sent to this email<br/>
+              📈 You'll also receive valuable GDPR compliance tips and updates
             </p>
-            <RadioGroup>
-              <RadioOption>
-                <input
-                  type="radio"
-                  name="newsletter"
-                  value="yes"
-                  checked={true}
-                  readOnly
-                />
-                Yes, subscribe me to the newsletter
-              </RadioOption>
-            </RadioGroup>
           </>
         ) : (
           <RadioGroup>
@@ -510,23 +495,16 @@ const GDPRChecklist = () => {
         <ButtonGroup>
           {step > 0 && (
             <Button onClick={handlePrevious}>
-              Previous
+              ← Previous
             </Button>
           )}
           
-          {isLastStep ? (
+          {currentQuestion.type === 'email' && (
             <Button 
               onClick={handleSubmit}
               disabled={isSubmitting || !canProceed()}
             >
               {isSubmitting ? 'Sending Analysis...' : 'Get My GDPR Analysis'}
-            </Button>
-          ) : (
-            <Button 
-              onClick={handleNext}
-              disabled={!canProceed()}
-            >
-              Next
             </Button>
           )}
         </ButtonGroup>
