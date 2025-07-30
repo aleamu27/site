@@ -182,7 +182,13 @@ const MobileLogoFallback = styled.div`
   font-weight: 700;
 `;
 
-const MobileMenuButton = styled.button`
+const MobileMenuButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const MobileGetInTouchLink = styled(Link)`
   background: none;
   border: none;
   color: #000;
@@ -191,10 +197,30 @@ const MobileMenuButton = styled.button`
   font-weight: 500;
   cursor: pointer;
   padding: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  text-decoration: none;
   letter-spacing: -0.01em;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const MobileMenuToggle = styled.button`
+  background: none;
+  border: none;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: -0.01em;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 const MenuSeparator = styled.span`
@@ -330,17 +356,15 @@ const Navbar = () => {
                   <MobileLogoFallback>H</MobileLogoFallback>
                 )}
               </MobileLogo>
-              <MobileMenuButton onClick={toggleMobileMenu}>
-                {mobileMenuOpen ? (
-                  'Close'
-                ) : (
-                  <>
-                    Get in touch
-                    <MenuSeparator>|</MenuSeparator>
-                    Menu
-                  </>
-                )}
-              </MobileMenuButton>
+              <MobileMenuButtonGroup>
+                <MobileGetInTouchLink to="/contact">
+                  Get in touch
+                </MobileGetInTouchLink>
+                <MenuSeparator>|</MenuSeparator>
+                <MobileMenuToggle onClick={toggleMobileMenu}>
+                  {mobileMenuOpen ? 'Close' : 'Menu'}
+                </MobileMenuToggle>
+              </MobileMenuButtonGroup>
             </MobileHeaderTop>
 
             <MobileMenuDropdown isOpen={mobileMenuOpen}>

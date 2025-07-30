@@ -148,37 +148,38 @@ const JobListing = () => {
       ],
       applyLink: 'https://example.com/apply/open-application'
     },
-    'senior-animator': {
-      title: 'Senior Animator',
+    'part-time-animator': {
+      title: 'Part Time Animator',
       location: 'Oslo',
-      type: 'Full-time',
+      type: 'Part-time',
       department: 'Creative',
-      description: 'We are seeking a skilled Senior Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
+      description: 'We are seeking a skilled Part Time Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
       responsibilities: [
-        'Create high-quality 2D and 3D animations for digital platforms',
-        'Develop motion graphics for video content and web applications',
-        'Collaborate with designers and directors to bring concepts to life',
-        'Maintain consistency in animation style and quality standards',
-        'Optimize animations for various platforms and devices',
-        'Mentor junior animators and provide creative guidance'
+        'Create engaging 2D animations and motion graphics for digital platforms',
+        'Develop animations for video content and web applications',
+        'Collaborate with the design team to bring concepts to life',
+        'Maintain consistency in animation style and brand guidelines',
+        'Optimize animations for web and mobile platforms',
+        'Work on multiple projects with flexible scheduling'
       ],
       requirements: [
-        '5+ years of professional animation experience',
-        'Proficiency in After Effects, Cinema 4D, and Adobe Creative Suite',
-        'Strong understanding of animation principles and motion design',
-        'Experience with 3D animation and rendering',
-        'Portfolio demonstrating diverse animation styles and techniques',
-        'Excellent attention to detail and ability to meet deadlines'
+        '2+ years of professional animation experience',
+        'Proficiency in After Effects and Adobe Creative Suite',
+        'Good understanding of animation principles and motion design',
+        'Experience with 2D animation and motion graphics',
+        'Portfolio showcasing animation work and creative projects',
+        'Strong attention to detail and ability to work independently',
+        'Flexible schedule and reliable availability for part-time work'
       ],
       benefits: [
-        'Competitive salary and performance bonuses',
-        'Health insurance and wellness programs',
-        'Flexible working hours and remote work options',
-        'Access to latest animation software and hardware',
-        'Professional development and conference attendance',
-        'Creative freedom to explore new animation techniques'
+        'Competitive hourly rate with project-based bonuses',
+        'Flexible working hours that fit your schedule',
+        'Full remote work options',
+        'Access to professional animation software licenses',
+        'Opportunity to work on diverse creative projects',
+        'Potential for increased hours based on performance and availability'
       ],
-      applyLink: 'mailto:j@hepta.no?subject=Application for Senior Animator Position'
+              applyLink: 'mailto:j@hepta.no?subject=Application for Part Time Animator Position'
     },
     'accountant': {
       title: 'Accountant',
