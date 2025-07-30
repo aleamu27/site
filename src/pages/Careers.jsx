@@ -171,10 +171,10 @@ const Careers = () => {
       description: 'Do not see a position that fits? We are always looking for talented individuals to join our team. Send us your application and let us know how you can contribute to our mission.',
       slug: 'open-application'
     },
-    {
-      title: 'Senior Animator',
-      description: 'We are seeking a skilled Senior Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
-      slug: 'senior-animator'
+          {
+        title: 'Part Time Animator',
+        description: 'We are seeking a skilled Part Time Animator to create engaging animations and motion graphics. You will bring designs to life through creative storytelling and visual effects that enhance user experiences.',
+              slug: 'part-time-animator'
     },
     {
       title: 'Accountant',
