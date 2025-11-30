@@ -3,7 +3,7 @@
   <!-- Home Page - Highest priority -->
   <url>
     <loc>https://hepta.no/</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,35 +11,35 @@
   <!-- Main Service Pages - High priority -->
   <url>
     <loc>https://hepta.no/design</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://hepta.no/development</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://hepta.no/custom-ai</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://hepta.no/ai-automations</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
     <loc>https://hepta.no/production</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -47,7 +47,7 @@
   <!-- Portfolio/Work Page - High priority -->
   <url>
     <loc>https://hepta.no/work</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -55,53 +55,15 @@
   <!-- About Page - Medium-high priority -->
   <url>
     <loc>https://hepta.no/about</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  
-  <!-- Blog Main Page - High priority content -->
-  <url>
-    <loc>https://hepta.no/blog</loc>
-    <lastmod>2024-12-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Blog Posts - Good SEO content -->
-  <url>
-    <loc>https://hepta.no/blog/welcome-to-hepta-blog</loc>
-    <lastmod>2024-02-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://hepta.no/blog/reality-of-ai-automation-2024</loc>
-    <lastmod>2024-03-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://hepta.no/blog/why-we-design-in-browser</loc>
-    <lastmod>2024-12-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- GDPR Checklist - High priority tool/lead magnet -->
-  <url>
-    <loc>https://hepta.no/gdpr-checklist</loc>
-    <lastmod>2024-12-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   
   <!-- Contact Page - Medium priority (important but not for SEO content) -->
   <url>
     <loc>https://hepta.no/contact</loc>
-    <lastmod>2024-12-22</lastmod>
+    <lastmod>2024-12-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
