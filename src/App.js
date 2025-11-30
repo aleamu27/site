@@ -11,6 +11,7 @@ import Production from './pages/Production';
 import Work from './pages/Work';
 import Contact from './pages/Contact';
 import About from './pages/About';
+<<<<<<< HEAD
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import BlogCMS from './components/BlogCMS';
@@ -21,6 +22,10 @@ import JobListing from './pages/JobListing';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import GDPRChecklist from './pages/GDPRChecklist';
+=======
+import KafekompassetPrivacy from './pages/KafekompassetPrivacy';
+import KafekompassetSupport from './pages/KafekompassetSupport';
+>>>>>>> 300f7df4 (Add Kafekompasset Privacy and Support pages for App Store requirements)
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
@@ -90,8 +95,13 @@ function AppContent() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/gdpr-checklist" element={<GDPRChecklist />} />
         <Route path="/contact" element={<Contact />} />
+<<<<<<< HEAD
         
         {/* Authentication routes */}
+=======
+        <Route path="/kafekompasset-privacy" element={<Layout><KafekompassetPrivacy /></Layout>} />
+        <Route path="/kafekompasset-support" element={<Layout><KafekompassetSupport /></Layout>} />
+>>>>>>> 300f7df4 (Add Kafekompasset Privacy and Support pages for App Store requirements)
         <Route path="/login" element={<LoginForm />} />
         
         {/* Admin routes */}
