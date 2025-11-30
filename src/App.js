@@ -21,6 +21,8 @@ import JobListing from './pages/JobListing';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import GDPRChecklist from './pages/GDPRChecklist';
+import KafekompassetPrivacy from './pages/KafekompassetPrivacy';
+import KafekompassetSupport from './pages/KafekompassetSupport';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 import ABTestingPage from './pages/MarketingTerms/ABTesting';
@@ -155,6 +157,8 @@ function AppContent() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/gdpr-checklist" element={<GDPRChecklist />} />
+        <Route path="/kafekompasset-privacy" element={<KafekompassetPrivacy />} />
+        <Route path="/kafekompasset-support" element={<KafekompassetSupport />} />
                 <Route path="/contact" element={<Contact />} />
 
         {/* Marketing Terms */}
