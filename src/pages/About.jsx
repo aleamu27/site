@@ -3,7 +3,9 @@ import styled, { keyframes, css } from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 const HeroTextBlock = styled.div`
-  width: 100vw;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 4vw;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -16,13 +18,11 @@ const HeroTextInner = styled.div`
   font-weight: 400;
   color: #222;
   line-height: 1.13;
-  padding: 1.1rem 0 1.2rem 2.5vw;
+  padding: 1.1rem 0 1.2rem 0;
   text-align: left;
   max-width: 1200px;
   @media (max-width: 600px) {
     font-size: 1.3rem;
-    padding-left: 4vw;
-    padding-right: 2vw;
   }
 `;
 
@@ -71,12 +71,14 @@ const WorkGridSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `;
 
 const ImagePlaceholderBox = styled.div`
   width: 100%;
   max-width: 1200px;
-  height: 320px;
+  height: 60vh;
+  min-height: 400px;
   background: ${COLORS.green};
   border-radius: 3px;
   display: flex;
@@ -85,7 +87,7 @@ const ImagePlaceholderBox = styled.div`
   color: #bbb;
   font-size: 1.3rem;
   font-weight: 500;
-  margin-left: 2.5vw;
+  margin-left: 0;
   margin-bottom: 2.5rem;
   box-sizing: border-box;
 `;
@@ -216,14 +218,14 @@ const About = () => {
         <WorkGridSection>
           <HeroTextBlock>
             <HeroTextInner>
-              We're builders, designers, and engineers <HeroSubText>working</HeroSubText> across AI, software, and content.
+              <HeroSubText>About.</HeroSubText> Using tech and design as our tools, we help companies break new grounds.
             </HeroTextInner>
             <ImagePlaceholderBox />
           </HeroTextBlock>
         </WorkGridSection>
       </WorkGridWrapper>
       <CardGrid>
-        {[0,1,2,3,4].map((idx) => (
+        {[0, 1, 2, 3, 4].map((idx) => (
           <React.Fragment key={idx}>
             <Section>
               <SectionHeading>{SECTION_TITLES[idx]}</SectionHeading>
