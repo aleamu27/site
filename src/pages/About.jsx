@@ -58,10 +58,10 @@ const WorkGridWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8rem;
+  margin-top: 40vh;
   margin-bottom: 5rem;
   @media (max-width: 700px) {
-    margin-top: 6rem;
+    margin-top: 30vh;
     margin-bottom: 2.5rem;
   }
 `;
