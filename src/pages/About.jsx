@@ -112,106 +112,102 @@ const pushUp = keyframes`
   }
 `;
 
-const CardGrid = styled.div`
+const CapabilitiesContainer = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 4vw;
+  box-sizing: border-box;
+  margin: 8rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin: 0 auto 7rem auto;
-  max-width: 600px;
-  width: 100%;
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ active }) => (active ? COLORS.green : '#F5F5F5')};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  margin: 0.2rem 0 0 0;
-  cursor: pointer;
-  width: 100%;
-  max-width: 600px;
-  overflow: hidden;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    height: 160px;
+  align-items: flex-start;
+  @media (max-width: 900px) {
+    margin: 4rem 0;
   }
 `;
 
-const CardContent = styled.div`
-  flex: 1;
+const CapabilitiesHeaderFragment = styled.div`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+  font-weight: 400;
+  color: #222;
+  line-height: 1.3;
+  text-align: left;
+  max-width: 800px;
+  margin-bottom: 6rem;
+  margin-left: 35%;
+  @media (max-width: 900px) {
+    margin-left: 0;
+    margin-bottom: 4rem;
+  }
+`;
+
+const CapabilitiesSub = styled.span`
+  color: #b3b3b3;
+`;
+
+const StrategyContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
+  margin-left: 35%;
+  max-width: 550px;
+  @media (max-width: 900px) {
+    margin-left: 0;
+  }
 `;
 
-const CardTitle = styled.h3`
-  font-size: 1.13rem;
+const StrategyTitle = styled.h3`
+  font-size: 1.3rem;
   font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
+  color: #111;
+  margin: 0 0 1.5rem 0;
 `;
 
-const CardDesc = styled.p`
-  font-size: 1rem;
+const StrategyDescription = styled.p`
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 0 2rem 0;
+`;
+
+const StrategyList = styled.ul`
+  list-style: none;
+  padding: 0;
   margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 `;
 
-const ABOUT_CARDS = [
-  {
-    title: 'AI Team',
-    desc: 'Our AI specialists and data scientists design, build, and deploy custom models for your business.'
-  },
-  {
-    title: 'Developers',
-    desc: 'Full-stack engineers and architects deliver robust, scalable software and web solutions.'
-  },
-  {
-    title: 'Automation Experts',
-    desc: 'Automation engineers and workflow specialists streamline your processes and integrate your tools.'
-  },
-  {
-    title: 'Production Crew',
-    desc: 'Producers, editors, and creatives bring your content and video projects to life.'
-  },
-  {
-    title: 'Designers',
-    desc: 'UI/UX and brand designers craft beautiful, intuitive digital experiences for your users.'
-  },
-];
+const StrategyItem = styled.li`
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #222;
+  
+  &:before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+`;
 
-const SECTION_TITLES = [
-  'Custom AI',
-  'Development',
-  'Automation',
-  'Production',
-  'Design',
-];
-
-const SECTION_PARAGRAPHS = [
-  'We design and build AI solutions tailored to your business, giving you full control over your data, models, and deployment. From private LLMs to workflow automation, we help you unlock the power of AI on your terms.',
-  'Our engineering team delivers robust, scalable web and software solutions. We handle everything from backend APIs to modern frontends, ensuring your product is fast, secure, and ready to grow.',
-  'We automate repetitive tasks and complex workflows, integrating your tools and data so you can focus on what matters. Our automations are reliable, secure, and built to fit your unique needs.',
-  'From video to digital content, we help you create, launch, and scale your brand\'s story. Our production team brings ideas to life with creativity, speed, and technical excellence.',
-  'We craft digital experiences that are beautiful, intuitive, and effective. Our design team works closely with you to turn ideas into products people love to use.'
+const STRATEGY_ITEMS = [
+  "Product Strategy",
+  "Brand + Content Strategy",
+  "Insight Development",
+  "Customer validation",
+  "Emerging Tech Discovery",
+  "Rapid Prototyping"
 ];
 
 const About = () => {
-  const [openCard, setOpenCard] = React.useState(0);
   return (
     <>
       <WorkGridWrapper>
@@ -223,29 +219,25 @@ const About = () => {
             <ImagePlaceholderBox />
           </HeroTextBlock>
         </WorkGridSection>
+
+        <CapabilitiesContainer>
+          <CapabilitiesHeaderFragment>
+            <CapabilitiesSub>Capabilities.</CapabilitiesSub> From design systems to full stack development, we do what it takes to build the best products.
+          </CapabilitiesHeaderFragment>
+
+          <StrategyContainer>
+            <StrategyTitle>Strategy</StrategyTitle>
+            <StrategyDescription>
+              Combining our hands-on knowledge of emerging technologies with our experience building new businesses and products, we help companies grow into new markets.
+            </StrategyDescription>
+            <StrategyList>
+              {STRATEGY_ITEMS.map((item, idx) => (
+                <StrategyItem key={idx}>{item}</StrategyItem>
+              ))}
+            </StrategyList>
+          </StrategyContainer>
+        </CapabilitiesContainer>
       </WorkGridWrapper>
-      <CardGrid>
-        {[0, 1, 2, 3, 4].map((idx) => (
-          <React.Fragment key={idx}>
-            <Section>
-              <SectionHeading>{SECTION_TITLES[idx]}</SectionHeading>
-              <SectionText>{SECTION_PARAGRAPHS[idx]}</SectionText>
-            </Section>
-            <Card
-              active={openCard === idx}
-              onMouseEnter={() => setOpenCard(idx)}
-              onFocus={() => setOpenCard(idx)}
-              tabIndex={0}
-              aria-label={ABOUT_CARDS[idx].title}
-            >
-              <CardContent>
-                <CardTitle active={openCard === idx}>{ABOUT_CARDS[idx].title}</CardTitle>
-                {openCard === idx && <CardDesc>{ABOUT_CARDS[idx].desc}</CardDesc>}
-              </CardContent>
-            </Card>
-          </React.Fragment>
-        ))}
-      </CardGrid>
     </>
   );
 };
