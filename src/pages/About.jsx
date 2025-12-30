@@ -120,10 +120,17 @@ const CapabilitiesContainer = styled.div`
   margin: 8rem 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   @media (max-width: 900px) {
     margin: 4rem 0;
   }
+`;
+
+const ContentColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
 `;
 
 const CapabilitiesHeaderFragment = styled.div`
@@ -135,9 +142,7 @@ const CapabilitiesHeaderFragment = styled.div`
   text-align: left;
   max-width: 800px;
   margin-bottom: 6rem;
-  margin-left: 35%;
   @media (max-width: 900px) {
-    margin-left: 0;
     margin-bottom: 4rem;
   }
 `;
@@ -150,11 +155,7 @@ const StrategyContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 35%;
   max-width: 550px;
-  @media (max-width: 900px) {
-    margin-left: 0;
-  }
 `;
 
 const StrategyTitle = styled.h3`
@@ -221,21 +222,23 @@ const About = () => {
         </WorkGridSection>
 
         <CapabilitiesContainer>
-          <CapabilitiesHeaderFragment>
-            <CapabilitiesSub>Capabilities.</CapabilitiesSub> From design systems to full stack development, we do what it takes to build the best products.
-          </CapabilitiesHeaderFragment>
+          <ContentColumn>
+            <CapabilitiesHeaderFragment>
+              <CapabilitiesSub>Capabilities.</CapabilitiesSub> From design systems to full stack development, we do what it takes to build the best products.
+            </CapabilitiesHeaderFragment>
 
-          <StrategyContainer>
-            <StrategyTitle>Strategy</StrategyTitle>
-            <StrategyDescription>
-              Combining our hands-on knowledge of emerging technologies with our experience building new businesses and products, we help companies grow into new markets.
-            </StrategyDescription>
-            <StrategyList>
-              {STRATEGY_ITEMS.map((item, idx) => (
-                <StrategyItem key={idx}>{item}</StrategyItem>
-              ))}
-            </StrategyList>
-          </StrategyContainer>
+            <StrategyContainer>
+              <StrategyTitle>Strategy</StrategyTitle>
+              <StrategyDescription>
+                Combining our hands-on knowledge of emerging technologies with our experience building new businesses and products, we help companies grow into new markets.
+              </StrategyDescription>
+              <StrategyList>
+                {STRATEGY_ITEMS.map((item, idx) => (
+                  <StrategyItem key={idx}>{item}</StrategyItem>
+                ))}
+              </StrategyList>
+            </StrategyContainer>
+          </ContentColumn>
         </CapabilitiesContainer>
       </WorkGridWrapper>
     </>
