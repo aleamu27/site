@@ -78,7 +78,7 @@ const Hero = () => {
   return (
     <HeroSection>
       <VideoBackground
-        src="https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Landing%20header.mov"
+        src="https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/index/Landing%20header%20MOV%20to%20MP4.mp4"
         autoPlay
         loop
         muted
