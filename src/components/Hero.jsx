@@ -1,17 +1,6 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-// Colors for the stripes (approximate to Bakken & Bæck)
-const STRIPES = [
-  '#4A90E2', // blue
-  '#F5D547', // yellow
-  '#E6E3F7', // light purple
-  '#F44F3B', // orange
-  '#2D2553', // dark purple
-  '#FFFCCB', // pale yellow
-  '#5FC39B', // green
-  '#F7D6DE', // pink
-];
 
 const HeroSection = styled.section`
   width: 100vw;
@@ -37,11 +26,6 @@ const VideoBackground = styled.video`
   z-index: 0;
   pointer-events: none;
   max-width: 100vw;
-`;
-
-const Stripe = styled.div`
-  flex: 1 1 0;
-  height: 100%;
 `;
 
 const HeroTextBlock = styled.div`
@@ -86,22 +70,9 @@ const HeroTextInner = styled.div`
   }
 `;
 
-const BrandSpan = styled.span`
-  color: #A6A6A6;
-  font-weight: 700;
-`;
-
-const AmpersandSpan = styled.span`
-  color: #A6A6A6;
-  font-weight: 700;
-  font-family: inherit;
-`;
-
 const HeroSubText = styled.span`
   color: #b3b3b3;
 `;
-
-const NAVBAR_HEIGHT = 64 + 16; // 64px min + 16px margin/padding fudge
 
 const Hero = () => {
   return (

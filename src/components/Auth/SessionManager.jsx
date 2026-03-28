@@ -43,7 +43,7 @@ const SessionManager = () => {
       if (!sessionToken) return;
 
       try {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('user_sessions')
           .select('*')
           .eq('session_token', sessionToken)
@@ -80,6 +80,7 @@ const SessionManager = () => {
     checkSession(); // Initial check
 
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   const handleLogout = async () => {

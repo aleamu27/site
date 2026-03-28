@@ -209,6 +209,7 @@ function Contact() {
       email: form.email.length > 0 && /\S+@\S+\.\S+/.test(form.email),
       currentStepValid: form[steps[step]?.name]?.length > 0
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
   useEffect(() => {
@@ -388,7 +389,7 @@ function Contact() {
       
       setLoading(true);
       try {
-        const result = await submitForm(form);
+        await submitForm(form);
         console.log('✅ Submission successful, setting submitted state');
         setSubmitted(true);
       } catch (error) {

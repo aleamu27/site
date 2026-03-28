@@ -228,10 +228,6 @@ const PreviewCard = styled.div`
   min-height: 380px;
 `;
 
-const PreviewImage = styled.div`
-  display: none;
-`;
-
 const PreviewDate = styled.div`
   font-size: 0.9rem;
   color: #b3b3b3;
@@ -284,6 +280,7 @@ const BlogCMS = () => {
     if (isEditing && editId) {
       fetchPostForEditing(editId);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing, editId]);
 
   const fetchPostForEditing = async (postId) => {

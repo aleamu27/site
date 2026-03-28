@@ -60,50 +60,6 @@ const CategoryLabel = styled.div`
   letter-spacing: 0.5px;
 `;
 
-const CategorySection = styled.div`
-  margin-bottom: 2.5rem;
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid #f0f0f0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-`;
-
-const CategoryTitle = styled.h2`
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #222;
-  margin: 0 0 1.5rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const CategoryNumber = styled.span`
-  background: ${COLORS.green};
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-`;
-
-const ChecklistItem = styled.div`
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #f0f0f0;
-  transition: background-color 0.2s ease;
-  
-  &:hover {
-    background-color: #f8f9fa;
-  }
-`;
-
 const RadioGroup = styled.div`
   display: flex;
   gap: 1.5rem;
@@ -361,6 +317,7 @@ const GDPRChecklist = () => {
   useEffect(() => {
     console.log('📋 GDPR Checklist initialized');
     console.log('📊 Total questions:', questions.length);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAnswerChange = (value) => {
@@ -382,12 +339,6 @@ const GDPRChecklist = () => {
     }
   };
 
-  const handleNext = () => {
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    }
-  };
-
   const handlePrevious = () => {
     if (step > 0) {
       setStep(step - 1);
@@ -403,8 +354,6 @@ const GDPRChecklist = () => {
       return answers[currentQuestion.id] !== undefined;
     }
   };
-
-  const isLastStep = step === questions.length - 1;
 
   const handleSubmit = async () => {
     setIsSubmitting(true);

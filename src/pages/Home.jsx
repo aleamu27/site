@@ -71,65 +71,6 @@ const Circle = styled.span`
   transition: background 0.18s;
 `;
 
-const MoreButton = styled.button`
-  background: #222;
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 2.1rem;
-  margin-top: 1.7rem;
-  cursor: pointer;
-  transition: background 0.18s;
-  &:hover {
-    background: #444;
-  }
-`;
-
-const ClientsRow = styled.div`
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0 3rem 0;
-`;
-
-const ClientLogo = styled.div`
-  width: 120px;
-  height: 48px;
-  background: ${COLORS.offWhite};
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #222;
-`;
-
-const WorkGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0 3rem 0;
-`;
-
-const WorkCard = styled.div`
-  background: ${COLORS.offWhite};
-  border-radius: 1rem;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 1.5rem;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #222;
-`;
-
 const WhatWeDoBlock = styled.div`
   display: flex;
   flex-direction: column;

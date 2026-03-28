@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 const HeroTextBlock = styled.div`
@@ -28,26 +28,6 @@ const HeroTextInner = styled.div`
 
 const HeroSubText = styled.span`
   color: #b3b3b3;
-`;
-
-const Section = styled.section`
-  max-width: 700px;
-  margin: 12rem auto 0 auto;
-  padding: 0 15px;
-`;
-
-const SectionHeading = styled.h2`
-  font-size: 1.35rem;
-  font-weight: 500;
-  color: #222;
-  margin: 0 0 1.2rem 0;
-`;
-
-const SectionText = styled.p`
-  font-size: 1.18rem;
-  color: #b3b3b3;
-  margin: 0 0 2.2rem 0;
-  line-height: 1.6;
 `;
 
 const WorkGridWrapper = styled.div`
@@ -90,26 +70,6 @@ const ImagePlaceholderBox = styled.div`
   margin-left: 0;
   margin-bottom: 2.5rem;
   box-sizing: border-box;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
 `;
 
 const CapabilitiesContainer = styled.div`

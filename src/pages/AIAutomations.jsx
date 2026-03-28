@@ -260,13 +260,6 @@ const CARD_DATA = [
   },
 ];
 
-const CTACenter = styled.div`
-  width: 100%;
-  padding: 0 15px;
-  box-sizing: border-box;
-  margin-top: -50px;
-`;
-
 const CTASectionWrapper = styled.section`
   width: 100%;
   padding: 2rem;

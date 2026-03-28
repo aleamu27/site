@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
       console.log('🧹 AuthContext: Cleaning up auth listener...');
       subscription.unsubscribe();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProfile = async (userId) => {

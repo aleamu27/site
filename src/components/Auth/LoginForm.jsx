@@ -108,7 +108,7 @@ const LoginForm = () => {
   const [success, setSuccess] = useState('');
   const [showDebugInfo, setShowDebugInfo] = useState(false);
   const navigate = useNavigate();
-  const { logSecurityEvent } = useAuth();
+  useAuth();
 
   useEffect(() => {
     // Check for existing session only if Supabase is available

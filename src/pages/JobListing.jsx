@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLORS } from '../styles/colors';
 
 const JobContainer = styled.div`
   max-width: 800px;

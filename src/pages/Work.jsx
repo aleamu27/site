@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import VideoPlaceholder from '../components/VideoPlaceholder';
 import { COLORS } from '../styles/colors';
 import { Link } from 'react-router-dom';
 
@@ -176,12 +175,6 @@ const HeroTextInner = styled.div`
 const HeroSubText = styled.span`
   color: #b3b3b3;
 `;
-
-const videoLabels = [
-  'Dashboard', 'App', 'Website',
-  'Game', 'Landing Page', 'Demo',
-  'Webapp', 'Automation', 'Production'
-];
 
 const CTAImageContainer = styled.div`
   display: flex;

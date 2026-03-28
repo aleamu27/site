@@ -46,27 +46,7 @@ const FooterHeading = styled.h3`
   line-height: 1.2;
 `;
 
-const FooterText = styled.p`
-  font-size: 1rem;
-  color: #b3b3b3;
-  line-height: 1.6;
-  margin: 0 0 1rem 0;
-  max-width: 300px;
-`;
-
 const FooterLink = styled(Link)`
-  color: #b3b3b3;
-  text-decoration: none;
-  font-size: 1rem;
-  margin-bottom: 0.8rem;
-  transition: color 0.2s ease;
-  
-  &:hover {
-    color: #184B54;
-  }
-`;
-
-const FooterExternalLink = styled.a`
   color: #b3b3b3;
   text-decoration: none;
   font-size: 1rem;
