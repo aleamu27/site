@@ -48,11 +48,11 @@ const HeroTextBlock = styled.div`
 `;
 
 const HeroTextInner = styled.div`
-  font-family: 'Inter', 'system-ui', 'Arial', sans-serif;
+  font-family: 'OCR-B Std', 'OCR B Std', monospace;
   font-size: clamp(2.1rem, 4vw, 3.2rem);
   font-weight: 400;
   color: #222;
-  line-height: 1.13;
+  line-height: 1.2;
   padding: 1.1rem 0 1.2rem 2.5vw;
   text-align: left;
   max-width: none;
@@ -87,7 +87,7 @@ const Hero = () => {
       />
       <HeroTextBlock>
         <HeroTextInner>
-          Hepta builds private software, custom interfaces, and local AI systems. <HeroSubText>Made for you.</HeroSubText>
+          The Infrastructure Beneath<br />Digital Trust
         </HeroTextInner>
       </HeroTextBlock>
     </HeroSection>
