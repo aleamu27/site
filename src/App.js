@@ -23,6 +23,7 @@ import Privacy from './pages/Privacy';
 import GDPRChecklist from './pages/GDPRChecklist';
 import KafekompassetPrivacy from './pages/KafekompassetPrivacy';
 import KafekompassetSupport from './pages/KafekompassetSupport';
+import Silmaril from './pages/Silmaril';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
@@ -31,6 +32,7 @@ import { AuthProvider } from './contexts/AuthContext.jsx';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginForm from './components/Auth/LoginForm';
 import AdminDashboard from './pages/Admin/Dashboard';
+import AdminSubscribers from './pages/Admin/Subscribers';
 import SessionManager from './components/Auth/SessionManager';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -40,7 +42,7 @@ function AppContent() {
     <>
       <ScrollToTop />
       <SessionManager />
-      <Navbar />
+      {location.pathname !== '/silmaril' && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/design" element={<Layout><Design /></Layout>} />
@@ -94,6 +96,7 @@ function AppContent() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/kafekompasset-privacy" element={<Layout><KafekompassetPrivacy /></Layout>} />
         <Route path="/kafekompasset-support" element={<Layout><KafekompassetSupport /></Layout>} />
+        <Route path="/silmaril" element={<Silmaril />} />
         <Route path="/login" element={<LoginForm />} />
         
         {/* Admin routes */}
@@ -110,14 +113,14 @@ function AppContent() {
                 <Route path="posts" element={<div>Blog Posts Management</div>} />
                 <Route path="posts/new" element={<BlogCMS />} />
                 <Route path="media" element={<div>Media Library</div>} />
-                <Route path="subscribers" element={<div>Newsletter Subscribers</div>} />
+                <Route path="subscribers" element={<AdminSubscribers />} />
                 <Route path="settings" element={<div>Site Settings</div>} />
               </Routes>
             </Layout>
           </ProtectedRoute>
         } />
       </Routes>
-      {location.pathname !== '/contact' && <Footer />}
+      {location.pathname !== '/contact' && location.pathname !== '/silmaril' && <Footer />}
     </>
   );
 }
