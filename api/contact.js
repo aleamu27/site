@@ -120,9 +120,13 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Send notification email to j@hepta.no
+    // Send notification email
+    let notificationData = null;
+    let confirmationData = null;
+    let confirmationError = null;
+
     if (resend) {
-      const { data: notificationData, error: notificationError } = await resend.emails.send({
+      const { data, error: notificationError } = await resend.emails.send({
         from: 'Contact Form <j@hepta.no>', // Your verified domain
         to: ['alexbolgenamundsen@gmail.com'], // Send form data to you
         subject: `New Contact Form Submission from ${company}`,
@@ -149,6 +153,7 @@ module.exports = async function handler(req, res) {
         `,
       });
 
+      notificationData = data;
       if (notificationError) {
         console.error('Notification email error:', notificationError);
         return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
@@ -159,7 +164,7 @@ module.exports = async function handler(req, res) {
 
     // Send thank you email to the user
     if (resend) {
-      const { data: confirmationData, error: confirmationError } = await resend.emails.send({
+      const { data, error } = await resend.emails.send({
         from: 'Hepta <j@hepta.no>', // Your verified domain
         to: [email], // Send to the user
         subject: 'Thank you for reaching out!',
@@ -439,6 +444,9 @@ module.exports = async function handler(req, res) {
 </body>
 </html>`,
       });
+
+      confirmationData = data;
+      confirmationError = error;
 
       if (confirmationError) {
         console.error('Confirmation email error:', confirmationError);
