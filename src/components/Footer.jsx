@@ -299,7 +299,7 @@ const Footer = () => {
             <FooterHeading>Hepta</FooterHeading>
             <EmailSection>
               <EmailLabel>Email</EmailLabel>
-              <EmailAddress href="mailto:j@hepta.no">j@hepta.no</EmailAddress>
+              <EmailAddress href="mailto:alexbolgenamundsen@gmail.com">alexbolgenamundsen@gmail.com</EmailAddress>
             </EmailSection>
           </FooterColumn>
 
