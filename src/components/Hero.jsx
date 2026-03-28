@@ -70,10 +70,6 @@ const HeroTextInner = styled.div`
   }
 `;
 
-const HeroSubText = styled.span`
-  color: #b3b3b3;
-`;
-
 const Hero = () => {
   return (
     <HeroSection>
