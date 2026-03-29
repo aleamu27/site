@@ -86,35 +86,12 @@ const Logo = styled(Link)`
   overflow: hidden;
 `;
 
-const NavLinks = styled.ul`
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`;
-
-const NavLink = styled.li`
-  a {
-    text-decoration: none;
-    color: #222;
-    font-family: ${NAV_MONO};
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.11em;
-    padding: 0.05rem 0.12rem;
-    border-radius: 3px;
-    transition: color 0.18s;
-    &:hover, &:focus {
-      color: #E5E5E5;
-      background: none;
-      outline: none;
-    }
-    &.active {
-      color: #E5E5E5;
-    }
-  }
+const LogoText = styled.span`
+  font-family: 'OCR-B Std', 'OCR B Std', monospace;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #222;
+  letter-spacing: 0.05em;
 `;
 
 const RightButton = styled(Link)`
@@ -365,22 +342,17 @@ const NewsGrid = styled.div`
   }
 `;
 
-const NewsCard = styled(Link)`
-  text-decoration: none;
+const NewsCard = styled.div`
   color: #fff;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 const NewsDate = styled.div`
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 1rem;
   font-family: ${NAV_MONO};
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 `;
 
 const NewsImage = styled.div`
@@ -388,7 +360,7 @@ const NewsImage = styled.div`
   aspect-ratio: 16/10;
   background: #333;
   border-radius: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   overflow: hidden;
 
   img {
@@ -399,19 +371,41 @@ const NewsImage = styled.div`
 `;
 
 const NewsTitle = styled.h3`
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.4;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 `;
 
 const NewsExcerpt = styled.p`
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: rgba(255,255,255,0.7);
-  margin: 0;
-  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+`;
+
+const ReadMoreLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 2px;
+  transition: opacity 0.2s ease;
+
+  &:before {
+    content: '↳';
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 // Mobile Navbar Styles
@@ -638,20 +632,7 @@ const Navbar = () => {
                 'H'
               )}
             </Logo>
-            <NavLinks>
-              {NAV_LINKS.map((link) => (
-                <NavLink key={link.to}>
-                  <Link
-                    to={link.to}
-                    className={location.pathname === link.to ? 'active' : ''}
-                    tabIndex={0}
-                    aria-current={location.pathname === link.to ? 'page' : undefined}
-                  >
-                    {link.label}
-                  </Link>
-                </NavLink>
-              ))}
-            </NavLinks>
+            <LogoText>HEPTA</LogoText>
           </NavLeft>
           <NavRight>
             <RightButton to="/contact">Get in touch</RightButton>
@@ -715,7 +696,7 @@ const Navbar = () => {
             </LatestNewsHeader>
             <NewsGrid>
               {latestPosts.map((post) => (
-                <NewsCard key={post.id} to={`/blog/${post.slug}`} onClick={closeDesktopMenu}>
+                <NewsCard key={post.id}>
                   <NewsDate>{formatDate(post.created_at)}</NewsDate>
                   {post.featured_image && (
                     <NewsImage>
@@ -726,6 +707,9 @@ const Navbar = () => {
                   {post.excerpt && (
                     <NewsExcerpt>{post.excerpt}</NewsExcerpt>
                   )}
+                  <ReadMoreLink to={`/blog/${post.slug}`} onClick={closeDesktopMenu}>
+                    Read More
+                  </ReadMoreLink>
                 </NewsCard>
               ))}
               {latestPosts.length === 0 && (
@@ -816,7 +800,7 @@ const Navbar = () => {
               </LatestNewsHeader>
               <NewsGrid>
                 {latestPosts.map((post) => (
-                  <NewsCard key={post.id} to={`/blog/${post.slug}`} onClick={closeMobileMenu}>
+                  <NewsCard key={post.id}>
                     <NewsDate>{formatDate(post.created_at)}</NewsDate>
                     {post.featured_image && (
                       <NewsImage>
@@ -827,8 +811,14 @@ const Navbar = () => {
                     {post.excerpt && (
                       <NewsExcerpt>{post.excerpt}</NewsExcerpt>
                     )}
+                    <ReadMoreLink to={`/blog/${post.slug}`} onClick={closeMobileMenu}>
+                      Read More
+                    </ReadMoreLink>
                   </NewsCard>
                 ))}
+                {latestPosts.length === 0 && (
+                  <NewsExcerpt>No posts yet.</NewsExcerpt>
+                )}
               </NewsGrid>
             </LatestNewsSection>
           </MenuContent>
