@@ -573,15 +573,23 @@ const Navbar = () => {
   }, [desktopMenuOpen]);
 
   const fetchLatestPosts = async () => {
+    if (!supabase) {
+      console.warn('Supabase not configured');
+      return;
+    }
     try {
       const { data, error } = await supabase
         .from('blog_posts')
         .select('id, title, slug, excerpt, featured_image, created_at')
-        .eq('status', 'published')
+        .eq('published', true)
         .order('created_at', { ascending: false })
         .limit(2);
 
-      if (!error && data) {
+      if (error) {
+        console.error('Error fetching posts:', error);
+        return;
+      }
+      if (data) {
         setLatestPosts(data);
       }
     } catch (err) {
