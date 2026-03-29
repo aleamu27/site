@@ -1,5 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const revealUp = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 
 const HeroSection = styled.section`
@@ -70,6 +81,18 @@ const HeroTextInner = styled.div`
   }
 `;
 
+const TextLine = styled.span`
+  display: block;
+  overflow: hidden;
+`;
+
+const TextReveal = styled.span`
+  display: block;
+  animation: ${revealUp} 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: ${props => props.delay || '0s'};
+  opacity: 0;
+`;
+
 const Hero = () => {
   return (
     <HeroSection>
@@ -83,7 +106,12 @@ const Hero = () => {
       />
       <HeroTextBlock>
         <HeroTextInner>
-          The Infrastructure Beneath<br />Digital Trust
+          <TextLine>
+            <TextReveal delay="0.2s">The Infrastructure Beneath</TextReveal>
+          </TextLine>
+          <TextLine>
+            <TextReveal delay="0.4s">Digital Trust</TextReveal>
+          </TextLine>
         </HeroTextInner>
       </HeroTextBlock>
     </HeroSection>
