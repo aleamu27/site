@@ -1,6 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+`;
 
 const NAV_MONO = 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 const NAV_HEIGHT = 38;
@@ -36,6 +47,10 @@ const NavGroup = styled.div`
   margin: 1.2rem 0 0 1.1rem;
   box-shadow: none;
   height: ${NAV_HEIGHT}px;
+  opacity: ${props => props.$visible ? 1 : 0};
+  pointer-events: ${props => props.$visible ? 'auto' : 'none'};
+  animation: ${props => props.$visible ? fadeIn : 'none'} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.3s ease;
 `;
 
 const Logo = styled(Link)`
@@ -98,15 +113,18 @@ const RightButton = styled(Link)`
   font-family: ${NAV_MONO};
   font-weight: 600;
   border-radius: 8px;
-  padding: 1.4rem 1.1rem;
+  padding: 0 1.1rem;
   text-decoration: none;
-  transition: background 0.2s, color 0.18s;
+  transition: background 0.2s, color 0.18s, opacity 0.3s ease;
   border: none;
   box-shadow: none;
   letter-spacing: 0.02em;
   height: ${NAV_HEIGHT}px;
   display: flex;
   align-items: center;
+  opacity: ${props => props.$visible ? 1 : 0};
+  pointer-events: ${props => props.$visible ? 'auto' : 'none'};
+  animation: ${props => props.$visible ? fadeIn : 'none'} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   &:hover {
     color: #e5e5e5;
   }
@@ -296,6 +314,17 @@ const Navbar = () => {
   const location = useLocation();
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navVisible, setNavVisible] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const threshold = NAV_HEIGHT + 30 + 20; // nav height + 30px buffer + top margin
+      setNavVisible(e.clientY <= threshold);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -309,7 +338,7 @@ const Navbar = () => {
     <>
       {/* Desktop Navbar */}
       <DesktopNavbarContainer role="navigation" aria-label="Main Navigation">
-        <NavGroup>
+        <NavGroup $visible={navVisible}>
           <Logo to="/">
             {!logoError ? (
               <img
@@ -337,7 +366,7 @@ const Navbar = () => {
             ))}
           </NavLinks>
         </NavGroup>
-        <RightButton to="/contact">Get in touch</RightButton>
+        <RightButton to="/contact" $visible={navVisible}>Get in touch</RightButton>
       </DesktopNavbarContainer>
 
       {/* Mobile Navbar - Exact Bakken & Bæck Copy */}
