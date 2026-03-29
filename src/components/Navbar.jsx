@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { supabase } from '../lib/supabase';
 
-const fadeIn = keyframes`
+const slideDown = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-10px) scale(0.95);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 `;
 
@@ -28,10 +28,9 @@ const DesktopNavbarContainer = styled.nav`
   border: none;
   box-shadow: none;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
   align-items: flex-start;
   font-family: ${NAV_MONO};
-  min-height: ${NAV_HEIGHT}px;
 
   @media (max-width: 768px) {
     display: none;
@@ -43,17 +42,16 @@ const NavGroup = styled.div`
   align-items: center;
   justify-content: space-between;
   background: rgba(159,159,159,0.38);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: none;
-  border-radius: 8px;
+  border-radius: ${props => props.$menuOpen ? '8px 8px 0 0' : '8px'};
   padding: 0.35rem 0.5rem 0.35rem 0.35rem;
   margin: 1.2rem 1.1rem 0 1.1rem;
   box-shadow: none;
   height: ${NAV_HEIGHT + 10}px;
-  opacity: ${props => props.$visible ? 1 : 0};
-  pointer-events: ${props => props.$visible ? 'auto' : 'none'};
-  animation: ${props => props.$visible ? fadeIn : 'none'} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transition: opacity 0.3s ease;
   flex: 1;
+  transition: border-radius 0.3s ease;
 `;
 
 const NavLeft = styled.div`
@@ -160,96 +158,26 @@ const HamburgerIcon = styled.div`
   `}
 `;
 
-// Full screen menu overlay
-const MenuOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+// Dropdown Menu Panel (replaces full screen overlay)
+const MenuDropdown = styled.div`
+  display: ${props => props.$isOpen ? 'block' : 'none'};
   background: #1a1a1a;
-  z-index: 9999;
-  opacity: ${props => props.$isOpen ? 1 : 0};
-  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
-  transition: opacity 0.4s ease, visibility 0.4s ease;
+  border-radius: 0 0 8px 8px;
+  margin: 0 1.1rem;
+  padding: 2rem;
+  animation: ${slideDown} 0.3s ease forwards;
+  max-height: calc(100vh - 100px);
   overflow-y: auto;
-`;
-
-const MenuHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-`;
-
-const MenuLogo = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-`;
-
-const MenuLogoImage = styled.img`
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-`;
-
-const MenuHeaderRight = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const MenuGetInTouch = styled(Link)`
-  background: transparent;
-  color: #fff;
-  font-size: 0.95rem;
-  font-family: ${NAV_MONO};
-  font-weight: 500;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 6px;
-  padding: 0.8rem 1.5rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(255,255,255,0.1);
-  }
-`;
-
-const CloseButton = styled.button`
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 6px;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: #fff;
-  font-size: 1.5rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(255,255,255,0.1);
-  }
 `;
 
 const MenuContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 4rem;
-  padding: 3rem 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  gap: 3rem;
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 `;
 
@@ -260,18 +188,18 @@ const MenuSectionLabel = styled.div`
   color: rgba(255,255,255,0.5);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-family: ${NAV_MONO};
 `;
 
 const MenuNavLinks = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 `;
 
 const MenuNavLink = styled(Link)`
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 400;
   color: #fff;
   text-decoration: none;
@@ -281,14 +209,10 @@ const MenuNavLink = styled(Link)`
   &:hover {
     opacity: 0.6;
   }
-
-  @media (max-width: 768px) {
-    font-size: 1.8rem;
-  }
 `;
 
 const MenuNavLinkArrow = styled(Link)`
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 400;
   color: #fff;
   text-decoration: none;
@@ -306,10 +230,6 @@ const MenuNavLinkArrow = styled(Link)`
   &:hover {
     opacity: 0.6;
   }
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const LatestNewsSection = styled.div``;
@@ -318,7 +238,7 @@ const LatestNewsHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
 
 const ViewAllLink = styled(Link)`
@@ -335,9 +255,9 @@ const ViewAllLink = styled(Link)`
 const NewsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1100px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -347,9 +267,9 @@ const NewsCard = styled.div`
 `;
 
 const NewsDate = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: rgba(255,255,255,0.6);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-family: ${NAV_MONO};
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -357,10 +277,10 @@ const NewsDate = styled.div`
 
 const NewsImage = styled.div`
   width: 100%;
-  aspect-ratio: 16/10;
+  aspect-ratio: 16/9;
   background: #333;
   border-radius: 4px;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   overflow: hidden;
 
   img {
@@ -371,26 +291,30 @@ const NewsImage = styled.div`
 `;
 
 const NewsTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 400;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
   line-height: 1.3;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 `;
 
 const NewsExcerpt = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: rgba(255,255,255,0.7);
-  margin: 0 0 1.5rem 0;
-  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const ReadMoreLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 400;
   color: #fff;
   text-decoration: none;
@@ -422,25 +346,23 @@ const MobileNavbarContainer = styled.nav`
   }
 `;
 
-const MobileNavHeader = styled.div`
+const MobileNavWrapper = styled.div`
   position: fixed;
   top: 20px;
   left: 20px;
   right: 20px;
+  z-index: 1001;
+`;
+
+const MobileNavHeader = styled.div`
   background: rgba(159,159,159,0.38);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 8px;
+  border-radius: ${props => props.$menuOpen ? '8px 8px 0 0' : '8px'};
   padding: 12px 20px;
-  z-index: 1001;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-`;
-
-const MobileHeaderContent = styled.div`
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: border-radius 0.3s ease;
 `;
 
 const MobileHeaderTop = styled.div`
@@ -524,6 +446,71 @@ const MenuSeparator = styled.span`
   margin: 0 8px;
 `;
 
+const MobileMenuDropdown = styled.div`
+  display: ${props => props.$isOpen ? 'block' : 'none'};
+  background: #1a1a1a;
+  border-radius: 0 0 8px 8px;
+  padding: 1.5rem;
+  animation: ${slideDown} 0.3s ease forwards;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+`;
+
+const MobileMenuNavLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+`;
+
+const MobileMenuNavLink = styled(Link)`
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const MobileMenuNavLinkArrow = styled(Link)`
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:before {
+    content: '↳';
+    opacity: 0.5;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const MobileNewsSection = styled.div`
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 1.5rem;
+`;
+
+const MobileNewsCard = styled.div`
+  color: #fff;
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
 // Navigation links
 const NAV_LINKS = [
   { to: '/work', label: 'Work' },
@@ -544,33 +531,11 @@ const Navbar = () => {
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
-  const [navVisible, setNavVisible] = useState(false);
   const [latestPosts, setLatestPosts] = useState([]);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      const threshold = NAV_HEIGHT + 30 + 20;
-      setNavVisible(e.clientY <= threshold);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   useEffect(() => {
     fetchLatestPosts();
   }, []);
-
-  useEffect(() => {
-    if (desktopMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [desktopMenuOpen]);
 
   const fetchLatestPosts = async () => {
     if (!supabase) {
@@ -625,9 +590,9 @@ const Navbar = () => {
     <>
       {/* Desktop Navbar */}
       <DesktopNavbarContainer role="navigation" aria-label="Main Navigation">
-        <NavGroup $visible={navVisible || desktopMenuOpen}>
+        <NavGroup $menuOpen={desktopMenuOpen}>
           <NavLeft>
-            <Logo to="/">
+            <Logo to="/" onClick={closeDesktopMenu}>
               {!logoError ? (
                 <img
                   src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
@@ -643,7 +608,7 @@ const Navbar = () => {
           </NavLeft>
           <NavRight>
             <RightButton to="/contact">Get in touch</RightButton>
-            <HamburgerButton onClick={toggleDesktopMenu} aria-label="Open menu">
+            <HamburgerButton onClick={toggleDesktopMenu} aria-label="Toggle menu">
               <HamburgerIcon $isOpen={desktopMenuOpen}>
                 <span></span>
                 <span></span>
@@ -652,87 +617,66 @@ const Navbar = () => {
             </HamburgerButton>
           </NavRight>
         </NavGroup>
+
+        {/* Desktop Dropdown Menu */}
+        <MenuDropdown $isOpen={desktopMenuOpen}>
+          <MenuContent>
+            <MenuNavSection>
+              <MenuSectionLabel>Navigation</MenuSectionLabel>
+              <MenuNavLinks>
+                {NAV_LINKS.map((link) => (
+                  <MenuNavLink key={link.to} to={link.to} onClick={closeDesktopMenu}>
+                    {link.label}
+                  </MenuNavLink>
+                ))}
+                {SUB_NAV_LINKS.map((link) => (
+                  <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeDesktopMenu}>
+                    {link.label}
+                  </MenuNavLinkArrow>
+                ))}
+              </MenuNavLinks>
+            </MenuNavSection>
+
+            <LatestNewsSection>
+              <LatestNewsHeader>
+                <MenuSectionLabel>Latest News</MenuSectionLabel>
+                <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
+                  View all posts →
+                </ViewAllLink>
+              </LatestNewsHeader>
+              <NewsGrid>
+                {latestPosts.map((post) => (
+                  <NewsCard key={post.id}>
+                    <NewsDate>{formatDate(post.created_at)}</NewsDate>
+                    {post.featured_image && (
+                      <NewsImage>
+                        <img src={post.featured_image} alt={post.title} />
+                      </NewsImage>
+                    )}
+                    <NewsTitle>{post.title}</NewsTitle>
+                    {post.excerpt && (
+                      <NewsExcerpt>{post.excerpt}</NewsExcerpt>
+                    )}
+                    <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
+                      Read More
+                    </ReadMoreLink>
+                  </NewsCard>
+                ))}
+                {latestPosts.length === 0 && (
+                  <NewsExcerpt>No posts yet.</NewsExcerpt>
+                )}
+              </NewsGrid>
+            </LatestNewsSection>
+          </MenuContent>
+        </MenuDropdown>
       </DesktopNavbarContainer>
-
-      {/* Full Screen Menu Overlay */}
-      <MenuOverlay $isOpen={desktopMenuOpen}>
-        <MenuHeader>
-          <MenuLogo to="/" onClick={closeDesktopMenu}>
-            {!logoError ? (
-              <MenuLogoImage
-                src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                alt="Hepta Logo"
-              />
-            ) : (
-              <span style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 700 }}>H</span>
-            )}
-          </MenuLogo>
-          <MenuHeaderRight>
-            <MenuGetInTouch to="/contact" onClick={closeDesktopMenu}>
-              Get in touch
-            </MenuGetInTouch>
-            <CloseButton onClick={closeDesktopMenu} aria-label="Close menu">
-              ×
-            </CloseButton>
-          </MenuHeaderRight>
-        </MenuHeader>
-
-        <MenuContent>
-          <MenuNavSection>
-            <MenuSectionLabel>Navigation</MenuSectionLabel>
-            <MenuNavLinks>
-              {NAV_LINKS.map((link) => (
-                <MenuNavLink key={link.to} to={link.to} onClick={closeDesktopMenu}>
-                  {link.label}
-                </MenuNavLink>
-              ))}
-              {SUB_NAV_LINKS.map((link) => (
-                <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeDesktopMenu}>
-                  {link.label}
-                </MenuNavLinkArrow>
-              ))}
-            </MenuNavLinks>
-          </MenuNavSection>
-
-          <LatestNewsSection>
-            <LatestNewsHeader>
-              <MenuSectionLabel>Latest News</MenuSectionLabel>
-              <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
-                View all posts →
-              </ViewAllLink>
-            </LatestNewsHeader>
-            <NewsGrid>
-              {latestPosts.map((post) => (
-                <NewsCard key={post.id}>
-                  <NewsDate>{formatDate(post.created_at)}</NewsDate>
-                  {post.featured_image && (
-                    <NewsImage>
-                      <img src={post.featured_image} alt={post.title} />
-                    </NewsImage>
-                  )}
-                  <NewsTitle>{post.title}</NewsTitle>
-                  {post.excerpt && (
-                    <NewsExcerpt>{post.excerpt}</NewsExcerpt>
-                  )}
-                  <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
-                    Read More
-                  </ReadMoreLink>
-                </NewsCard>
-              ))}
-              {latestPosts.length === 0 && (
-                <NewsExcerpt>No posts yet.</NewsExcerpt>
-              )}
-            </NewsGrid>
-          </LatestNewsSection>
-        </MenuContent>
-      </MenuOverlay>
 
       {/* Mobile Navbar */}
       <MobileNavbarContainer>
-        <MobileNavHeader>
-          <MobileHeaderContent>
+        <MobileNavWrapper>
+          <MobileNavHeader $menuOpen={mobileMenuOpen}>
             <MobileHeaderTop>
-              <MobileLogo to="/">
+              <MobileLogo to="/" onClick={closeMobileMenu}>
                 {!logoError ? (
                   <MobileLogoImage
                     src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
@@ -753,84 +697,47 @@ const Navbar = () => {
                 </MobileMenuToggle>
               </MobileMenuButtonGroup>
             </MobileHeaderTop>
-          </MobileHeaderContent>
-        </MobileNavHeader>
-      </MobileNavbarContainer>
+          </MobileNavHeader>
 
-      {/* Mobile uses same overlay */}
-      {mobileMenuOpen && (
-        <MenuOverlay $isOpen={mobileMenuOpen}>
-          <MenuHeader>
-            <MenuLogo to="/" onClick={closeMobileMenu}>
-              {!logoError ? (
-                <MenuLogoImage
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                  alt="Hepta Logo"
-                />
-              ) : (
-                <span style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 700 }}>H</span>
-              )}
-            </MenuLogo>
-            <MenuHeaderRight>
-              <MenuGetInTouch to="/contact" onClick={closeMobileMenu}>
-                Get in touch
-              </MenuGetInTouch>
-              <CloseButton onClick={closeMobileMenu} aria-label="Close menu">
-                ×
-              </CloseButton>
-            </MenuHeaderRight>
-          </MenuHeader>
+          {/* Mobile Dropdown Menu */}
+          <MobileMenuDropdown $isOpen={mobileMenuOpen}>
+            <MenuSectionLabel>Navigation</MenuSectionLabel>
+            <MobileMenuNavLinks>
+              {NAV_LINKS.map((link) => (
+                <MobileMenuNavLink key={link.to} to={link.to} onClick={closeMobileMenu}>
+                  {link.label}
+                </MobileMenuNavLink>
+              ))}
+              {SUB_NAV_LINKS.map((link) => (
+                <MobileMenuNavLinkArrow key={link.to} to={link.to} onClick={closeMobileMenu}>
+                  {link.label}
+                </MobileMenuNavLinkArrow>
+              ))}
+            </MobileMenuNavLinks>
 
-          <MenuContent>
-            <MenuNavSection>
-              <MenuSectionLabel>Navigation</MenuSectionLabel>
-              <MenuNavLinks>
-                {NAV_LINKS.map((link) => (
-                  <MenuNavLink key={link.to} to={link.to} onClick={closeMobileMenu}>
-                    {link.label}
-                  </MenuNavLink>
-                ))}
-                {SUB_NAV_LINKS.map((link) => (
-                  <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeMobileMenu}>
-                    {link.label}
-                  </MenuNavLinkArrow>
-                ))}
-              </MenuNavLinks>
-            </MenuNavSection>
-
-            <LatestNewsSection>
+            <MobileNewsSection>
               <LatestNewsHeader>
-                <MenuSectionLabel>Latest News</MenuSectionLabel>
+                <MenuSectionLabel style={{ marginBottom: 0 }}>Latest News</MenuSectionLabel>
                 <ViewAllLink to="/newsletter" onClick={closeMobileMenu}>
-                  View all posts →
+                  View all →
                 </ViewAllLink>
               </LatestNewsHeader>
-              <NewsGrid>
-                {latestPosts.map((post) => (
-                  <NewsCard key={post.id}>
-                    <NewsDate>{formatDate(post.created_at)}</NewsDate>
-                    {post.featured_image && (
-                      <NewsImage>
-                        <img src={post.featured_image} alt={post.title} />
-                      </NewsImage>
-                    )}
-                    <NewsTitle>{post.title}</NewsTitle>
-                    {post.excerpt && (
-                      <NewsExcerpt>{post.excerpt}</NewsExcerpt>
-                    )}
-                    <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
-                      Read More
-                    </ReadMoreLink>
-                  </NewsCard>
-                ))}
-                {latestPosts.length === 0 && (
-                  <NewsExcerpt>No posts yet.</NewsExcerpt>
-                )}
-              </NewsGrid>
-            </LatestNewsSection>
-          </MenuContent>
-        </MenuOverlay>
-      )}
+              {latestPosts.map((post) => (
+                <MobileNewsCard key={post.id}>
+                  <NewsDate>{formatDate(post.created_at)}</NewsDate>
+                  <NewsTitle>{post.title}</NewsTitle>
+                  <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
+                    Read More
+                  </ReadMoreLink>
+                </MobileNewsCard>
+              ))}
+              {latestPosts.length === 0 && (
+                <NewsExcerpt>No posts yet.</NewsExcerpt>
+              )}
+            </MobileNewsSection>
+          </MobileMenuDropdown>
+        </MobileNavWrapper>
+      </MobileNavbarContainer>
     </>
   );
 };
