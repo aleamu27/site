@@ -35,6 +35,7 @@ import AdminDashboard from './pages/Admin/Dashboard';
 import AdminSubscribers from './pages/Admin/Subscribers';
 import SessionManager from './components/Auth/SessionManager';
 import ScrollToTop from './components/ScrollToTop';
+import CookieConsent from './components/CookieConsent';
 
 function AppContent() {
   const location = useLocation();
@@ -121,6 +122,7 @@ function AppContent() {
         } />
       </Routes>
       {location.pathname !== '/contact' && location.pathname !== '/silmaril' && <Footer />}
+      <CookieConsent />
     </>
   );
 }
