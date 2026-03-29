@@ -404,9 +404,9 @@ const BlogPost = () => {
       <BlogPostWrapper>
         <BlogPostSection>
           <BlogPostContainer>
-            <BackButton to="/blog">← Back to Blog</BackButton>
+            <BackButton to="/newsletter">← Back to Newsletter</BackButton>
             <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#e74c3c' }}>
-              <h3>Error Loading Blog Post</h3>
+              <h3>Error Loading Post</h3>
               <p>{error}</p>
               <button 
                 onClick={() => window.location.reload()} 
@@ -436,8 +436,8 @@ const BlogPost = () => {
           <BlogPostContainer>
             <NotFound>
               <h2>Post Not Found</h2>
-              <p>The blog post you're looking for doesn't exist.</p>
-              <BackButton to="/blog">← Back to Blog</BackButton>
+              <p>The post you're looking for doesn't exist.</p>
+              <BackButton to="/newsletter">← Back to Newsletter</BackButton>
             </NotFound>
           </BlogPostContainer>
         </BlogPostSection>
@@ -449,7 +449,7 @@ const BlogPost = () => {
     <BlogPostWrapper>
       <BlogPostSection>
         <BlogPostContainer>
-          <BackButton to="/blog">← Back to Blog</BackButton>
+          <BackButton to="/newsletter">← Back to Newsletter</BackButton>
           
           <BlogPostHeader>
             <BlogPostTitle>{post.title}</BlogPostTitle>
@@ -480,7 +480,7 @@ const BlogPost = () => {
                 <RelatedPostsTitle>Related Posts</RelatedPostsTitle>
                 <RelatedPostsGrid>
                   {relatedPosts.map(relatedPost => (
-                    <RelatedPostCard key={relatedPost.id} to={`/blog/${relatedPost.slug}`}>
+                    <RelatedPostCard key={relatedPost.id} to={`/newsletter/${relatedPost.slug}`}>
                       <RelatedPostTitle>{relatedPost.title}</RelatedPostTitle>
                       <RelatedPostExcerpt>{relatedPost.excerpt}</RelatedPostExcerpt>
                     </RelatedPostCard>

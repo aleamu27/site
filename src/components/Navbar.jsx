@@ -528,7 +528,7 @@ const MenuSeparator = styled.span`
 const NAV_LINKS = [
   { to: '/work', label: 'Work' },
   { to: '/about', label: 'About' },
-  { to: '/blog', label: 'Blog' },
+  { to: '/newsletter', label: 'Newsletter' },
   { to: '/careers', label: 'Careers' },
 ];
 
@@ -697,7 +697,7 @@ const Navbar = () => {
           <LatestNewsSection>
             <LatestNewsHeader>
               <MenuSectionLabel>Latest News</MenuSectionLabel>
-              <ViewAllLink to="/blog" onClick={closeDesktopMenu}>
+              <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
                 View all posts →
               </ViewAllLink>
             </LatestNewsHeader>
@@ -714,7 +714,7 @@ const Navbar = () => {
                   {post.excerpt && (
                     <NewsExcerpt>{post.excerpt}</NewsExcerpt>
                   )}
-                  <ReadMoreLink to={`/blog/${post.slug}`} onClick={closeDesktopMenu}>
+                  <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
                     Read More
                   </ReadMoreLink>
                 </NewsCard>
@@ -801,7 +801,7 @@ const Navbar = () => {
             <LatestNewsSection>
               <LatestNewsHeader>
                 <MenuSectionLabel>Latest News</MenuSectionLabel>
-                <ViewAllLink to="/blog" onClick={closeMobileMenu}>
+                <ViewAllLink to="/newsletter" onClick={closeMobileMenu}>
                   View all posts →
                 </ViewAllLink>
               </LatestNewsHeader>
@@ -818,7 +818,7 @@ const Navbar = () => {
                     {post.excerpt && (
                       <NewsExcerpt>{post.excerpt}</NewsExcerpt>
                     )}
-                    <ReadMoreLink to={`/blog/${post.slug}`} onClick={closeMobileMenu}>
+                    <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
                       Read More
                     </ReadMoreLink>
                   </NewsCard>

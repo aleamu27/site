@@ -271,7 +271,7 @@ const Blog = () => {
             </HeroTextInner>
           </HeroTextBlock>
           <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#666' }}>
-            <p>Loading blog posts...</p>
+            <p>Loading newsletter...</p>
           </div>
         </BlogSection>
       </BlogWrapper>
@@ -288,7 +288,7 @@ const Blog = () => {
             </HeroTextInner>
           </HeroTextBlock>
           <div style={{ textAlign: 'center', padding: '4rem 2rem', color: '#e74c3c' }}>
-            <h3>Error Loading Blog Posts</h3>
+            <h3>Error Loading Newsletter</h3>
             <p>{error}</p>
             <button 
               onClick={() => window.location.reload()} 
@@ -320,13 +320,13 @@ const Blog = () => {
         
         {blogPosts.length === 0 ? (
           <EmptyState>
-            <h3>No blog posts yet</h3>
-            <p>Start writing to share your thoughts and insights with the world.</p>
+            <h3>No newsletter posts yet</h3>
+            <p>Check back soon for our latest insights and updates.</p>
           </EmptyState>
         ) : (
           <BlogGrid>
             {blogPosts.map((post) => (
-              <BlogCard key={post.id} to={`/blog/${post.slug}`} featured={post.featured}>
+              <BlogCard key={post.id} to={`/newsletter/${post.slug}`} featured={post.featured}>
                 <BlogCardDate featured={post.featured}>{post.date}</BlogCardDate>
                 <BlogCardTitle featured={post.featured}>{post.title}</BlogCardTitle>
                 <BlogCardExcerpt featured={post.featured}>{post.excerpt}</BlogCardExcerpt>

@@ -53,29 +53,29 @@ function AppContent() {
         <Route path="/production" element={<Layout><Production /></Layout>} />
         <Route path="/work" element={<Layout><Work /></Layout>} />
         <Route path="/about" element={<Layout><About /></Layout>} />
-        <Route path="/blog" element={<Layout><Blog /></Layout>} />
-        <Route path="/blog/:slug" element={<Layout><BlogPost /></Layout>} />
-        
-        {/* Protected routes for blog management */}
-        <Route path="/blog/manage" element={
+        <Route path="/newsletter" element={<Layout><Blog /></Layout>} />
+        <Route path="/newsletter/:slug" element={<Layout><BlogPost /></Layout>} />
+
+        {/* Protected routes for newsletter management */}
+        <Route path="/newsletter/manage" element={
           <ProtectedRoute>
             <Layout><BlogManagement /></Layout>
           </ProtectedRoute>
         } />
-        
-        <Route path="/blog/cms" element={
+
+        <Route path="/newsletter/cms" element={
           <ProtectedRoute>
             <Layout><BlogCMS /></Layout>
           </ProtectedRoute>
         } />
-        
-        <Route path="/blog/new" element={
+
+        <Route path="/newsletter/new" element={
           <ProtectedRoute>
             <Layout><BlogCMS /></Layout>
           </ProtectedRoute>
         } />
-        
-        <Route path="/blog-cms" element={
+
+        <Route path="/newsletter-cms" element={
           <ProtectedRoute>
             <Layout><BlogCMS /></Layout>
           </ProtectedRoute>
@@ -111,7 +111,7 @@ function AppContent() {
           <ProtectedRoute>
             <Layout>
               <Routes>
-                <Route path="posts" element={<div>Blog Posts Management</div>} />
+                <Route path="posts" element={<div>Newsletter Management</div>} />
                 <Route path="posts/new" element={<BlogCMS />} />
                 <Route path="media" element={<div>Media Library</div>} />
                 <Route path="subscribers" element={<AdminSubscribers />} />
