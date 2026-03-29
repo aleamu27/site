@@ -40,17 +40,24 @@ const DesktopNavbarContainer = styled.nav`
 const NavGroup = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: rgba(159,159,159,0.38);
   border: none;
   border-radius: 8px;
-  padding: 0.11rem 0.85rem 0.11rem 0.35rem;
-  margin: 1.2rem 0 0 1.1rem;
+  padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  margin: 1.2rem 1.1rem 0 1.1rem;
   box-shadow: none;
-  height: ${NAV_HEIGHT}px;
+  height: ${NAV_HEIGHT + 10}px;
   opacity: ${props => props.$visible ? 1 : 0};
   pointer-events: ${props => props.$visible ? 'auto' : 'none'};
   animation: ${props => props.$visible ? fadeIn : 'none'} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   transition: opacity 0.3s ease;
+  flex: 1;
+`;
+
+const NavLeft = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Logo = styled(Link)`
@@ -104,27 +111,21 @@ const NavLink = styled.li`
 `;
 
 const RightButton = styled(Link)`
-  position: absolute;
-  right: 1.1rem;
-  top: 1.2rem;
   background: #222;
   color: #fff;
   font-size: 0.9rem;
   font-family: ${NAV_MONO};
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 0 1.1rem;
   text-decoration: none;
-  transition: background 0.2s, color 0.18s, opacity 0.3s ease;
+  transition: background 0.2s, color 0.18s;
   border: none;
   box-shadow: none;
   letter-spacing: 0.02em;
   height: ${NAV_HEIGHT}px;
   display: flex;
   align-items: center;
-  opacity: ${props => props.$visible ? 1 : 0};
-  pointer-events: ${props => props.$visible ? 'auto' : 'none'};
-  animation: ${props => props.$visible ? fadeIn : 'none'} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   &:hover {
     color: #e5e5e5;
   }
@@ -339,34 +340,36 @@ const Navbar = () => {
       {/* Desktop Navbar */}
       <DesktopNavbarContainer role="navigation" aria-label="Main Navigation">
         <NavGroup $visible={navVisible}>
-          <Logo to="/">
-            {!logoError ? (
-              <img
-                src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
-                alt="Logo"
-                style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              'BB'
-            )}
-          </Logo>
-          <NavLinks>
-            {NAV_LINKS.map((link) => (
-              <NavLink key={link.to}>
-                <Link
-                  to={link.to}
-                  className={location.pathname === link.to ? 'active' : ''}
-                  tabIndex={0}
-                  aria-current={location.pathname === link.to ? 'page' : undefined}
-                >
-                  {link.label}
-                </Link>
-              </NavLink>
-            ))}
-          </NavLinks>
+          <NavLeft>
+            <Logo to="/">
+              {!logoError ? (
+                <img
+                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                  alt="Logo"
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                'BB'
+              )}
+            </Logo>
+            <NavLinks>
+              {NAV_LINKS.map((link) => (
+                <NavLink key={link.to}>
+                  <Link
+                    to={link.to}
+                    className={location.pathname === link.to ? 'active' : ''}
+                    tabIndex={0}
+                    aria-current={location.pathname === link.to ? 'page' : undefined}
+                  >
+                    {link.label}
+                  </Link>
+                </NavLink>
+              ))}
+            </NavLinks>
+          </NavLeft>
+          <RightButton to="/contact">Get in touch</RightButton>
         </NavGroup>
-        <RightButton to="/contact" $visible={navVisible}>Get in touch</RightButton>
       </DesktopNavbarContainer>
 
       {/* Mobile Navbar - Exact Bakken & Bæck Copy */}
