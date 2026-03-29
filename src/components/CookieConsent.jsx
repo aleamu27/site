@@ -174,12 +174,16 @@ const CookieConsent = () => {
     setShowModal(false);
     setHasConsented(true);
     loadAnalytics();
+    // Dispatch event for Hero animation
+    window.dispatchEvent(new CustomEvent('cookieConsentClosed'));
   };
 
   const handleDecline = () => {
     localStorage.setItem('cookie-consent', 'declined');
     setShowModal(false);
     setHasConsented(true);
+    // Dispatch event for Hero animation
+    window.dispatchEvent(new CustomEvent('cookieConsentClosed'));
   };
 
   const openSettings = () => {

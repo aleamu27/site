@@ -1,5 +1,5 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 
 const revealUp = keyframes`
   0% {
@@ -88,12 +88,38 @@ const TextLine = styled.span`
 
 const TextReveal = styled.span`
   display: block;
-  animation: ${revealUp} 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: ${props => props.delay || '0s'};
   opacity: 0;
+  ${props => props.animate && css`
+    animation: ${revealUp} 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: ${props.delay || '0s'};
+  `}
 `;
 
 const Hero = () => {
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie-consent');
+
+    if (consent !== null) {
+      // No cookie banner, wait 1 second then animate
+      const timer = setTimeout(() => {
+        setStartAnimation(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      // Cookie banner is showing, wait for it to close
+      const handleConsentClosed = () => {
+        setTimeout(() => {
+          setStartAnimation(true);
+        }, 1000);
+      };
+
+      window.addEventListener('cookieConsentClosed', handleConsentClosed);
+      return () => window.removeEventListener('cookieConsentClosed', handleConsentClosed);
+    }
+  }, []);
+
   return (
     <HeroSection>
       <VideoBackground
@@ -107,10 +133,10 @@ const Hero = () => {
       <HeroTextBlock>
         <HeroTextInner>
           <TextLine>
-            <TextReveal delay="0.2s">The Infrastructure Beneath</TextReveal>
+            <TextReveal animate={startAnimation} delay="0s">The Infrastructure Beneath</TextReveal>
           </TextLine>
           <TextLine>
-            <TextReveal delay="0.4s">Digital Trust</TextReveal>
+            <TextReveal animate={startAnimation} delay="0.2s">Digital Trust</TextReveal>
           </TextLine>
         </HeroTextInner>
       </HeroTextBlock>
