@@ -1,75 +1,10 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
+import Showcase from '../components/Showcase';
 import styled, { keyframes, css } from 'styled-components';
 import { COLORS } from '../styles/colors';
 import { Link, useNavigate } from 'react-router-dom';
-
-const Section = styled.section`
-  margin: 3rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const ServicesBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const BigHeading = styled.h2`
-  color: #b3b3b3;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
-  font-weight: 600;
-  margin-bottom: 0.4em;
-  text-align: left;
-  margin-left: 1px;
-`;
-
-const ServicesList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2.5rem 0;
-  width: 100%;
-  max-width: 480px;
-`;
-
-const ServiceButton = styled(Link)`
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-size: 1.7rem;
-  font-weight: 500;
-  line-height: 1.15;
-  color: #222;
-  outline: none;
-  text-decoration: none;
-  &:hover {
-    color: #184B54;
-  }
-`;
-
-const Circle = styled.span`
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  border: 2px solid #222;
-  border-radius: 50%;
-  margin-right: 0.6em;
-  background: ${({ filled }) => (filled ? '#222' : 'transparent')};
-  transition: background 0.18s;
-`;
 
 const WhatWeDoBlock = styled.div`
   display: flex;
@@ -393,58 +328,13 @@ const CTAImage = styled.div`
 `;
 
 const Home = () => {
-  const serviceNames = [
-    'Custom AI',
-    'Development',
-    'Automation',
-    'Production',
-    'Design + Animation',
-  ];
-  const [hoveredIdx, setHoveredIdx] = React.useState(null);
   const [openCard, setOpenCard] = React.useState(0);
   const navigate = useNavigate();
   return (
     <>
       <Hero />
       <Layout>
-        <Section>
-          <ServicesBlock>
-            <BigHeading>What we do</BigHeading>
-            <ServicesList>
-              {serviceNames.map((name, idx) => {
-                // Map service names to routes
-                const routeMap = {
-                  'Custom AI': '/custom-ai',
-                  'Development': '/development',
-                  'Automation': '/ai-automations',
-                  'Production': '/production',
-                  'Design + Animation': '/design',
-                };
-                return (
-                  <li key={name} style={{margin: '0.7rem 0'}}>
-                    <ServiceButton
-                      to={routeMap[name]}
-                      tabIndex={0}
-                      onMouseEnter={() => setHoveredIdx(idx)}
-                      onMouseLeave={() => setHoveredIdx(null)}
-                      onFocus={() => setHoveredIdx(idx)}
-                      onBlur={() => setHoveredIdx(null)}
-                    >
-                      <Circle filled={hoveredIdx === idx} aria-hidden="true" />
-                      {name}
-                    </ServiceButton>
-                  </li>
-                );
-              })}
-            </ServicesList>
-          </ServicesBlock>
-        </Section>
-        <Section>
-          {/* Testimonial removed as requested */}
-        </Section>
-        <Section>
-          {/* Contact section removed as requested */}
-        </Section>
+        <Showcase />
         <WhatWeDoBlock>
           <WhatWeDoText>
             We <WhatWeDoLead>partner</WhatWeDoLead> with teams to launch new ideas, refine existing tools, and deliver better digital experiences.
