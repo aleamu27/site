@@ -1,4 +1,8 @@
 import React from 'react';
+import UnderConstruction from './pages/UnderConstruction';
+
+// UNDER CONSTRUCTION MODE - uncomment below and comment out UnderConstruction to restore full site
+/*
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
@@ -80,17 +84,17 @@ function AppContent() {
             <Layout><BlogCMS /></Layout>
           </ProtectedRoute>
         } />
-        
+
         <Route path="/careers" element={<Layout><Careers /></Layout>} />
         <Route path="/careers/:slug" element={<Layout><JobListing /></Layout>} />
-        
+
         {/* Protected route for job posting */}
         <Route path="/careers/cms/new" element={
           <ProtectedRoute>
             <Layout><JobCMS /></Layout>
           </ProtectedRoute>
         } />
-        
+
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/gdpr-checklist" element={<GDPRChecklist />} />
@@ -99,14 +103,14 @@ function AppContent() {
         <Route path="/kafekompasset-support" element={<Layout><KafekompassetSupport /></Layout>} />
         <Route path="/silmaril" element={<Silmaril />} />
         <Route path="/login" element={<LoginForm />} />
-        
+
         {/* Admin routes */}
         <Route path="/admin" element={
           <ProtectedRoute>
             <AdminDashboard />
           </ProtectedRoute>
         } />
-        
+
         <Route path="/admin/*" element={
           <ProtectedRoute>
             <Layout>
@@ -126,8 +130,14 @@ function AppContent() {
     </>
   );
 }
+*/
 
 function App() {
+  // UNDER CONSTRUCTION MODE - shows only the under construction page
+  return <UnderConstruction />;
+
+  // FULL SITE MODE - uncomment below and comment out the line above to restore
+  /*
   return (
     <AuthProvider>
       <GlobalStyle />
@@ -138,6 +148,7 @@ function App() {
       </Router>
     </AuthProvider>
   );
+  */
 }
 
 export default App;
