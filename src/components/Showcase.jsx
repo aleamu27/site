@@ -86,7 +86,7 @@ const SHOWCASE_DATA = [
     id: 'development',
     tabName: 'Development',
     link: '/development',
-    image: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Silmaril%20fra%20Alex%20Bolgen%20Amundsen.png',
+    image: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Alternativer%20til%20nettside.png',
   },
   {
     id: 'client1',
