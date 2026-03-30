@@ -14,7 +14,10 @@ const progressFill = keyframes`
 `;
 
 const ShowcaseWrapper = styled.section`
-  width: 100%;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
   padding: 4rem 0;
 `;
 
@@ -23,7 +26,10 @@ const TabsContainer = styled.div`
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
-  padding: 0 15px;
+  padding: 0 2rem;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const Tab = styled.button`
@@ -31,9 +37,9 @@ const Tab = styled.button`
   background: transparent;
   border: 1px solid ${props => props.$active ? '#222' : '#ddd'};
   border-radius: 4px;
-  padding: 0.6rem 1.2rem;
+  padding: 0.7rem 1.4rem;
   font-family: 'Menlo', 'Monaco', monospace;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: ${props => props.$active ? '#222' : '#999'};
   cursor: pointer;
   transition: all 0.2s ease;
@@ -56,15 +62,23 @@ const TabProgress = styled.div`
 
 const ShowcaseCard = styled(Link)`
   display: block;
-  margin: 0 15px;
-  border-radius: 8px;
+  margin: 0 2rem;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: scale(1.005);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(1.003);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    margin: 0 1rem;
+    border-radius: 8px;
   }
 `;
 
