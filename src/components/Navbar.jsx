@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { supabase } from '../lib/supabase';
 
-const slideDown = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 const NAV_MONO = 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
 const NAV_HEIGHT = 38;
@@ -158,14 +148,19 @@ const HamburgerIcon = styled.div`
   `}
 `;
 
-// Dropdown Menu Panel (replaces full screen overlay)
+// Dropdown Menu Panel - grows out of navbar
 const MenuDropdown = styled.div`
-  display: ${props => props.$isOpen ? 'block' : 'none'};
   background: #1a1a1a;
   border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  max-height: ${props => props.$isOpen ? '80vh' : '0'};
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+`;
+
+const MenuDropdownInner = styled.div`
   padding: 2rem;
-  animation: ${slideDown} 0.3s ease forwards;
-  max-height: calc(100vh - 100px);
+  max-height: calc(80vh - 4rem);
   overflow-y: auto;
 `;
 
@@ -446,12 +441,17 @@ const MenuSeparator = styled.span`
 `;
 
 const MobileMenuDropdown = styled.div`
-  display: ${props => props.$isOpen ? 'block' : 'none'};
   background: #1a1a1a;
   border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  max-height: ${props => props.$isOpen ? '80vh' : '0'};
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+`;
+
+const MobileMenuDropdownInner = styled.div`
   padding: 1.5rem;
-  animation: ${slideDown} 0.3s ease forwards;
-  max-height: calc(100vh - 150px);
+  max-height: calc(80vh - 3rem);
   overflow-y: auto;
 `;
 
@@ -619,54 +619,56 @@ const Navbar = () => {
 
         {/* Desktop Dropdown Menu */}
         <MenuDropdown $isOpen={desktopMenuOpen}>
-          <MenuContent>
-            <MenuNavSection>
-              <MenuSectionLabel>Navigation</MenuSectionLabel>
-              <MenuNavLinks>
-                {NAV_LINKS.map((link) => (
-                  <MenuNavLink key={link.to} to={link.to} onClick={closeDesktopMenu}>
-                    {link.label}
-                  </MenuNavLink>
-                ))}
-                {SUB_NAV_LINKS.map((link) => (
-                  <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeDesktopMenu}>
-                    {link.label}
-                  </MenuNavLinkArrow>
-                ))}
-              </MenuNavLinks>
-            </MenuNavSection>
+          <MenuDropdownInner>
+            <MenuContent>
+              <MenuNavSection>
+                <MenuSectionLabel>Navigation</MenuSectionLabel>
+                <MenuNavLinks>
+                  {NAV_LINKS.map((link) => (
+                    <MenuNavLink key={link.to} to={link.to} onClick={closeDesktopMenu}>
+                      {link.label}
+                    </MenuNavLink>
+                  ))}
+                  {SUB_NAV_LINKS.map((link) => (
+                    <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeDesktopMenu}>
+                      {link.label}
+                    </MenuNavLinkArrow>
+                  ))}
+                </MenuNavLinks>
+              </MenuNavSection>
 
-            <LatestNewsSection>
-              <LatestNewsHeader>
-                <MenuSectionLabel>Latest News</MenuSectionLabel>
-                <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
-                  View all posts →
-                </ViewAllLink>
-              </LatestNewsHeader>
-              <NewsGrid>
-                {latestPosts.map((post) => (
-                  <NewsCard key={post.id}>
-                    <NewsDate>{formatDate(post.created_at)}</NewsDate>
-                    {post.featured_image && (
-                      <NewsImage>
-                        <img src={post.featured_image} alt={post.title} />
-                      </NewsImage>
-                    )}
-                    <NewsTitle>{post.title}</NewsTitle>
-                    {post.excerpt && (
-                      <NewsExcerpt>{post.excerpt}</NewsExcerpt>
-                    )}
-                    <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
-                      Read More
-                    </ReadMoreLink>
-                  </NewsCard>
-                ))}
-                {latestPosts.length === 0 && (
-                  <NewsExcerpt>No posts yet.</NewsExcerpt>
-                )}
-              </NewsGrid>
-            </LatestNewsSection>
-          </MenuContent>
+              <LatestNewsSection>
+                <LatestNewsHeader>
+                  <MenuSectionLabel>Latest News</MenuSectionLabel>
+                  <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
+                    View all posts →
+                  </ViewAllLink>
+                </LatestNewsHeader>
+                <NewsGrid>
+                  {latestPosts.map((post) => (
+                    <NewsCard key={post.id}>
+                      <NewsDate>{formatDate(post.created_at)}</NewsDate>
+                      {post.featured_image && (
+                        <NewsImage>
+                          <img src={post.featured_image} alt={post.title} />
+                        </NewsImage>
+                      )}
+                      <NewsTitle>{post.title}</NewsTitle>
+                      {post.excerpt && (
+                        <NewsExcerpt>{post.excerpt}</NewsExcerpt>
+                      )}
+                      <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
+                        Read More
+                      </ReadMoreLink>
+                    </NewsCard>
+                  ))}
+                  {latestPosts.length === 0 && (
+                    <NewsExcerpt>No posts yet.</NewsExcerpt>
+                  )}
+                </NewsGrid>
+              </LatestNewsSection>
+            </MenuContent>
+          </MenuDropdownInner>
         </MenuDropdown>
       </DesktopNavbarContainer>
 
@@ -700,40 +702,42 @@ const Navbar = () => {
 
           {/* Mobile Dropdown Menu */}
           <MobileMenuDropdown $isOpen={mobileMenuOpen}>
-            <MenuSectionLabel>Navigation</MenuSectionLabel>
-            <MobileMenuNavLinks>
-              {NAV_LINKS.map((link) => (
-                <MobileMenuNavLink key={link.to} to={link.to} onClick={closeMobileMenu}>
-                  {link.label}
-                </MobileMenuNavLink>
-              ))}
-              {SUB_NAV_LINKS.map((link) => (
-                <MobileMenuNavLinkArrow key={link.to} to={link.to} onClick={closeMobileMenu}>
-                  {link.label}
-                </MobileMenuNavLinkArrow>
-              ))}
-            </MobileMenuNavLinks>
+            <MobileMenuDropdownInner>
+              <MenuSectionLabel>Navigation</MenuSectionLabel>
+              <MobileMenuNavLinks>
+                {NAV_LINKS.map((link) => (
+                  <MobileMenuNavLink key={link.to} to={link.to} onClick={closeMobileMenu}>
+                    {link.label}
+                  </MobileMenuNavLink>
+                ))}
+                {SUB_NAV_LINKS.map((link) => (
+                  <MobileMenuNavLinkArrow key={link.to} to={link.to} onClick={closeMobileMenu}>
+                    {link.label}
+                  </MobileMenuNavLinkArrow>
+                ))}
+              </MobileMenuNavLinks>
 
-            <MobileNewsSection>
-              <LatestNewsHeader>
-                <MenuSectionLabel style={{ marginBottom: 0 }}>Latest News</MenuSectionLabel>
-                <ViewAllLink to="/newsletter" onClick={closeMobileMenu}>
-                  View all →
-                </ViewAllLink>
-              </LatestNewsHeader>
-              {latestPosts.map((post) => (
-                <MobileNewsCard key={post.id}>
-                  <NewsDate>{formatDate(post.created_at)}</NewsDate>
-                  <NewsTitle>{post.title}</NewsTitle>
-                  <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
-                    Read More
-                  </ReadMoreLink>
-                </MobileNewsCard>
-              ))}
-              {latestPosts.length === 0 && (
-                <NewsExcerpt>No posts yet.</NewsExcerpt>
-              )}
-            </MobileNewsSection>
+              <MobileNewsSection>
+                <LatestNewsHeader>
+                  <MenuSectionLabel style={{ marginBottom: 0 }}>Latest News</MenuSectionLabel>
+                  <ViewAllLink to="/newsletter" onClick={closeMobileMenu}>
+                    View all →
+                  </ViewAllLink>
+                </LatestNewsHeader>
+                {latestPosts.map((post) => (
+                  <MobileNewsCard key={post.id}>
+                    <NewsDate>{formatDate(post.created_at)}</NewsDate>
+                    <NewsTitle>{post.title}</NewsTitle>
+                    <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
+                      Read More
+                    </ReadMoreLink>
+                  </MobileNewsCard>
+                ))}
+                {latestPosts.length === 0 && (
+                  <NewsExcerpt>No posts yet.</NewsExcerpt>
+                )}
+              </MobileNewsSection>
+            </MobileMenuDropdownInner>
           </MobileMenuDropdown>
         </MobileNavWrapper>
       </MobileNavbarContainer>
