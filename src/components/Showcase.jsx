@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import ClientShowcaseCard from './ClientShowcaseCard';
 
-const INTERVAL_DURATION = 5000; // 5 seconds
+const INTERVAL_DURATION = 10000; // 10 seconds
 
 const progressFill = keyframes`
   from {
@@ -142,13 +142,6 @@ const SHOWCASE_DATA = [
     ],
     externalLink: 'https://criterionpropertygroup.com',
     externalLinkText: 'CRITERIONPROPERTYGROUP.COM'
-  },
-  {
-    id: 'client2',
-    tabName: 'Client.2',
-    type: 'image',
-    link: '/work',
-    image: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Silmaril%20fra%20Alex%20Bolgen%20Amundsen.png',
   }
 ];
 

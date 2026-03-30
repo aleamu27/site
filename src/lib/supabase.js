@@ -7,14 +7,16 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
 // Check if the environment variables are loaded
 if (!supabaseUrl || !supabaseKey) {
-  console.error(
+  console.warn(
     'Supabase environment variables are missing. ' +
-    'Make sure REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY are set.'
+    'Some features will be disabled.'
   );
 }
 
-// Initialize the client
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Initialize the client only if we have the key, otherwise create a dummy
+export const supabase = supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null;
 
 // Helper to check configuration status
 export const isSupabaseConfigured = () => {
