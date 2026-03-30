@@ -29,8 +29,10 @@ const DesktopNavbarContainer = styled.nav`
   box-shadow: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   font-family: ${NAV_MONO};
+  padding: 1.2rem 1.1rem 0 1.1rem;
+  box-sizing: border-box;
 
   @media (max-width: 768px) {
     display: none;
@@ -47,10 +49,8 @@ const NavGroup = styled.div`
   border: none;
   border-radius: ${props => props.$menuOpen ? '8px 8px 0 0' : '8px'};
   padding: 0.35rem 0.5rem 0.35rem 0.35rem;
-  margin: 1.2rem 1.1rem 0 1.1rem;
   box-shadow: none;
   height: ${NAV_HEIGHT + 10}px;
-  flex: 1;
   transition: border-radius 0.3s ease;
 `;
 
@@ -163,7 +163,6 @@ const MenuDropdown = styled.div`
   display: ${props => props.$isOpen ? 'block' : 'none'};
   background: #1a1a1a;
   border-radius: 0 0 8px 8px;
-  margin: 0 1.1rem;
   padding: 2rem;
   animation: ${slideDown} 0.3s ease forwards;
   max-height: calc(100vh - 100px);
