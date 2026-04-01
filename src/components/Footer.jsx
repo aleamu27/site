@@ -7,7 +7,7 @@ const FooterWrapper = styled.footer`
   position: relative;
   display: flex;
   flex-direction: column;
-  background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80');
+  background-image: url('https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/FOOTERP/Alternativer%20til%20nettside%20(1).png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
