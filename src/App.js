@@ -60,7 +60,7 @@ function AppContent() {
         <Route path="/newsletter" element={<Layout><Blog /></Layout>} />
         <Route path="/newsletter/:slug" element={<Layout><BlogPost /></Layout>} />
 
-        {/* Protected routes for newsletter management */}
+        // Protected routes for newsletter management
         <Route path="/newsletter/manage" element={
           <ProtectedRoute>
             <Layout><BlogManagement /></Layout>
@@ -88,7 +88,7 @@ function AppContent() {
         <Route path="/careers" element={<Layout><Careers /></Layout>} />
         <Route path="/careers/:slug" element={<Layout><JobListing /></Layout>} />
 
-        {/* Protected route for job posting */}
+        // Protected route for job posting
         <Route path="/careers/cms/new" element={
           <ProtectedRoute>
             <Layout><JobCMS /></Layout>
@@ -104,7 +104,7 @@ function AppContent() {
         <Route path="/silmaril" element={<Silmaril />} />
         <Route path="/login" element={<LoginForm />} />
 
-        {/* Admin routes */}
+        // Admin routes
         <Route path="/admin" element={
           <ProtectedRoute>
             <AdminDashboard />

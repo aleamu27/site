@@ -191,6 +191,30 @@ const ScrollArrow = styled.div`
   cursor: pointer;
 `;
 
+const StatementSection = styled.div`
+  background: #fff;
+  padding: 8rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StatementText = styled.p`
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.6;
+  margin: 0;
+  letter-spacing: -0.01em;
+`;
+
+const GrayText = styled.span`
+  color: #999;
+`;
+
 const ArrowDot = styled.span`
   width: 4px;
   height: 4px;
@@ -582,6 +606,14 @@ const Silmaril = () => {
           <ArrowDot />
         </ScrollArrow>
       </Card>
+
+      <StatementSection>
+        <StatementText>
+          Our software monitors, protects, and builds
+          the <GrayText>digital surface</GrayText> of organizations that
+          operate where exposure isn't an option.
+        </StatementText>
+      </StatementSection>
 
       <DarkCard>
         <CardContent>
