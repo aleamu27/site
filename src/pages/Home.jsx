@@ -3,96 +3,6 @@ import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
 import styled from 'styled-components';
-import { COLORS } from '../styles/colors';
-import { Link } from 'react-router-dom';
-
-const CTASectionWrapper = styled.section`
-  width: calc(100% - 30px); /* 15px left + 15px right */
-  margin: 4.5rem auto;
-  padding: 2rem;
-  background: ${COLORS.green};
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  gap: 2.5rem;
-
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2.5rem;
-  width: 100%;
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
-  }
-`;
-
-const CTAContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-`;
-
-const CTAHeading = styled.h2`
-  color: #222;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  line-height: 1.1;
-`;
-
-const CTASubheading = styled.div`
-  color: #222;
-  font-size: 2rem;
-  font-weight: 400;
-  margin-bottom: 2.2rem;
-`;
-
-const CTAButton = styled(Link)`
-  background: #222;
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  padding: 1.1rem 2.5rem;
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 0.5rem;
-`;
-
-const CTAImage = styled.div`
-  width: 370px;
-  height: 260px;
-  background: #eee;
-  border-radius: 3px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: #bbb;
-  @media (max-width: 700px) {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    min-width: 0;
-  }
-`;
 
 const StatementSection = styled.div`
   background: #fff;
@@ -410,18 +320,6 @@ const Home = () => {
           </ContactCard>
         </ContactSection>
       </Layout>
-      <CTASectionWrapper>
-        <CTAImageContainer>
-          <CTAContent>
-            <CTAHeading>Want to work with us?</CTAHeading>
-            <CTASubheading>We'd love to hear your ideas!</CTASubheading>
-            <CTAButton to="/contact">Get in touch</CTAButton>
-          </CTAContent>
-          <CTAImage>
-            <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/cta-image-rcmDlRliiqF8KckKKnj5vOTiTtsSOJ.jpg" alt="CTA" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '3px' }} />
-          </CTAImage>
-        </CTAImageContainer>
-      </CTASectionWrapper>
     </>
   );
 };
