@@ -4,104 +4,7 @@ import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
 import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
-import { Link, useNavigate } from 'react-router-dom';
-
-const VideoGridWrapper = styled.div`
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 5rem;
-  @media (max-width: 700px) {
-    margin-bottom: 2.5rem;
-  }
-`;
-
-const VideoGridSection = styled.section`
-  margin: calc(7rem + 70px) 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const VideoGrid = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.4rem;
-  width: 100vw;
-  max-width: 100vw;
-  padding-left: 15px;
-  padding-right: 15px;
-  box-sizing: border-box;
-  justify-content: center;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: stretch;
-  }
-`;
-
-const VideoPlaceholderBox = styled.div`
-  flex: 1;
-  aspect-ratio: 4 / 5;
-  min-width: 0;
-  width: 100%;
-  min-height: 220px;
-  background: #eee;
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bbb;
-  font-size: 1.3rem;
-  font-weight: 500;
-  @media (max-width: 900px) {
-    min-width: 0;
-    min-height: 160px;
-    font-size: 1.1rem;
-  }
-`;
-
-const VideoItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0;
-  min-height: 220px;
-  @media (max-width: 900px) {
-    min-height: 160px;
-  }
-`;
-
-const VideoLabel = styled.div`
-  text-align: left;
-  font-size: 1.22rem;
-  color: #b3b3b3;
-  font-weight: 500;
-  margin-top: 0.5rem;
-`;
-
-const VideoSectionHeadingWrapper = styled.div`
-  width: 100%;
-  padding-left: 15px;
-  box-sizing: border-box;
-`;
-
-const VideoSectionHeading = styled.h2`
-  font-size: 1.8rem;
-  color: #222;
-  font-weight: 700;
-  margin: 0 0 1.1rem 0;
-  text-align: left;
-  line-height: 1.15;
-  @media (max-width: 700px) {
-    font-size: 1.3rem;
-    margin: 0 0 0.7rem 0;
-  }
-`;
+import { Link } from 'react-router-dom';
 
 const CTASectionWrapper = styled.section`
   width: calc(100% - 30px); /* 15px left + 15px right */
@@ -312,8 +215,130 @@ const BottomDivider = styled.div`
   margin-top: 3rem;
 `;
 
+const ContactSection = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding: 3rem 1rem;
+  }
+`;
+
+const ContactImage = styled.div`
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 400px;
+  }
+
+  @media (max-width: 900px) {
+    img {
+      min-height: 300px;
+    }
+  }
+`;
+
+const ContactCard = styled.div`
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: 600px) {
+    padding: 2rem;
+  }
+`;
+
+const ContactHeading = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+  text-align: center;
+`;
+
+const ContactSubtext = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  text-align: center;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+`;
+
+const ContactForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const ContactInput = styled.input`
+  width: 200px;
+  padding: 0.5rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  border: none;
+  border-bottom: 1px solid #1a1a1a;
+  background: transparent;
+  outline: none;
+
+  &::placeholder {
+    color: #1a1a1a;
+  }
+`;
+
+const ContactTextarea = styled.textarea`
+  width: 200px;
+  padding: 0.5rem 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  border: none;
+  border-bottom: 1px solid #1a1a1a;
+  background: transparent;
+  outline: none;
+  resize: none;
+  min-height: 24px;
+
+  &::placeholder {
+    color: #1a1a1a;
+  }
+`;
+
+const ContactButton = styled.button`
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid #1a1a1a;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: #1a1a1a;
+    color: #fff;
+  }
+`;
+
 const Home = () => {
-  const navigate = useNavigate();
   return (
     <>
       <Hero />
@@ -365,63 +390,25 @@ const Home = () => {
           <BottomDivider />
         </ServicesSection>
 
-        <VideoGridWrapper>
-          <VideoGridSection>
-            <VideoSectionHeadingWrapper>
-              <VideoSectionHeading>Work</VideoSectionHeading>
-            </VideoSectionHeadingWrapper>
-            <VideoGrid>
-              <VideoItem>
-                <VideoPlaceholderBox as="video"
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-dashboard-DObhOMr87tQ2jCK3sTQ4vj8qNhqPyM.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', border: 'none', background: '#eee', borderRadius: '3px' }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => navigate('/work')}
-                  onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') navigate('/work'); }}
-                  aria-label="Go to Work page"
-                />
-                <VideoLabel>Dashboard</VideoLabel>
-              </VideoItem>
-              <VideoItem>
-                <VideoPlaceholderBox as="video"
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-app-Te6qBTjygsEZsVgyXd7rw77M0Z2Fii.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', border: 'none', background: '#eee', borderRadius: '3px' }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => navigate('/work')}
-                  onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') navigate('/work'); }}
-                  aria-label="Go to Work page"
-                />
-                <VideoLabel>App</VideoLabel>
-              </VideoItem>
-              <VideoItem>
-                <VideoPlaceholderBox as="video"
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/video-website-QNBdE8wnQSAV9Ge4ctXmqvY6Z2cVfA.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', border: 'none', background: '#eee', borderRadius: '3px' }}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => navigate('/work')}
-                  onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') navigate('/work'); }}
-                  aria-label="Go to Work page"
-                />
-                <VideoLabel>Website</VideoLabel>
-              </VideoItem>
-            </VideoGrid>
-          </VideoGridSection>
-        </VideoGridWrapper>
+        <ContactSection>
+          <ContactImage>
+            <img
+              src="https://images.unsplash.com/photo-1520769490204-94c40f597bc3?w=800"
+              alt="Mountain coastline"
+            />
+          </ContactImage>
+          <ContactCard>
+            <ContactHeading>Ready for the next step?</ContactHeading>
+            <ContactSubtext>
+              Hepta delivers solutions for organizations that take their digital presence seriously.
+            </ContactSubtext>
+            <ContactForm>
+              <ContactInput type="email" placeholder="Email" />
+              <ContactTextarea placeholder="Message" rows={1} />
+              <ContactButton type="submit">Send</ContactButton>
+            </ContactForm>
+          </ContactCard>
+        </ContactSection>
       </Layout>
       <CTASectionWrapper>
         <CTAImageContainer>
