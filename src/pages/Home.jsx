@@ -2,145 +2,9 @@ import React from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
-import styled, { keyframes, css } from 'styled-components';
+import styled from 'styled-components';
 import { COLORS } from '../styles/colors';
 import { Link, useNavigate } from 'react-router-dom';
-
-const WhatWeDoBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 2.5rem 0 0 0;
-`;
-
-const WhatWeDoText = styled.p`
-  font-size: 1.97rem;
-  font-weight: 400;
-  color: #222;
-  text-align: left;
-  max-width: 600px;
-  margin: 0 auto;
-`;
-
-const WhatWeDoLead = styled.span`
-  color: #b3b3b3;
-`;
-
-const CardGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin: 7rem auto 0 auto;
-  max-width: 600px;
-`;
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const pushUp = keyframes`
-  from {
-    transform: translateY(18px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const Card = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${({ bg }) => bg || COLORS.offWhite};
-  border-radius: 2px;
-  padding: 2.2rem 2.5rem;
-  min-height: 135px;
-  box-sizing: border-box;
-  transition: background 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  @media (max-width: 700px) {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.2rem 1rem;
-    min-height: 160px;
-  }
-`;
-
-const CardImage = styled.div`
-  width: 120px;
-  height: 120px;
-  background: ${({ noBg }) => noBg ? 'transparent' : '#eee'};
-  border-radius: 8px;
-  margin-right: 2.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.2rem;
-  color: #bbb;
-  @media (max-width: 700px) {
-    margin-right: 0;
-    margin-bottom: 1.1rem;
-    width: 80px;
-    height: 80px;
-  }
-`;
-
-const CardContent = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0 0 0.7rem 0;
-  ${({ active }) =>
-    active &&
-    css`
-      animation: ${pushUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-    `}
-`;
-
-const CardDesc = styled.p`
-  font-size: 1rem;
-  margin: 0;
-  min-height: 3.6em;
-  max-height: 3.6em;
-  overflow: hidden;
-  transition: color 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-  animation: ${fadeInUp} 0.22s cubic-bezier(0.4, 0.2, 0.2, 1);
-`;
-
-const CARD_DATA = [
-  {
-    title: 'Think',
-    desc: 'We start by understanding your business, your users, and what actually needs to be built.',
-    imgLabel: 'Think icon',
-    bg: '#F5F5F5',
-    highlight: false,
-  },
-  {
-    title: 'Make',
-    desc: 'Our team designs, develops, and assembles the solution with clarity and speed.',
-    imgLabel: 'Make icon',
-    bg: 'green', // will be replaced with COLORS.green on hover
-    highlight: true,
-  },
-  {
-    title: 'Move',
-    desc: 'We launch, refine, and help you scale with tools that are built to adapt.',
-    imgLabel: 'Move icon',
-    bg: '#F5F5F5',
-    highlight: false,
-  },
-];
 
 const VideoGridWrapper = styled.div`
   width: 100vw;
@@ -449,7 +313,6 @@ const BottomDivider = styled.div`
 `;
 
 const Home = () => {
-  const [openCard, setOpenCard] = React.useState(0);
   const navigate = useNavigate();
   return (
     <>
