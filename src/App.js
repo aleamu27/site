@@ -1,8 +1,4 @@
 import React from 'react';
-import UnderConstruction from './pages/UnderConstruction';
-
-// UNDER CONSTRUCTION MODE - uncomment below and comment out UnderConstruction to restore full site
-/*
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
@@ -31,7 +27,6 @@ import Silmaril from './pages/Silmaril';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
-// New imports for authentication
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import LoginForm from './components/Auth/LoginForm';
@@ -60,7 +55,6 @@ function AppContent() {
         <Route path="/newsletter" element={<Layout><Blog /></Layout>} />
         <Route path="/newsletter/:slug" element={<Layout><BlogPost /></Layout>} />
 
-        // Protected routes for newsletter management
         <Route path="/newsletter/manage" element={
           <ProtectedRoute>
             <Layout><BlogManagement /></Layout>
@@ -88,7 +82,6 @@ function AppContent() {
         <Route path="/careers" element={<Layout><Careers /></Layout>} />
         <Route path="/careers/:slug" element={<Layout><JobListing /></Layout>} />
 
-        // Protected route for job posting
         <Route path="/careers/cms/new" element={
           <ProtectedRoute>
             <Layout><JobCMS /></Layout>
@@ -104,7 +97,6 @@ function AppContent() {
         <Route path="/silmaril" element={<Silmaril />} />
         <Route path="/login" element={<LoginForm />} />
 
-        // Admin routes
         <Route path="/admin" element={
           <ProtectedRoute>
             <AdminDashboard />
@@ -130,25 +122,16 @@ function AppContent() {
     </>
   );
 }
-*/
 
 function App() {
-  // UNDER CONSTRUCTION MODE - shows only the under construction page
-  return <UnderConstruction />;
-
-  // FULL SITE MODE - uncomment below and comment out the line above to restore
-  /*
   return (
     <AuthProvider>
       <GlobalStyle />
       <Router>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
+        <AppContent />
       </Router>
     </AuthProvider>
   );
-  */
 }
 
 export default App;
