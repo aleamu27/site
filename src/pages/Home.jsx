@@ -456,44 +456,6 @@ const Home = () => {
       <Hero />
       <Layout>
         <Showcase />
-        <WhatWeDoBlock>
-          <WhatWeDoText>
-            We <WhatWeDoLead>partner</WhatWeDoLead> with teams to launch new ideas, refine existing tools, and deliver better digital experiences.
-          </WhatWeDoText>
-        </WhatWeDoBlock>
-        <CardGrid>
-          {CARD_DATA.map((card, idx) => {
-            const isOpen = openCard === idx;
-            return (
-              <Card
-                key={card.title}
-                bg={isOpen ? COLORS.green : '#F5F5F5'}
-                onMouseEnter={() => setOpenCard(idx)}
-                onFocus={() => setOpenCard(idx)}
-                tabIndex={0}
-                aria-label={card.title}
-              >
-                <CardImage aria-label={card.imgLabel} noBg={idx === 0 || idx === 1 || idx === 2}>
-                  {idx === 0 ? (
-                                          <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/think-icon-XcGhWi6uMZbYUDLdGOF4hrLt1iO84M.svg" alt="Think icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
-                  ) : idx === 1 ? (
-                    <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/make-icon-E9ndRsk696DWH9VUZEoTB0QmT5C1Vf.svg" alt="Make icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', transform: 'scaleX(-1)' }} />
-                  ) : idx === 2 ? (
-                                          <img src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/move-icon-fkqWsTq0lrYTggEJCtQn6lc048iSWc.svg" alt="Move icon" style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }} />
-                  ) : (
-                    '[img]'
-                  )}
-                </CardImage>
-                <CardContent>
-                  <CardTitle active={isOpen}>{card.title}</CardTitle>
-                  {isOpen && (
-                    <CardDesc>{card.desc}</CardDesc>
-                  )}
-                </CardContent>
-              </Card>
-            );
-          })}
-        </CardGrid>
 
         <StatementSection>
           <StatementText>
