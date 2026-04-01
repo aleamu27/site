@@ -303,7 +303,7 @@ const Home = () => {
         <ContactSection>
           <ContactImage>
             <img
-              src="https://images.unsplash.com/photo-1520769490204-94c40f597bc3?w=800"
+              src="https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/CTAP/CTA%20Image%20fra%20Alt%20til%20nettside.png"
               alt="Mountain coastline"
             />
           </ContactImage>
