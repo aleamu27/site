@@ -16,10 +16,14 @@ const TabsContainer = styled.div`
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
-  padding: 0 2rem;
-  max-width: 1200px;
+  padding: 0 5vw;
+  max-width: 70vw;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 900px) {
+    max-width: 90vw;
+  }
 `;
 
 const Tab = styled.button`
@@ -37,28 +41,36 @@ const Tab = styled.button`
 const ShowcaseCard = styled(Link)`
   display: block;
   margin: 0 auto;
-  padding: 0 2rem;
-  max-width: 1200px;
+  padding: 0 5vw;
+  max-width: 70vw;
   text-decoration: none;
+
+  @media (max-width: 900px) {
+    max-width: 90vw;
+  }
 `;
 
 const CardImage = styled.img`
   width: 100%;
   height: 100%;
-  min-height: 400px;
+  min-height: 50vh;
   object-fit: cover;
   display: block;
-  border-radius: 8px;
+  border-radius: 0.5vw;
 
   @media (max-width: 900px) {
-    min-height: 300px;
+    min-height: 40vh;
   }
 `;
 
 const ClientCardWrapper = styled.div`
   margin: 0 auto;
-  padding: 0 2rem;
-  max-width: 1200px;
+  padding: 0 5vw;
+  max-width: 70vw;
+
+  @media (max-width: 900px) {
+    max-width: 90vw;
+  }
 `;
 
 // Showcase data
