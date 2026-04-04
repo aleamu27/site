@@ -135,9 +135,11 @@ const ContactSection = styled.section`
   grid-template-columns: 1fr 1fr;
   gap: 1.5vw;
   padding: 5vh 2.5vw;
+  min-height: 75vh;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 `;
 
@@ -150,12 +152,12 @@ const ContactImage = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
-    min-height: 40vh;
+    min-height: 65vh;
   }
 
   @media (max-width: 900px) {
     img {
-      min-height: 30vh;
+      min-height: 40vh;
     }
   }
 `;
