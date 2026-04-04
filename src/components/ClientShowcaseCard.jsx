@@ -45,6 +45,7 @@ const CardContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 400px;
   min-height: 500px;
+  gap: 0;
 
   @media (max-width: 1100px) {
     grid-template-columns: 1fr 350px;
@@ -103,10 +104,8 @@ const PlayPauseButton = styled.button`
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
-  border-left: 1px solid #eee;
 
   @media (max-width: 900px) {
-    border-left: none;
     border-top: 1px solid #eee;
   }
 `;
