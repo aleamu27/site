@@ -25,7 +25,7 @@ const Tab = styled.button`
   border: 1px solid ${props => props.$active ? '#222' : '#ddd'};
   border-radius: 4px;
   padding: 0.7rem 1.4rem;
-  font-family: 'Menlo', 'Monaco', monospace;
+  font-family: 'OCR-B', 'OCR B', monospace;
   font-size: 0.95rem;
   color: ${props => props.$active ? '#222' : '#999'};
   cursor: pointer;
