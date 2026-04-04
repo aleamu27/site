@@ -1,18 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import styled, { keyframes } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ClientShowcaseCard from './ClientShowcaseCard';
-
-const INTERVAL_DURATION = 10000; // 10 seconds
-
-const progressFill = keyframes`
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-`;
 
 const ShowcaseWrapper = styled.section`
   width: 100vw;
@@ -50,15 +39,6 @@ const Tab = styled.button`
     border-color: #222;
     color: #222;
   }
-`;
-
-const TabProgress = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background: #222;
-  animation: ${progressFill} ${INTERVAL_DURATION}ms linear forwards;
 `;
 
 const ShowcaseCard = styled(Link)`
@@ -147,28 +127,10 @@ const SHOWCASE_DATA = [
 
 const Showcase = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-
-  const goToNext = useCallback(() => {
-    setIsAnimating(false);
-    setTimeout(() => {
-      setActiveIndex((prev) => (prev + 1) % SHOWCASE_DATA.length);
-      setIsAnimating(true);
-    }, 50);
-  }, []);
 
   const handleTabClick = (index) => {
-    setIsAnimating(false);
-    setTimeout(() => {
-      setActiveIndex(index);
-      setIsAnimating(true);
-    }, 50);
+    setActiveIndex(index);
   };
-
-  useEffect(() => {
-    const timer = setInterval(goToNext, INTERVAL_DURATION);
-    return () => clearInterval(timer);
-  }, [goToNext]);
 
   const activeShowcase = SHOWCASE_DATA[activeIndex];
 
@@ -208,9 +170,6 @@ const Showcase = () => {
             onClick={() => handleTabClick(index)}
           >
             {item.tabName}
-            {index === activeIndex && isAnimating && (
-              <TabProgress key={`progress-${activeIndex}`} />
-            )}
           </Tab>
         ))}
       </TabsContainer>
