@@ -14,7 +14,7 @@ const StatementSection = styled.div`
 `;
 
 const StatementText = styled.p`
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'OCR-B', 'OCR B', monospace;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 400;
   color: #1a1a1a;
