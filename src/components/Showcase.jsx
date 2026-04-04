@@ -32,13 +32,6 @@ const Tab = styled.button`
   font-size: 0.95rem;
   color: ${props => props.$active ? '#222' : '#999'};
   cursor: pointer;
-  transition: all 0.2s ease;
-  overflow: hidden;
-
-  &:hover {
-    border-color: #222;
-    color: #222;
-  }
 `;
 
 const ShowcaseCard = styled(Link)`
@@ -50,12 +43,8 @@ const ShowcaseCard = styled(Link)`
   border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: scale(1.003);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
-  }
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
   @media (max-width: 768px) {
     margin: 0 1rem;
@@ -65,8 +54,17 @@ const ShowcaseCard = styled(Link)`
 
 const CardImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 600px;
+  object-fit: cover;
   display: block;
+
+  @media (max-width: 900px) {
+    height: 400px;
+  }
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
 `;
 
 const ClientCardWrapper = styled.div`
