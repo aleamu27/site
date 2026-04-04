@@ -126,9 +126,10 @@ const BottomDivider = styled.div`
 `;
 
 const ContactSection = styled.section`
+  background: #f0f0f0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2vw;
+  gap: 1.5vw;
   padding: 5vh 2.5vw;
 
   @media (max-width: 900px) {
@@ -145,12 +146,12 @@ const ContactImage = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
-    min-height: 55vh;
+    min-height: 40vh;
   }
 
   @media (max-width: 900px) {
     img {
-      min-height: 40vh;
+      min-height: 30vh;
     }
   }
 `;
