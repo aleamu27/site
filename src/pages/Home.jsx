@@ -128,19 +128,20 @@ const BottomDivider = styled.div`
 const ContactSection = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 5rem 2rem;
-  max-width: 1200px;
+  gap: 2vw;
+  padding: 5vh 5vw;
+  max-width: 65vw;
   margin: 0 auto;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    padding: 3rem 1rem;
+    max-width: 90vw;
+    padding: 3vh 5vw;
   }
 `;
 
 const ContactImage = styled.div`
-  border-radius: 8px;
+  border-radius: 0.5vw;
   overflow: hidden;
 
   img {
@@ -148,26 +149,26 @@ const ContactImage = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
-    min-height: 400px;
+    min-height: 45vh;
   }
 
   @media (max-width: 900px) {
     img {
-      min-height: 300px;
+      min-height: 35vh;
     }
   }
 `;
 
 const ContactCard = styled.div`
   background: #f5f5f5;
-  border-radius: 8px;
-  padding: 3rem;
+  border-radius: 0.5vw;
+  padding: 3vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   @media (max-width: 600px) {
-    padding: 2rem;
+    padding: 5vw;
   }
 `;
 
