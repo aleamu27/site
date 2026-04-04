@@ -127,6 +127,10 @@ const BottomDivider = styled.div`
 
 const ContactSection = styled.section`
   background: #f0f0f0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5vw;
