@@ -100,7 +100,7 @@ const ServiceCard = styled.div`
 `;
 
 const ServiceTitle = styled.h3`
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: #1a1a1a;
@@ -110,7 +110,7 @@ const ServiceTitle = styled.h3`
 `;
 
 const ServiceDescription = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   color: #666;
