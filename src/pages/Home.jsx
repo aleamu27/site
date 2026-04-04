@@ -174,7 +174,7 @@ const ContactCard = styled.div`
 `;
 
 const ContactHeading = styled.h2`
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 600;
   color: #1a1a1a;
@@ -183,7 +183,7 @@ const ContactHeading = styled.h2`
 `;
 
 const ContactSubtext = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   font-weight: 400;
   color: #1a1a1a;
@@ -202,7 +202,7 @@ const ContactForm = styled.form`
 const ContactInput = styled.input`
   width: 200px;
   padding: 0.5rem 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.95rem;
   border: none;
   border-bottom: 1px solid #1a1a1a;
@@ -217,7 +217,7 @@ const ContactInput = styled.input`
 const ContactTextarea = styled.textarea`
   width: 200px;
   padding: 0.5rem 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.95rem;
   border: none;
   border-bottom: 1px solid #1a1a1a;
@@ -234,7 +234,7 @@ const ContactTextarea = styled.textarea`
 const ContactButton = styled.button`
   margin-top: 1.5rem;
   padding: 0.6rem 1.5rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   color: #1a1a1a;
