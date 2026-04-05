@@ -31,20 +31,20 @@ const GrayText = styled.span`
 
 const ServicesSection = styled.div`
   background: #fff;
-  padding: 4rem 2rem 5rem;
-  max-width: 1200px;
+  padding: 6rem 2rem 7rem;
+  max-width: 1400px;
   margin: 0 auto;
 
   @media (max-width: 600px) {
-    padding: 2rem 1rem 3rem;
+    padding: 3rem 1rem 4rem;
   }
 `;
 
 const ServicesHeader = styled.h2`
   font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 400;
-  margin: 0 0 2rem 0;
+  margin: 0 0 2.5rem 0;
   letter-spacing: 0.1em;
 `;
 
@@ -80,28 +80,28 @@ const ServicesGrid = styled.div`
 
 const ServiceCard = styled.div`
   background: #f5f5f5;
-  padding: 2rem;
-  min-height: 320px;
+  padding: 2.5rem;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 0 100%);
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
     right: 0;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background: linear-gradient(135deg, #e0e0e0 50%, #f5f5f5 50%);
   }
 `;
 
 const ServiceTitle = styled.h3`
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 400;
   color: #1a1a1a;
   margin: 0;
@@ -111,10 +111,10 @@ const ServiceTitle = styled.h3`
 
 const ServiceDescription = styled.p`
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #666;
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0;
 `;
 
