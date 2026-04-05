@@ -100,13 +100,12 @@ const ServiceCard = styled.div`
 `;
 
 const ServiceTitle = styled.h3`
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 1.3rem;
-  font-weight: 400;
+  font-weight: 600;
   color: #1a1a1a;
   margin: 0;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
 `;
 
 const ServiceDescription = styled.p`
@@ -275,7 +274,7 @@ const Home = () => {
           <ServicesDivider />
           <ServicesGrid>
             <ServiceCard>
-              <ServiceTitle>Silmaril</ServiceTitle>
+              <ServiceTitle>SILMARIL</ServiceTitle>
               <ServiceDescription>
                 Silmaril continuously scans and monitors the web infrastructure of domains you manage, surfacing security findings across SSL, DNS, headers, and more.
                 <br /><br />
