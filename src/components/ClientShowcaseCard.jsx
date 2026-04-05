@@ -60,12 +60,18 @@ const VideoContainer = styled.div`
   position: relative;
   background: #1a1a1a;
   overflow: hidden;
+  min-height: 500px;
+  height: 100%;
+
+  @media (max-width: 900px) {
+    min-height: 350px;
+  }
 `;
 
 const Video = styled.video`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 
   @media (max-width: 900px) {
