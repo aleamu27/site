@@ -56,18 +56,31 @@ const ClientCardWrapper = styled.div`
 // Showcase data
 const SHOWCASE_DATA = [
   {
-    id: 'silmaril',
-    tabName: 'Silmaril',
-    type: 'image',
-    link: '/silmaril',
-    image: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Silmaril%20fra%20Alex%20Bolgen%20Amundsen.png',
-  },
-  {
     id: 'development',
     tabName: 'Development',
-    type: 'image',
-    link: '/development',
-    image: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Alternativer%20til%20nettside.png',
+    type: 'client',
+    label: 'Development',
+    title: 'Infrastructure Built to Last, Engineered to Perform.',
+    imageSrc: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Alternativer%20til%20nettside.png',
+    sections: [
+      {
+        title: 'Websites',
+        content: 'Custom-built web platforms designed for performance, security, and scale. No templates, no shortcuts.',
+        author: null
+      },
+      {
+        title: 'Systems',
+        content: 'Backend infrastructure, APIs, and integrations that power your business operations reliably.',
+        author: null
+      },
+      {
+        title: 'Security',
+        content: 'Security-first development practices ensuring your digital assets are protected from day one.',
+        author: null
+      }
+    ],
+    externalLink: '/development',
+    externalLinkText: 'LEARN MORE'
   },
   {
     id: 'client1',
@@ -115,6 +128,7 @@ const Showcase = () => {
             label={activeShowcase.label}
             title={activeShowcase.title}
             videoSrc={activeShowcase.videoSrc}
+            imageSrc={activeShowcase.imageSrc}
             sections={activeShowcase.sections}
             externalLink={activeShowcase.externalLink}
             externalLinkText={activeShowcase.externalLinkText}

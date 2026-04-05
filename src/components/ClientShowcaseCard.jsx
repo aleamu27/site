@@ -74,6 +74,17 @@ const Video = styled.video`
   }
 `;
 
+const MediaImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  @media (max-width: 900px) {
+    min-height: 300px;
+  }
+`;
+
 const PlayPauseButton = styled.button`
   position: absolute;
   bottom: 1.5rem;
@@ -202,6 +213,7 @@ const ClientShowcaseCard = ({
   label = "Client.1",
   title = "A Look at What We Have Built for Criterion.",
   videoSrc,
+  imageSrc,
   sections = [],
   externalLink,
   externalLinkText
@@ -234,26 +246,32 @@ const ClientShowcaseCard = ({
 
       <CardContent>
         <VideoContainer>
-          <Video
-            ref={videoRef}
-            src={videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-          <PlayPauseButton onClick={togglePlayPause} aria-label={isPlaying ? 'Pause' : 'Play'}>
-            {isPlaying ? (
-              <svg viewBox="0 0 24 24">
-                <rect x="6" y="4" width="4" height="16" />
-                <rect x="14" y="4" width="4" height="16" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24">
-                <polygon points="5,3 19,12 5,21" />
-              </svg>
-            )}
-          </PlayPauseButton>
+          {videoSrc ? (
+            <>
+              <Video
+                ref={videoRef}
+                src={videoSrc}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+              <PlayPauseButton onClick={togglePlayPause} aria-label={isPlaying ? 'Pause' : 'Play'}>
+                {isPlaying ? (
+                  <svg viewBox="0 0 24 24">
+                    <rect x="6" y="4" width="4" height="16" />
+                    <rect x="14" y="4" width="4" height="16" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24">
+                    <polygon points="5,3 19,12 5,21" />
+                  </svg>
+                )}
+              </PlayPauseButton>
+            </>
+          ) : (
+            <MediaImage src={imageSrc} alt={label} />
+          )}
         </VideoContainer>
 
         <Sidebar>
