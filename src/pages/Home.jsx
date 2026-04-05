@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const StatementSection = styled.div`
   background: #fff;
-  padding: 6rem 2rem;
+  padding: 12rem 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
