@@ -108,6 +108,33 @@ const SHOWCASE_DATA = [
     ],
     externalLink: 'https://criterionpropertygroup.com',
     externalLinkText: 'CRITERIONPROPERTYGROUP.COM'
+  },
+  {
+    id: 'client2',
+    tabName: 'Client.2',
+    type: 'client',
+    label: 'Client.2',
+    title: 'A Look at What We Have Built for BE:RG.',
+    imageSrc: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Gloin.png',
+    sections: [
+      {
+        title: 'The story',
+        content: 'BE:RG is a private equity firm focused on industrial technology and scalable business models. Their engagements span from marine and maritime sectors to software and digital solutions.',
+        author: null
+      },
+      {
+        title: 'The problem',
+        content: 'Håkon André Berg had spent nearly two decades building expertise across private equity, aquaculture, maritime technology, and industrial software. The credibility was there. The track record was there. What was missing was a digital presence that could communicate it. Something that gave potential partners and portfolio companies a clear, authoritative first impression before any conversation began.',
+        author: null
+      },
+      {
+        title: 'The solution',
+        content: 'Hepta designed and built a web presence that reflects the depth and seriousness of BE:RG\'s work. Clean, structured, and built to present their portfolio and engagements with clarity.',
+        author: 'Alexander Amundsen'
+      }
+    ],
+    externalLink: 'https://be-rg.com',
+    externalLinkText: 'BE:RG.COM'
   }
 ];
 
