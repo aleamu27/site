@@ -15,12 +15,12 @@ const StatementSection = styled.div`
 
 const StatementText = styled.p`
   font-family: 'OCR-B', 'OCR B', monospace;
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
   font-weight: 400;
   color: #1a1a1a;
   text-align: center;
-  max-width: 800px;
-  line-height: 1.6;
+  max-width: 900px;
+  line-height: 1.5;
   margin: 0;
   letter-spacing: -0.01em;
 `;
