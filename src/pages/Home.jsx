@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 const StatementSection = styled.div`
   background: #fff;
-  padding: 12rem 2rem;
+  padding: 12rem 2.5vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,14 +15,14 @@ const StatementSection = styled.div`
 
 const StatementText = styled.p`
   font-family: 'OCR-B', 'OCR B', monospace;
-  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.1rem, 2.2vw, 2rem);
   font-weight: 400;
   color: #1a1a1a;
   text-align: center;
-  max-width: 900px;
-  line-height: 1.5;
+  max-width: 1100px;
+  line-height: 1.35;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 `;
 
 const GrayText = styled.span`
@@ -31,18 +31,21 @@ const GrayText = styled.span`
 
 const ServicesSection = styled.div`
   background: #fff;
-  padding: 6rem 2rem 7rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  padding: 6rem 2.5vw 7rem;
+  box-sizing: border-box;
 
   @media (max-width: 600px) {
-    padding: 3rem 1rem 4rem;
+    padding: 3rem 4vw 4rem;
   }
 `;
 
 const ServicesHeader = styled.h2`
   font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
   font-weight: 400;
   margin: 0 0 2.5rem 0;
   letter-spacing: 0.1em;
@@ -60,14 +63,14 @@ const ServicesHeaderBold = styled.span`
 const ServicesDivider = styled.div`
   width: 100%;
   height: 1px;
-  background: #1a1a1a;
+  background: #ECECEC;
   margin-bottom: 2rem;
 `;
 
 const ServicesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 36px;
 
   @media (max-width: 1100px) {
     grid-template-columns: repeat(2, 1fr);
@@ -79,48 +82,55 @@ const ServicesGrid = styled.div`
 `;
 
 const ServiceCard = styled.div`
-  background: #f5f5f5;
+  background: #F3F3F3;
   padding: 2.5rem;
-  min-height: 380px;
+  min-height: 460px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
   clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 0 100%);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 35px;
-    height: 35px;
-    background: linear-gradient(135deg, #e0e0e0 50%, #f5f5f5 50%);
-  }
 `;
 
 const ServiceTitle = styled.h3`
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #1F2124;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.09em;
+  line-height: normal;
+  text-transform: uppercase;
 `;
 
 const ServiceDescription = styled.p`
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #666;
-  line-height: 1.7;
+  font-size: 14px;
+  font-weight: 500;
+  color: #767676;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
   margin: 0;
+`;
+
+const ServiceDescriptionParagraph = styled.p`
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #767676;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  margin: 0 0 1.8rem 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const BottomDivider = styled.div`
   width: 100%;
   height: 1px;
-  background: #1a1a1a;
+  background: #ECECEC;
   margin-top: 3rem;
 `;
 
@@ -135,10 +145,12 @@ const ContactSection = styled.section`
   gap: 1.5vw;
   padding: 5vh 2.5vw;
   min-height: 75vh;
+  margin-bottom: 7rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
     min-height: auto;
+    margin-bottom: 4rem;
   }
 `;
 
@@ -275,11 +287,14 @@ const Home = () => {
           <ServicesGrid>
             <ServiceCard>
               <ServiceTitle>SILMARIL</ServiceTitle>
-              <ServiceDescription>
-                Silmaril continuously scans and monitors the web infrastructure of domains you manage, surfacing security findings across SSL, DNS, headers, and more.
-                <br /><br />
-                Built as a distributed system, it runs parallel scans on schedule and delivers structured results your team can act on.
-              </ServiceDescription>
+              <div>
+                <ServiceDescriptionParagraph>
+                  Silmaril continuously scans and monitors the web infrastructure of domains you manage, surfacing security findings across SSL, DNS, headers, and more.
+                </ServiceDescriptionParagraph>
+                <ServiceDescriptionParagraph>
+                  Built as a distributed system, it runs parallel scans on schedule and delivers structured results your team can act on.
+                </ServiceDescriptionParagraph>
+              </div>
             </ServiceCard>
             <ServiceCard>
               <ServiceTitle>Development</ServiceTitle>
@@ -289,9 +304,14 @@ const Home = () => {
             </ServiceCard>
             <ServiceCard>
               <ServiceTitle>Consulting</ServiceTitle>
-              <ServiceDescription>
-                We work with organizations to assess, plan, and improve their digital presence. From infrastructure decisions to platform strategy, we give you a clear picture of where you are and a concrete path to where you need to be.
-              </ServiceDescription>
+              <div>
+                <ServiceDescriptionParagraph>
+                  We work with organizations to assess, plan, and improve their digital presence.
+                </ServiceDescriptionParagraph>
+                <ServiceDescriptionParagraph>
+                  From infrastructure decisions to platform strategy, we give you a clear picture of where you are and a concrete path to where you need to be.
+                </ServiceDescriptionParagraph>
+              </div>
             </ServiceCard>
             <ServiceCard>
               <ServiceTitle>White-label</ServiceTitle>

@@ -21,14 +21,16 @@ const TabsContainer = styled.div`
 
 const Tab = styled.button`
   position: relative;
-  background: transparent;
-  border: 1px solid ${props => props.$active ? '#222' : '#ddd'};
-  border-radius: 4px;
-  padding: 0.7rem 1.4rem;
+  background: #F3F3F3;
+  border: 1px solid ${props => props.$active ? '#333' : 'transparent'};
+  border-radius: 0;
+  padding: 10px;
+  gap: 10px;
   font-family: 'OCR-B', 'OCR B', monospace;
-  font-size: 0.95rem;
+  font-size: 0.7rem;
   color: ${props => props.$active ? '#222' : '#999'};
   cursor: pointer;
+  letter-spacing: 0.05em;
 `;
 
 const ShowcaseCard = styled(Link)`
@@ -92,7 +94,7 @@ const SHOWCASE_DATA = [
     sections: [
       {
         title: 'The story',
-        content: 'Criterion Property Group is a real estate team operating in the Austin, Texas area. They needed a digital presence that matched their professionalism and made it easy for clients to explore properties and connect with the team.',
+        content: 'Criterion Property Group is a real estate brokerage operating across Washington\'s Puget Sound market, specializing in high-value residential properties and golf course communities.\n\nAs their client base grew and their market presence expanded, they needed a digital presence that matched the caliber of their work. They came to Hepta to build a platform that reflected their brand, showcased their listings, and gave prospective clients a seamless experience from first visit to first conversation.',
         author: null
       },
       {

@@ -2,49 +2,55 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const CardWrapper = styled.div`
-  background: #fff;
+  background: #FEFEFE;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 `;
 
 const CardHeader = styled.div`
-  padding: 2.5rem 3rem;
-  border-bottom: 1px solid #eee;
+  padding: 16px 20px;
+  background: #F5F5F5;
+  border-radius: 5px;
+  margin: 23px 0 23px 0;
+  width: fit-content;
 
   @media (max-width: 768px) {
-    padding: 1.5rem 1.5rem;
+    padding: 12px 16px;
+    margin: 16px 12px 16px 12px;
   }
 `;
 
 const ClientLabel = styled.div`
-  font-family: 'Menlo', 'Monaco', monospace;
-  font-size: 0.9rem;
-  color: #666;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1B1C1E;
+  letter-spacing: 0.11em;
   margin-bottom: 1rem;
 `;
 
 const ClientTitle = styled.h2`
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 400;
-  color: #222;
+  font-family: 'Inter', sans-serif;
+  font-size: 38px;
+  font-weight: 300;
+  color: #1B1C1E;
   line-height: 1.2;
+  letter-spacing: -0.03em;
   margin: 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 0.5rem;
+  max-width: 520px;
 
   &:after {
-    content: '↗';
-    font-size: 0.8em;
-    opacity: 0.6;
+    content: ' ↗';
+    font-size: 0.55em;
+    font-weight: 700;
+    vertical-align: middle;
   }
 `;
 
 const CardContent = styled.div`
   display: grid;
   grid-template-columns: 1fr 400px;
-  min-height: 500px;
-  gap: 0;
+  height: 560px;
+  gap: 20px;
 
   @media (max-width: 1100px) {
     grid-template-columns: 1fr 350px;
@@ -52,27 +58,30 @@ const CardContent = styled.div`
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    min-height: auto;
+    height: auto;
   }
 `;
 
 const VideoContainer = styled.div`
   position: relative;
-  background: #1a1a1a;
-  overflow: hidden;
-  min-height: 500px;
+  padding: 0 0 16px 0;
   height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     min-height: 350px;
+    padding: 0 0 12px 0;
   }
 `;
 
 const Video = styled.video`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: 50% -8px;
   display: block;
+  border-radius: 8px;
 
   @media (max-width: 900px) {
     min-height: 300px;
@@ -83,7 +92,9 @@ const MediaImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top;
   display: block;
+  border-radius: 8px;
 
   @media (max-width: 900px) {
     min-height: 300px;
@@ -92,12 +103,12 @@ const MediaImage = styled.img`
 
 const PlayPauseButton = styled.button`
   position: absolute;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  width: 44px;
-  height: 44px;
+  bottom: 2rem;
+  left: 1.5rem;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   border: none;
   cursor: pointer;
   display: flex;
@@ -111,8 +122,8 @@ const PlayPauseButton = styled.button`
   }
 
   svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
     fill: #222;
   }
 `;
@@ -120,99 +131,128 @@ const PlayPauseButton = styled.button`
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  padding-bottom: 16px;
 
   @media (max-width: 900px) {
-    border-top: 1px solid #eee;
+    padding-bottom: 12px;
   }
 `;
 
 const AccordionItem = styled.div`
-  border-bottom: 1px solid #eee;
-
-  &:last-of-type {
-    border-bottom: none;
-  }
+  background: #F5F5F5;
+  border-radius: 6px;
+  overflow: hidden;
 `;
 
 const AccordionHeader = styled.button`
   width: 100%;
-  padding: 1.5rem 2rem;
-  background: ${props => props.$isOpen ? '#fafafa' : '#fff'};
+  padding: 1rem 1.25rem;
+  background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #222;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1B1C1E;
   text-align: left;
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: #fafafa;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.25rem 1.5rem;
-  }
 `;
 
 const AccordionIcon = styled.span`
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-  transform: ${props => props.$isOpen ? 'rotate(90deg)' : 'rotate(0)'};
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #1B1C1E;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
 `;
 
 const AccordionContent = styled.div`
-  max-height: ${props => props.$isOpen ? '500px' : '0'};
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
 const AccordionInner = styled.div`
-  padding: 0 2rem 2rem 2rem;
-
-  @media (max-width: 768px) {
-    padding: 0 1.5rem 1.5rem 1.5rem;
-  }
+  padding: 0 1.25rem 1.25rem 1.25rem;
 `;
 
 const AccordionText = styled.p`
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #444;
-  margin: 0 0 1.5rem 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.337;
+  letter-spacing: 0;
+  color: #000000;
+  margin: 0 0 1rem 0;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const AccordionAuthor = styled.div`
   font-family: 'Georgia', serif;
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #888;
+  margin-top: 0.75rem;
+`;
+
+const LinkRow = styled.div`
+  margin-top: auto;
+  padding-top: 6px;
 `;
 
 const ExternalLink = styled.a`
-  display: block;
-  padding: 1.5rem 2rem;
-  background: #222;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #1B1C1E;
   color: #fff;
   text-decoration: none;
-  font-family: 'Menlo', 'Monaco', monospace;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
   transition: background 0.2s ease;
-  margin-top: auto;
 
   &:hover {
     background: #333;
   }
-
-  @media (max-width: 768px) {
-    padding: 1.25rem 1.5rem;
-  }
 `;
+
+const AccordionItemAnimated = ({ section, index, isOpen, onToggle }) => {
+  const innerRef = React.useRef(null);
+  const [height, setHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    if (innerRef.current) {
+      setHeight(innerRef.current.scrollHeight);
+    }
+  }, [section.content]);
+
+  return (
+    <AccordionItem>
+      <AccordionHeader onClick={() => onToggle(index)}>
+        {section.title}
+        <AccordionIcon>{isOpen ? '⊗' : '⊕'}</AccordionIcon>
+      </AccordionHeader>
+      <AccordionContent style={{ height: isOpen ? height : 0 }}>
+        <AccordionInner ref={innerRef}>
+          {section.content.split('\n\n').map((para, i) => (
+            <AccordionText key={i}>{para}</AccordionText>
+          ))}
+          {section.author && (
+            <AccordionAuthor>– {section.author}</AccordionAuthor>
+          )}
+        </AccordionInner>
+      </AccordionContent>
+    </AccordionItem>
+  );
+};
 
 const ClientShowcaseCard = ({
   label = "Client.1",
@@ -223,7 +263,7 @@ const ClientShowcaseCard = ({
   externalLink,
   externalLinkText
 }) => {
-  const [openSection, setOpenSection] = useState(2); // Default to "The solution" (index 2)
+  const [openSection, setOpenSection] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = React.useRef(null);
 
@@ -281,29 +321,21 @@ const ClientShowcaseCard = ({
 
         <Sidebar>
           {sections.map((section, index) => (
-            <AccordionItem key={index}>
-              <AccordionHeader
-                $isOpen={openSection === index}
-                onClick={() => toggleSection(index)}
-              >
-                {section.title}
-                <AccordionIcon $isOpen={openSection === index}>↗</AccordionIcon>
-              </AccordionHeader>
-              <AccordionContent $isOpen={openSection === index}>
-                <AccordionInner>
-                  <AccordionText>{section.content}</AccordionText>
-                  {section.author && (
-                    <AccordionAuthor>– {section.author}</AccordionAuthor>
-                  )}
-                </AccordionInner>
-              </AccordionContent>
-            </AccordionItem>
+            <AccordionItemAnimated
+              key={index}
+              section={section}
+              index={index}
+              isOpen={openSection === index}
+              onToggle={toggleSection}
+            />
           ))}
 
           {externalLink && (
-            <ExternalLink href={externalLink} target="_blank" rel="noopener noreferrer">
-              {externalLinkText || externalLink}
-            </ExternalLink>
+            <LinkRow>
+              <ExternalLink href={externalLink} target="_blank" rel="noopener noreferrer">
+                {externalLinkText || externalLink}
+              </ExternalLink>
+            </LinkRow>
           )}
         </Sidebar>
       </CardContent>
