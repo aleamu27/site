@@ -33,13 +33,14 @@ const NavGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(159,159,159,0.38);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: none;
-  border-radius: ${props => props.$menuOpen ? '8px 8px 0 0' : '8px'};
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: ${props => props.$menuOpen ? '12px 12px 0 0' : '12px'};
   padding: 0.35rem 0.5rem 0.35rem 0.35rem;
-  box-shadow: none;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   height: ${NAV_HEIGHT + 10}px;
   transition: border-radius 0.3s ease;
 `;
@@ -67,7 +68,8 @@ const Logo = styled(Link)`
   font-family: ${NAV_MONO};
   font-size: 1.1rem;
   font-weight: 700;
-  margin-right: 1.2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.4rem;
   text-decoration: none;
   letter-spacing: 0.04em;
   transition: border 0.2s;
@@ -122,12 +124,12 @@ const HamburgerButton = styled.button`
 
 const HamburgerIcon = styled.div`
   width: 18px;
-  height: 14px;
+  height: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  span {
+  span:nth-child(1) {
     display: block;
     width: 100%;
     height: 2px;
@@ -135,15 +137,21 @@ const HamburgerIcon = styled.div`
     transition: all 0.3s ease;
   }
 
+  span:nth-child(2) {
+    display: block;
+    width: 65%;
+    height: 2px;
+    background: #222;
+    transition: all 0.3s ease;
+  }
+
   ${props => props.$isOpen && `
     span:nth-child(1) {
-      transform: rotate(45deg) translate(4px, 4px);
+      transform: rotate(45deg) translate(3px, 3px);
     }
     span:nth-child(2) {
-      opacity: 0;
-    }
-    span:nth-child(3) {
-      transform: rotate(-45deg) translate(4px, -4px);
+      width: 100%;
+      transform: rotate(-45deg) translate(3px, -3px);
     }
   `}
 `;
@@ -349,13 +357,14 @@ const MobileNavWrapper = styled.div`
 `;
 
 const MobileNavHeader = styled.div`
-  background: rgba(159,159,159,0.38);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: ${props => props.$menuOpen ? '8px 8px 0 0' : '8px'};
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  border-radius: ${props => props.$menuOpen ? '12px 12px 0 0' : '12px'};
   padding: 12px 20px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: border-radius 0.3s ease;
 `;
 
@@ -594,7 +603,7 @@ const Navbar = () => {
             <Logo to="/" onClick={closeDesktopMenu}>
               {!logoError ? (
                 <img
-                  src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                  src="/logo-navbar.png"
                   alt="Logo"
                   style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
                   onError={() => setLogoError(true)}
@@ -609,7 +618,6 @@ const Navbar = () => {
             <RightButton to="/contact">Get in touch</RightButton>
             <HamburgerButton onClick={toggleDesktopMenu} aria-label="Toggle menu">
               <HamburgerIcon $isOpen={desktopMenuOpen}>
-                <span></span>
                 <span></span>
                 <span></span>
               </HamburgerIcon>
@@ -680,7 +688,7 @@ const Navbar = () => {
               <MobileLogo to="/" onClick={closeMobileMenu}>
                 {!logoError ? (
                   <MobileLogoImage
-                    src="https://ascpxp2rq0hfmacv.public.blob.vercel-storage.com/logo-navbar-kzYMdHPcdM8s4aW9L51DTdT581K8Zl.png"
+                    src="/logo-navbar.png"
                     alt="Hepta Logo"
                     onError={() => setLogoError(true)}
                   />

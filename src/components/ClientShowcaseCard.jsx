@@ -37,13 +37,6 @@ const ClientTitle = styled.h2`
   letter-spacing: -0.03em;
   margin: 0;
   max-width: 520px;
-
-  &:after {
-    content: ' ↗';
-    font-size: 0.55em;
-    font-weight: 700;
-    vertical-align: middle;
-  }
 `;
 
 const CardContent = styled.div`
@@ -286,7 +279,14 @@ const ClientShowcaseCard = ({
     <CardWrapper>
       <CardHeader>
         <ClientLabel>{label}</ClientLabel>
-        <ClientTitle>{title}</ClientTitle>
+        <ClientTitle>
+          <span>{title}</span>
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'inline-block', verticalAlign: 'middle', marginLeft: '6px' }}>
+            <line x1="2" y1="18" x2="17" y2="3" stroke="#1B1C1E" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="17" y1="3" x2="6" y2="3" stroke="#1B1C1E" strokeWidth="2.5" strokeLinecap="round"/>
+            <line x1="17" y1="3" x2="17" y2="14" stroke="#1B1C1E" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        </ClientTitle>
       </CardHeader>
 
       <CardContent>

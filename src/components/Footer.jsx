@@ -37,6 +37,9 @@ const FooterContent = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -58,9 +61,9 @@ const Headline = styled.h2`
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 400;
   color: #fff;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   line-height: 1.3;
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0;
   flex: 1;
 `;
@@ -89,7 +92,14 @@ const Footer = () => {
   return (
     <FooterWrapper>
       <FooterContent>
-        <Logo>HEPTA</Logo>
+        <Logo>
+          <img
+            src="/logo.png"
+            alt="Hepta"
+            style={{ width: '24px', height: '24px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
+          />
+          HEPTA
+        </Logo>
         <Divider />
         <Headline>
           The Infrastructure Beneath<br />
