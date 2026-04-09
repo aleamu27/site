@@ -126,7 +126,7 @@ const CalarOS = () => {
         for (let i = 0; i < gaps.length; i++) {
           const el = gaps[i];
           if (!el) continue;
-          el.style.width = `${(1 - collapsePhase) * 0.32}em`;
+          el.style.width = `${(1 - collapsePhase) * 0.55}em`;
         }
 
         // Grow only the first letters (C, O, S)
@@ -189,11 +189,10 @@ const CalarOS = () => {
                     data-wlen={restLen}
                     style={{
                       display: 'inline-block',
-                      overflow: 'hidden',
                       maxWidth: '60px',
                       verticalAlign: 'baseline',
-                      lineHeight: 1.3,
-                      paddingBottom: '0.25em',
+                      lineHeight: 1,
+                      clipPath: 'inset(-0.4em 0 -0.4em 0)',
                     }}
                   >
                     <span data-letter="true" style={letterStyle}>{word.rest[ci]}</span>
@@ -207,7 +206,7 @@ const CalarOS = () => {
                   <span
                     key={`gap-${wi}`}
                     ref={el => gapRefs.current[gi] = el}
-                    style={{ display: 'inline-block', width: '0.32em' }}
+                    style={{ display: 'inline-block', width: '0.55em' }}
                   />
                 );
               }
