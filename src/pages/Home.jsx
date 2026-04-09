@@ -45,51 +45,57 @@ const ServicesSection = styled.div`
 `;
 
 const ServicesHeader = styled.h2`
-  font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.2rem, 1.5vw, 1.45rem);
   font-weight: 400;
-  margin: 0 0 2.5rem 0;
+  margin: 5rem 0 5rem 0;
   letter-spacing: 0.1em;
+  text-align: left;
 `;
 
 const ServicesHeaderLight = styled.span`
-  color: #999;
+  color: #444;
 `;
 
 const ServicesHeaderBold = styled.span`
-  color: #1a1a1a;
-  font-weight: 700;
+  color: #444;
+  font-weight: 400;
 `;
 
 const ServicesDivider = styled.div`
   width: 100%;
   height: 1px;
   background: #ECECEC;
-  margin-bottom: 2rem;
 `;
 
 const ServicesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 36px;
-
-  @media (max-width: 1100px) {
-    grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: row;
+  gap: 35px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
   }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
 const ServiceCard = styled.div`
   background: #F3F3F3;
-  padding: 2.5rem;
-  min-height: 460px;
+  padding: 1.75rem 1.5rem 1.25rem;
+  min-height: 420px;
+  flex: 0 0 295px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+  scroll-snap-align: start;
   clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 0 100%);
 `;
 
@@ -106,7 +112,7 @@ const ServiceTitle = styled.h3`
 
 const ServiceDescription = styled.p`
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #767676;
   line-height: 1.6;
@@ -116,7 +122,7 @@ const ServiceDescription = styled.p`
 
 const ServiceDescriptionParagraph = styled.p`
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #767676;
   line-height: 1.6;
@@ -132,7 +138,7 @@ const BottomDivider = styled.div`
   width: 100%;
   height: 1px;
   background: #ECECEC;
-  margin-top: 3rem;
+  margin-top: 9rem;
 `;
 
 const ContactSection = styled.section`
@@ -267,6 +273,11 @@ const ContactButton = styled.button`
 
 const Home = () => {
   const statementRef = useRef(null);
+  const headerRef = useRef(null);
+  const gridRef = useRef(null);
+  const [lightText, setLightText] = useState('WE ARE ');
+  const [boldText, setBoldText] = useState('HEPTA');
+  const headerAnimated = useRef(false);
 
   useEffect(() => {
     const el = statementRef.current;
@@ -286,6 +297,76 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const target = 'WE ARE HEPTA';
+
+    const runScramble = () => {
+      if (headerAnimated.current) return;
+      headerAnimated.current = true;
+
+      const resolved = target.split('').map(c => c === ' ');
+      let nonSpaceIndex = 0;
+
+      // Schedule each non-space character to resolve sequentially
+      target.split('').forEach((char, i) => {
+        if (char === ' ') return;
+        const delay = nonSpaceIndex * 55 + 60;
+        nonSpaceIndex++;
+        setTimeout(() => { resolved[i] = true; }, delay);
+      });
+
+      // Rapidly update display, scrambling unresolved chars
+      const timer = setInterval(() => {
+        const result = target.split('').map((char, i) => {
+          if (char === ' ') return ' ';
+          if (resolved[i]) return char;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        setLightText(result.slice(0, 7));
+        setBoldText(result.slice(7));
+        if (resolved.every(r => r)) {
+          clearInterval(timer);
+          setLightText('WE ARE ');
+          setBoldText('HEPTA');
+        }
+      }, 30);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        runScramble();
+        observer.disconnect();
+      }
+    }, { threshold: 0.5 });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    let isDown = false;
+    let startX, scrollLeft;
+    const onMouseDown = e => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; };
+    const onMouseLeave = () => { isDown = false; };
+    const onMouseUp = () => { isDown = false; };
+    const onMouseMove = e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = scrollLeft - (x - startX); };
+    el.addEventListener('mousedown', onMouseDown);
+    el.addEventListener('mouseleave', onMouseLeave);
+    el.addEventListener('mouseup', onMouseUp);
+    el.addEventListener('mousemove', onMouseMove);
+    return () => {
+      el.removeEventListener('mousedown', onMouseDown);
+      el.removeEventListener('mouseleave', onMouseLeave);
+      el.removeEventListener('mouseup', onMouseUp);
+      el.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []);
+
   return (
     <>
       <Hero />
@@ -301,12 +382,12 @@ const Home = () => {
         </StatementSection>
 
         <ServicesSection>
-          <ServicesHeader>
-            <ServicesHeaderLight>We are </ServicesHeaderLight>
-            <ServicesHeaderBold>HEPTA</ServicesHeaderBold>
-          </ServicesHeader>
           <ServicesDivider />
-          <ServicesGrid>
+          <ServicesHeader ref={headerRef}>
+            <ServicesHeaderLight>{lightText}</ServicesHeaderLight>
+            <ServicesHeaderBold>{boldText}</ServicesHeaderBold>
+          </ServicesHeader>
+          <ServicesGrid ref={gridRef}>
             <ServiceCard>
               <ServiceTitle>SILMARIL</ServiceTitle>
               <div>
@@ -339,6 +420,12 @@ const Home = () => {
               <ServiceTitle>White-label</ServiceTitle>
               <ServiceDescription>
                 Deploy Silmaril under your own brand. Your clients get enterprise-grade security monitoring.
+              </ServiceDescription>
+            </ServiceCard>
+            <ServiceCard>
+              <ServiceTitle>Careers</ServiceTitle>
+              <ServiceDescription>
+                We are always looking for sharp people. No open positions right now, but if you are exceptional, we want to hear from you anyway.
               </ServiceDescription>
             </ServiceCard>
           </ServicesGrid>

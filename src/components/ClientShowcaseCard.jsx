@@ -195,7 +195,6 @@ const AccordionAuthor = styled.div`
 `;
 
 const LinkRow = styled.div`
-  margin-top: auto;
   padding-top: 6px;
 `;
 
