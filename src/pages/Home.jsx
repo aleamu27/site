@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
@@ -23,6 +23,7 @@ const StatementText = styled.p`
   line-height: 1.35;
   margin: 0;
   letter-spacing: -0.02em;
+  will-change: opacity, transform;
 `;
 
 const GrayText = styled.span`
@@ -144,7 +145,7 @@ const ContactSection = styled.section`
   grid-template-columns: 1fr 1fr;
   gap: 1.5vw;
   padding: 5vh 2.5vw;
-  min-height: 75vh;
+  min-height: 40vh;
   margin-bottom: 7rem;
 
   @media (max-width: 900px) {
@@ -163,12 +164,12 @@ const ContactImage = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
-    min-height: 65vh;
+    min-height: 38vh;
   }
 
   @media (max-width: 900px) {
     img {
-      min-height: 40vh;
+      min-height: 30vh;
     }
   }
 `;
@@ -201,8 +202,9 @@ const ContactSubtext = styled.p`
   font-weight: 400;
   color: #1a1a1a;
   text-align: center;
-  margin: 0 0 2rem 0;
+  margin: 0 auto 2rem;
   line-height: 1.5;
+  max-width: 480px;
 `;
 
 const ContactForm = styled.form`
@@ -264,6 +266,26 @@ const ContactButton = styled.button`
 `;
 
 const Home = () => {
+  const statementRef = useRef(null);
+
+  useEffect(() => {
+    const el = statementRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      // progress 0 = element bottom just entered viewport, 1 = fully in view
+      const progress = Math.min(Math.max((windowHeight - rect.top) / (windowHeight * 0.55), 0), 1);
+      el.style.opacity = progress;
+      el.style.transform = `translateY(${14 * (1 - progress)}px) scale(${0.96 + 0.04 * progress})`;
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <Hero />
@@ -271,7 +293,7 @@ const Home = () => {
         <Showcase />
 
         <StatementSection>
-          <StatementText>
+          <StatementText ref={statementRef}>
             Our software monitors, protects, and builds
             the <GrayText>digital surface</GrayText> of organizations that
             operate where exposure isn't an option.
@@ -326,14 +348,14 @@ const Home = () => {
         <ContactSection>
           <ContactImage>
             <img
-              src="https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/CTAP/CTA%20Image%20fra%20Alt%20til%20nettside.png"
+              src="/cta-image.png"
               alt="Mountain coastline"
             />
           </ContactImage>
           <ContactCard>
             <ContactHeading>Ready for the next step?</ContactHeading>
             <ContactSubtext>
-              Hepta delivers solutions for organizations that take their digital presence seriously.
+              Hepta delivers solutions for organizations that take their<br />digital presence seriously.
             </ContactSubtext>
             <ContactForm>
               <ContactInput type="email" placeholder="Email" />

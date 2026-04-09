@@ -19,10 +19,16 @@ const TabsContainer = styled.div`
   padding: 0 2.5vw;
 `;
 
+const TabsDivider = styled.div`
+  height: 1px;
+  background: #ECECEC;
+  margin: 0 2.5vw 1.5rem;
+`;
+
 const Tab = styled.button`
   position: relative;
   background: #F3F3F3;
-  border: 1px solid ${props => props.$active ? '#333' : 'transparent'};
+  border: 1px solid transparent;
   border-radius: 0;
   padding: 10px;
   gap: 10px;
@@ -189,6 +195,7 @@ const Showcase = () => {
           </Tab>
         ))}
       </TabsContainer>
+      <TabsDivider />
 
       {renderShowcaseContent()}
     </ShowcaseWrapper>
