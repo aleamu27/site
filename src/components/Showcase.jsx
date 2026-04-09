@@ -8,7 +8,7 @@ const ShowcaseWrapper = styled.section`
   position: relative;
   left: 50%;
   margin-left: -50vw;
-  padding: 4rem 0;
+  padding: 1rem 0 1rem;
 `;
 
 const TabsContainer = styled.div`
@@ -22,7 +22,7 @@ const TabsContainer = styled.div`
 const TabsDivider = styled.div`
   height: 1px;
   background: #ECECEC;
-  margin: 0 2.5vw 1.5rem;
+  margin: 0 2.5vw 0.4rem;
 `;
 
 const Tab = styled.button`
@@ -61,34 +61,21 @@ const ClientCardWrapper = styled.div`
   margin: 0 2.5vw;
 `;
 
+const FullImage = styled.img`
+  display: block;
+  width: calc(100% - 5vw);
+  height: auto;
+  border-radius: 8px;
+  margin: 0 2.5vw;
+`;
+
 // Showcase data
 const SHOWCASE_DATA = [
   {
     id: 'development',
     tabName: 'Development',
-    type: 'client',
-    label: 'Development',
-    title: 'Infrastructure Built to Last, Engineered to Perform.',
-    imageSrc: 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Alternativer%20til%20nettside.png',
-    sections: [
-      {
-        title: 'Websites',
-        content: 'Custom-built web platforms designed for performance, security, and scale. No templates, no shortcuts.',
-        author: null
-      },
-      {
-        title: 'Systems',
-        content: 'Backend infrastructure, APIs, and integrations that power your business operations reliably.',
-        author: null
-      },
-      {
-        title: 'Security',
-        content: 'Security-first development practices ensuring your digital assets are protected from day one.',
-        author: null
-      }
-    ],
-    externalLink: '/development',
-    externalLinkText: 'LEARN MORE'
+    type: 'fullImage',
+    imageSrc: '/devimage.png',
   },
   {
     id: 'client1',
@@ -156,6 +143,12 @@ const Showcase = () => {
   const activeShowcase = SHOWCASE_DATA[activeIndex];
 
   const renderShowcaseContent = () => {
+    if (activeShowcase.type === 'fullImage') {
+      return (
+        <FullImage src={activeShowcase.imageSrc} alt={activeShowcase.tabName} />
+      );
+    }
+
     if (activeShowcase.type === 'client') {
       return (
         <ClientCardWrapper>

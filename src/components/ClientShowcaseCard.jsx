@@ -10,7 +10,7 @@ const CardHeader = styled.div`
   padding: 16px 20px;
   background: #F5F5F5;
   border-radius: 5px;
-  margin: 23px 0 23px 0;
+  margin: 0 0 16px 0;
   width: fit-content;
 
   @media (max-width: 768px) {
