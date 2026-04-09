@@ -1,5 +1,26 @@
 import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const revealStyles = css`
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.vis {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const lineRevealStyles = css`
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.vis {
+    transform: scaleX(1);
+  }
+`;
 
 const ScrollContainer = styled.section`
   position: relative;
@@ -35,22 +56,349 @@ const TextContainer = styled.div`
   }
 `;
 
-const BelowSection = styled.section`
+const Section = styled.section`
   background: #F2F1ED;
-  padding: 10rem 5vw;
-  border-top: 1px solid #C8C7C3;
-  min-height: 50vh;
-  display: flex;
-  align-items: center;
+  padding: 8rem 5vw;
 `;
 
-const BelowText = styled.h2`
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 400;
+const SectionHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  ${revealStyles}
+`;
+
+const SectionLabel = styled.span`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
   color: #888;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  white-space: nowrap;
+`;
+
+const SectionLine = styled.div`
+  flex: 1;
+  height: 1px;
+  background: #C8C7C3;
+  ${lineRevealStyles}
+`;
+
+const SectionNumber = styled.span`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.1em;
+`;
+
+const SectionDivider = styled.div`
+  width: 100%;
+  height: 2px;
+  background: #C8C7C3;
+  margin-bottom: 5rem;
+  ${lineRevealStyles}
+`;
+
+const TwoCol = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+`;
+
+const ColLeft = styled.div``;
+const ColRight = styled.div``;
+
+const OutcomesLabel = styled.div`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  ${revealStyles}
+`;
+
+const OutcomesList = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const OutcomesItem = styled.div`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.6;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid #C8C7C3;
+  ${revealStyles}
+
+  &:first-child {
+    border-top: 1px solid #C8C7C3;
+  }
+
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    margin-top: 0.55em;
+  }
+`;
+
+const QuoteRow = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding-top: 1rem;
+  ${revealStyles}
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const QuoteMark = styled.span`
+  font-family: 'Inter', sans-serif;
+  font-size: 5rem;
+  font-weight: 300;
+  color: #1a1a1a;
+  line-height: 0.8;
+`;
+
+const QuoteContent = styled.div`
+  padding-top: 0.5rem;
+`;
+
+const QuoteText = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+  max-width: 700px;
+`;
+
+const QuoteAttribution = styled.span`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+`;
+
+const SectionBody = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.35;
   letter-spacing: -0.02em;
   margin: 0;
+  max-width: 900px;
+  ${revealStyles}
+  transition-delay: 0.15s;
+`;
+
+const ColBody = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  margin: 0;
+  max-width: 650px;
+  ${revealStyles}
+`;
+
+const ProgressSection = styled.section`
+  background: #F2F1ED;
+  padding: 8rem 5vw 10rem;
+`;
+
+const ProgressTitle = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(3rem, 7vw, 7rem);
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 1rem 0 3rem;
+  text-transform: uppercase;
+  ${revealStyles}
+  transition-delay: 0.1s;
+`;
+
+const ProgressDivider = styled.div`
+  width: 100%;
+  height: 2px;
+  background: #C8C7C3;
+  margin-bottom: 3rem;
+  ${lineRevealStyles}
+`;
+
+const ProgressQuoteRow = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 4rem;
+  ${revealStyles}
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ProgressQuoteText = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.7;
+  margin: 0 0 1.5rem;
+  max-width: 650px;
+`;
+
+const BarSection = styled.div`
+  margin-top: 3rem;
+  ${revealStyles}
+  transition-delay: 0.2s;
+`;
+
+const BarGraphic = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 80px;
+  margin-bottom: 1.5rem;
+`;
+
+const Bar = styled.div`
+  flex: 1;
+  background: #1a1a1a;
+  min-width: 2px;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition:
+    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--bar-delay, 0s);
+
+  ${BarSection}.vis & {
+    opacity: var(--bar-opacity, 1);
+    transform: scaleY(1);
+  }
+`;
+
+const BarStats = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const StatBlock = styled.div``;
+
+const StatLabel = styled.div`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+`;
+
+const StatNumber = styled.div`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1;
+  letter-spacing: -0.03em;
+`;
+
+const StatDesc = styled.div`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #888;
+  margin-top: 0.25rem;
+`;
+
+const HowItWorksGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const StepCard = styled.div`
+  padding: 2rem 0;
+  ${revealStyles}
+`;
+
+const StepNumber = styled.div`
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #aaa;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+`;
+
+const StepTitle = styled.h3`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.02em;
+`;
+
+const StepBody = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #666;
+  line-height: 1.65;
+  margin: 0;
+`;
+
+const StepLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #C8C7C3;
+  margin-bottom: 1.5rem;
+  ${lineRevealStyles}
 `;
 
 const clamp01 = v => Math.min(Math.max(v, 0), 1);
@@ -72,6 +420,17 @@ const CalarOS = () => {
 
   useEffect(() => {
     document.title = 'Calar OS | Hepta';
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('vis');
+      }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('[data-anim]').forEach(el => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -217,9 +576,134 @@ const CalarOS = () => {
         </Sticky>
       </ScrollContainer>
 
-      <BelowSection>
-        <BelowText>More about Calar OS coming soon.</BelowText>
-      </BelowSection>
+      <Section>
+        <SectionHeader data-anim>
+          <SectionLabel>Introduction</SectionLabel>
+          <SectionLine data-anim />
+          <SectionNumber>01</SectionNumber>
+        </SectionHeader>
+        <SectionBody data-anim>
+          Marketing teams spend millions on campaigns without knowing which channels actually drive revenue. Calar OS tracks every touchpoint, scores every lead automatically, and alerts your sales team the moment a prospect shows buying intent.
+        </SectionBody>
+      </Section>
+
+      <Section>
+        <SectionHeader data-anim>
+          <SectionLabel>How it works</SectionLabel>
+          <SectionLine data-anim />
+          <SectionNumber>02</SectionNumber>
+        </SectionHeader>
+        <HowItWorksGrid>
+          <StepCard data-anim style={{ transitionDelay: '0s' }}>
+            <StepNumber>01</StepNumber>
+            <StepLine data-anim />
+            <StepTitle>Track</StepTitle>
+            <StepBody>One line of code on your site. Calar OS captures UTM parameters, referrer data, landing pages, and visitor behavior automatically.</StepBody>
+          </StepCard>
+          <StepCard data-anim style={{ transitionDelay: '0.1s' }}>
+            <StepNumber>02</StepNumber>
+            <StepLine data-anim />
+            <StepTitle>Attribute</StepTitle>
+            <StepBody>Every lead is connected to the campaign that brought them in. First-touch, multi-touch, and full journey mapping across all your channels.</StepBody>
+          </StepCard>
+          <StepCard data-anim style={{ transitionDelay: '0.2s' }}>
+            <StepNumber>03</StepNumber>
+            <StepLine data-anim />
+            <StepTitle>Score</StepTitle>
+            <StepBody>Leads are scored in real time based on page views, pricing page visits, return frequency, and email type. Configurable thresholds, zero guesswork.</StepBody>
+          </StepCard>
+          <StepCard data-anim style={{ transitionDelay: '0.3s' }}>
+            <StepNumber>04</StepNumber>
+            <StepLine data-anim />
+            <StepTitle>Alert</StepTitle>
+            <StepBody>Score crosses 50? Slack notification, email alert, and auto-push to HubSpot. Your sales team calls while the lead is still warm.</StepBody>
+          </StepCard>
+        </HowItWorksGrid>
+      </Section>
+
+      <Section>
+        <SectionDivider data-anim />
+        <TwoCol>
+          <ColLeft>
+            <ColBody data-anim>
+              Calar OS is built for B2B teams that need to connect marketing spend to actual revenue. One line of code on your site and within five minutes you have full attribution, automated lead scoring, and real-time alerts flowing to your sales team.
+            </ColBody>
+          </ColLeft>
+          <ColRight>
+            <OutcomesLabel data-anim>Capabilities</OutcomesLabel>
+            <OutcomesList>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.05s' }}>First-touch and multi-touch attribution across every channel</OutcomesItem>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.1s' }}>Automatic lead scoring based on page views, pricing visits, and return behavior</OutcomesItem>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.15s' }}>Real-time Slack and email alerts when a lead crosses your score threshold</OutcomesItem>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.2s' }}>HubSpot auto-sync for qualified leads above score 75</OutcomesItem>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.25s' }}>Full ROI dashboard broken down by channel, campaign, and time period</OutcomesItem>
+              <OutcomesItem data-anim style={{ transitionDelay: '0.3s' }}>100% GDPR compliant with first-party cookies and a 30-day attribution window</OutcomesItem>
+            </OutcomesList>
+          </ColRight>
+        </TwoCol>
+      </Section>
+
+      <Section>
+        <SectionDivider data-anim />
+        <QuoteRow data-anim>
+          <QuoteMark>"</QuoteMark>
+          <QuoteContent>
+            <QuoteText>
+              Stop guessing which channel actually sells. See the full customer journey from first click to signed deal.
+            </QuoteText>
+            <QuoteAttribution>→ Jonathan Berg / Hepta</QuoteAttribution>
+          </QuoteContent>
+        </QuoteRow>
+      </Section>
+
+      <ProgressSection>
+        <SectionHeader data-anim>
+          <SectionLabel>Progress</SectionLabel>
+          <SectionLine data-anim />
+          <SectionNumber>03</SectionNumber>
+        </SectionHeader>
+        <ProgressTitle data-anim>Lead Attribution<br />Intelligence</ProgressTitle>
+
+
+        <ProgressDivider data-anim />
+
+        <ProgressQuoteRow data-anim>
+          <QuoteMark style={{ color: '#1a1a1a' }}>"</QuoteMark>
+          <QuoteContent>
+            <ProgressQuoteText>
+              Every marketing dollar your organization spends should be traceable to revenue. Calar OS exists because the tools that claim to do this either cost too much, require too many integrations, or give you data you cannot act on. We built a single platform that handles attribution, scoring, and sales alerts in one place.
+            </ProgressQuoteText>
+            <QuoteAttribution>→ Alexander Amundsen / Hepta</QuoteAttribution>
+          </QuoteContent>
+        </ProgressQuoteRow>
+
+        <BarSection data-anim>
+          <BarGraphic>
+            {Array.from({ length: 60 }).map((_, i) => (
+              <Bar
+                key={i}
+                style={{
+                  height: `${20 + (i / 59) * 60}px`,
+                  '--bar-opacity': 0.15 + (i / 59) * 0.85,
+                  '--bar-delay': `${i * 0.022}s`,
+                }}
+              />
+            ))}
+          </BarGraphic>
+          <BarStats>
+            <StatBlock>
+              <StatLabel>Setup Time</StatLabel>
+              <StatNumber>&lt; 5</StatNumber>
+              <StatDesc>Minutes to first tracked lead</StatDesc>
+            </StatBlock>
+            <StatBlock style={{ textAlign: 'right' }}>
+              <StatLabel>Attribution Window</StatLabel>
+              <StatNumber>30</StatNumber>
+              <StatDesc>Days of full touchpoint history</StatDesc>
+            </StatBlock>
+          </BarStats>
+        </BarSection>
+      </ProgressSection>
     </>
   );
 };
