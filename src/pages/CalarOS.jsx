@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const ScrollContainer = styled.section`
   position: relative;
-  height: 500vh;
+  height: 350vh;
 `;
 
 const Sticky = styled.div`
@@ -14,6 +14,12 @@ const Sticky = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: #1a1a1a;
+  transition: background-color 0.35s ease;
+
+  &.flipped {
+    background-color: #F2F1ED;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -21,6 +27,12 @@ const TextContainer = styled.div`
   align-items: baseline;
   justify-content: center;
   flex-wrap: nowrap;
+  color: #F2F1ED;
+  transition: color 0.35s ease;
+
+  &.flipped {
+    color: #1a1a1a;
+  }
 `;
 
 const BelowSection = styled.section`
@@ -89,11 +101,8 @@ const CalarOS = () => {
         // Phase 1 (0 → 0.35): sequential letter fade, last-to-first per word
         const fadePhase = clamp01(progress / 0.35);
 
-        // Phase 2 (0.35 → 0.8): collapse + scale together
-        const collapsePhase = clamp01((progress - 0.35) / 0.45);
-
-        // Phase 3 (0.65 → 1.0): bg/color transition
-        const colorPhase = clamp01((progress - 0.65) / 0.35);
+        // Phase 2 (0.35 → 0.65): collapse + scale together
+        const collapsePhase = clamp01((progress - 0.35) / 0.3);
 
         // Apply sequential fade + collapse to non-first letters
         for (let i = 0; i < faders.length; i++) {
@@ -121,25 +130,18 @@ const CalarOS = () => {
         }
 
         // Grow only the first letters (C, O, S)
-        const baseFontSize = window.innerWidth * 0.045;
-        const grownFontSize = lerp(baseFontSize, baseFontSize * 2.5, collapsePhase);
+        const baseFontSize = window.innerWidth * 0.04;
+        const grownFontSize = lerp(baseFontSize, baseFontSize * 2.3, collapsePhase);
         const firsts = row.querySelectorAll('[data-first]');
         for (let i = 0; i < firsts.length; i++) {
           firsts[i].style.fontSize = `${grownFontSize}px`;
         }
 
 
-        // Background: dark → light
-        const bgR = Math.round(lerp(26, 242, colorPhase));
-        const bgG = Math.round(lerp(26, 241, colorPhase));
-        const bgB = Math.round(lerp(26, 237, colorPhase));
-        sticky.style.backgroundColor = `rgb(${bgR},${bgG},${bgB})`;
-
-        // Text color: light → dark
-        const tR = Math.round(lerp(242, 26, colorPhase));
-        const tG = Math.round(lerp(241, 26, colorPhase));
-        const tB = Math.round(lerp(237, 26, colorPhase));
-        row.style.color = `rgb(${tR},${tG},${tB})`;
+        // Background: trigger right when collapse finishes
+        const flipped = progress > 0.65;
+        sticky.classList.toggle('flipped', flipped);
+        row.classList.toggle('flipped', flipped);
       });
     };
 
@@ -151,7 +153,7 @@ const CalarOS = () => {
   const letterStyle = {
     fontFamily: 'Inter, sans-serif',
     fontWeight: 700,
-    fontSize: `${(typeof window !== 'undefined' ? window.innerWidth : 1024) * 0.045}px`,
+    fontSize: `${(typeof window !== 'undefined' ? window.innerWidth : 1024) * 0.04}px`,
     lineHeight: 1,
     letterSpacing: '-0.03em',
     display: 'inline-block',
@@ -164,8 +166,8 @@ const CalarOS = () => {
   return (
     <>
       <ScrollContainer ref={sectionRef}>
-        <Sticky ref={stickyRef} style={{ backgroundColor: '#1a1a1a' }}>
-          <TextContainer ref={rowRef} style={{ color: '#F2F1ED' }}>
+          <Sticky ref={stickyRef}>
+          <TextContainer ref={rowRef}>
             {words.map((word, wi) => {
               const elements = [];
               const restLen = word.rest.length;
@@ -190,7 +192,8 @@ const CalarOS = () => {
                       overflow: 'hidden',
                       maxWidth: '60px',
                       verticalAlign: 'baseline',
-                      lineHeight: 1,
+                      lineHeight: 1.3,
+                      paddingBottom: '0.25em',
                     }}
                   >
                     <span data-letter="true" style={letterStyle}>{word.rest[ci]}</span>

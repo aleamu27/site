@@ -213,26 +213,6 @@ const MenuNavLink = styled(Link)`
   }
 `;
 
-const MenuNavLinkArrow = styled(Link)`
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: #fff;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:before {
-    content: '↳';
-    opacity: 0.5;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
-`;
 
 const LatestNewsSection = styled.div``;
 
@@ -484,26 +464,6 @@ const MobileMenuNavLink = styled(Link)`
   }
 `;
 
-const MobileMenuNavLinkArrow = styled(Link)`
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: #fff;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:before {
-    content: '↳';
-    opacity: 0.5;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
-`;
 
 const MobileNewsSection = styled.div`
   border-top: 1px solid rgba(255,255,255,0.1);
@@ -528,7 +488,6 @@ const NAV_LINKS = [
   { to: '/consulting', label: 'Consulting' },
 ];
 
-const SUB_NAV_LINKS = [];
 
 const Navbar = () => {
   const [logoError, setLogoError] = useState(false);
