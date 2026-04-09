@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
@@ -97,6 +98,51 @@ const ServiceCard = styled.div`
   position: relative;
   scroll-snap-align: start;
   clip-path: polygon(0 0, calc(100% - 35px) 0, 100% 35px, 100% 100%, 0 100%);
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover .card-bottom {
+    transform: translateY(-36px);
+  }
+
+  &:hover .card-learn-more {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const CardBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+`;
+
+const CardLearnMore = styled(Link)`
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1F2124;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+
+  &:after {
+    content: ' →';
+  }
+`;
+
+const CardCoverLink = styled(Link)`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 `;
 
 const ServiceTitle = styled.h3`
@@ -389,44 +435,58 @@ const Home = () => {
           </ServicesHeader>
           <ServicesGrid ref={gridRef}>
             <ServiceCard>
+              <CardCoverLink to="/silmaril" />
               <ServiceTitle>SILMARIL</ServiceTitle>
-              <div>
+              <CardBottom className="card-bottom">
                 <ServiceDescriptionParagraph>
                   Silmaril continuously scans and monitors the web infrastructure of domains you manage, surfacing security findings across SSL, DNS, headers, and more.
                 </ServiceDescriptionParagraph>
                 <ServiceDescriptionParagraph>
                   Built as a distributed system, it runs parallel scans on schedule and delivers structured results your team can act on.
                 </ServiceDescriptionParagraph>
-              </div>
+              </CardBottom>
+              <CardLearnMore to="/silmaril" className="card-learn-more">Learn more</CardLearnMore>
             </ServiceCard>
             <ServiceCard>
+              <CardCoverLink to="/calar-os" />
+              <ServiceTitle>Calar OS</ServiceTitle>
+              <CardBottom className="card-bottom">
+                <ServiceDescription>Coming soon.</ServiceDescription>
+              </CardBottom>
+              <CardLearnMore to="/calar-os" className="card-learn-more">Learn more</CardLearnMore>
+            </ServiceCard>
+            <ServiceCard>
+              <CardCoverLink to="/development" />
               <ServiceTitle>Development</ServiceTitle>
-              <ServiceDescription>
-                Clean architecture, production-ready code, and nothing you don't need. We design and ship web systems that will not need to be rebuilt.
-              </ServiceDescription>
+              <CardBottom className="card-bottom">
+                <ServiceDescription>
+                  Clean architecture, production-ready code, and nothing you don't need. We design and ship web systems that will not need to be rebuilt.
+                </ServiceDescription>
+              </CardBottom>
+              <CardLearnMore to="/development" className="card-learn-more">Learn more</CardLearnMore>
             </ServiceCard>
             <ServiceCard>
+              <CardCoverLink to="/about" />
+              <ServiceTitle>About Us</ServiceTitle>
+              <CardBottom className="card-bottom">
+                <ServiceDescription>
+                  We are a small team that builds serious digital infrastructure. We care about the work and the people we work with.
+                </ServiceDescription>
+              </CardBottom>
+              <CardLearnMore to="/about" className="card-learn-more">Learn more</CardLearnMore>
+            </ServiceCard>
+            <ServiceCard>
+              <CardCoverLink to="/consulting" />
               <ServiceTitle>Consulting</ServiceTitle>
-              <div>
+              <CardBottom className="card-bottom">
                 <ServiceDescriptionParagraph>
                   We work with organizations to assess, plan, and improve their digital presence.
                 </ServiceDescriptionParagraph>
                 <ServiceDescriptionParagraph>
                   From infrastructure decisions to platform strategy, we give you a clear picture of where you are and a concrete path to where you need to be.
                 </ServiceDescriptionParagraph>
-              </div>
-            </ServiceCard>
-            <ServiceCard>
-              <ServiceTitle>White-label</ServiceTitle>
-              <ServiceDescription>
-                Deploy Silmaril under your own brand. Your clients get enterprise-grade security monitoring.
-              </ServiceDescription>
-            </ServiceCard>
-            <ServiceCard>
-              <ServiceTitle>Careers</ServiceTitle>
-              <ServiceDescription>
-                We are always looking for sharp people. No open positions right now, but if you are exceptional, we want to hear from you anyway.
-              </ServiceDescription>
+              </CardBottom>
+              <CardLearnMore to="/consulting" className="card-learn-more">Learn more</CardLearnMore>
             </ServiceCard>
           </ServicesGrid>
           <BottomDivider />

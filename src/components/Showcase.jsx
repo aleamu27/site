@@ -145,7 +145,9 @@ const Showcase = () => {
   const renderShowcaseContent = () => {
     if (activeShowcase.type === 'fullImage') {
       return (
-        <FullImage src={activeShowcase.imageSrc} alt={activeShowcase.tabName} />
+        <Link to={activeShowcase.link || '/development'} style={{ display: 'block', margin: '0 2.5vw', cursor: 'pointer' }}>
+          <FullImage src={activeShowcase.imageSrc} alt={activeShowcase.tabName} style={{ margin: 0 }} />
+        </Link>
       );
     }
 

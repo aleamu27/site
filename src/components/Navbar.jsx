@@ -521,19 +521,14 @@ const MobileNewsCard = styled.div`
 
 // Navigation links
 const NAV_LINKS = [
-  { to: '/work', label: 'Work' },
-  { to: '/about', label: 'About' },
-  { to: '/newsletter', label: 'Newsletter' },
-  { to: '/careers', label: 'Careers' },
+  { to: '/silmaril', label: 'Silmaril' },
+  { to: '/calar-os', label: 'Calar OS' },
+  { to: '/development', label: 'Development' },
+  { to: '/about', label: 'About us' },
+  { to: '/consulting', label: 'Consulting' },
 ];
 
-// Sub navigation links
-const SUB_NAV_LINKS = [
-  { to: '/custom-ai', label: 'Custom AI' },
-  { to: '/development', label: 'Development' },
-  { to: '/ai-automations', label: 'Automation' },
-  { to: '/design', label: 'Design' },
-];
+const SUB_NAV_LINKS = [];
 
 const Navbar = () => {
   const [logoError, setLogoError] = useState(false);
@@ -556,7 +551,7 @@ const Navbar = () => {
         .select('id, title, slug, excerpt, featured_image, created_at')
         .eq('published', true)
         .order('created_at', { ascending: false })
-        .limit(2);
+        .limit(3);
 
       if (error) {
         console.error('Error fetching posts:', error);
@@ -637,19 +632,14 @@ const Navbar = () => {
                       {link.label}
                     </MenuNavLink>
                   ))}
-                  {SUB_NAV_LINKS.map((link) => (
-                    <MenuNavLinkArrow key={link.to} to={link.to} onClick={closeDesktopMenu}>
-                      {link.label}
-                    </MenuNavLinkArrow>
-                  ))}
                 </MenuNavLinks>
               </MenuNavSection>
 
               <LatestNewsSection>
                 <LatestNewsHeader>
                   <MenuSectionLabel>Latest News</MenuSectionLabel>
-                  <ViewAllLink to="/newsletter" onClick={closeDesktopMenu}>
-                    View all posts →
+                  <ViewAllLink to="/news" onClick={closeDesktopMenu}>
+                    View all →
                   </ViewAllLink>
                 </LatestNewsHeader>
                 <NewsGrid>
@@ -718,17 +708,12 @@ const Navbar = () => {
                     {link.label}
                   </MobileMenuNavLink>
                 ))}
-                {SUB_NAV_LINKS.map((link) => (
-                  <MobileMenuNavLinkArrow key={link.to} to={link.to} onClick={closeMobileMenu}>
-                    {link.label}
-                  </MobileMenuNavLinkArrow>
-                ))}
               </MobileMenuNavLinks>
 
               <MobileNewsSection>
                 <LatestNewsHeader>
                   <MenuSectionLabel style={{ marginBottom: 0 }}>Latest News</MenuSectionLabel>
-                  <ViewAllLink to="/newsletter" onClick={closeMobileMenu}>
+                  <ViewAllLink to="/news" onClick={closeMobileMenu}>
                     View all →
                   </ViewAllLink>
                 </LatestNewsHeader>

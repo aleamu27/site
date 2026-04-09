@@ -3,36 +3,16 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Design from './pages/Design';
-import Development from './pages/Development';
-import CustomAI from './pages/CustomAI';
-import AIAutomations from './pages/AIAutomations';
-import Production from './pages/Production';
-import Work from './pages/Work';
-import Contact from './pages/Contact';
-import About from './pages/About';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import BlogCMS from './components/BlogCMS';
-import BlogManagement from './components/BlogManagement';
-import JobCMS from './components/JobCMS';
-import Careers from './pages/Careers';
-import JobListing from './pages/JobListing';
-import Terms from './pages/Terms';
-import Privacy from './pages/Privacy';
-import GDPRChecklist from './pages/GDPRChecklist';
-import KafekompassetPrivacy from './pages/KafekompassetPrivacy';
-import KafekompassetSupport from './pages/KafekompassetSupport';
 import Silmaril from './pages/Silmaril';
+import Development from './pages/Development';
+import About from './pages/About';
+import CalarOS from './pages/CalarOS';
+import Consulting from './pages/Consulting';
+import News from './pages/News';
 import Layout from './components/Layout';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
-import ProtectedRoute from './components/Auth/ProtectedRoute';
-import LoginForm from './components/Auth/LoginForm';
-import AdminDashboard from './pages/Admin/Dashboard';
-import AdminSubscribers from './pages/Admin/Subscribers';
-import SessionManager from './components/Auth/SessionManager';
 import ScrollToTop from './components/ScrollToTop';
 import CookieConsent from './components/CookieConsent';
 
@@ -41,83 +21,17 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      <SessionManager />
       {location.pathname !== '/silmaril' && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/design" element={<Layout><Design /></Layout>} />
-        <Route path="/development" element={<Layout><Development /></Layout>} />
-        <Route path="/custom-ai" element={<Layout><CustomAI /></Layout>} />
-        <Route path="/ai-automations" element={<Layout><AIAutomations /></Layout>} />
-        <Route path="/production" element={<Layout><Production /></Layout>} />
-        <Route path="/work" element={<Layout><Work /></Layout>} />
-        <Route path="/about" element={<Layout><About /></Layout>} />
-        <Route path="/newsletter" element={<Layout><Blog /></Layout>} />
-        <Route path="/newsletter/:slug" element={<Layout><BlogPost /></Layout>} />
-
-        <Route path="/newsletter/manage" element={
-          <ProtectedRoute>
-            <Layout><BlogManagement /></Layout>
-          </ProtectedRoute>
-        } />
-
-        <Route path="/newsletter/cms" element={
-          <ProtectedRoute>
-            <Layout><BlogCMS /></Layout>
-          </ProtectedRoute>
-        } />
-
-        <Route path="/newsletter/new" element={
-          <ProtectedRoute>
-            <Layout><BlogCMS /></Layout>
-          </ProtectedRoute>
-        } />
-
-        <Route path="/newsletter-cms" element={
-          <ProtectedRoute>
-            <Layout><BlogCMS /></Layout>
-          </ProtectedRoute>
-        } />
-
-        <Route path="/careers" element={<Layout><Careers /></Layout>} />
-        <Route path="/careers/:slug" element={<Layout><JobListing /></Layout>} />
-
-        <Route path="/careers/cms/new" element={
-          <ProtectedRoute>
-            <Layout><JobCMS /></Layout>
-          </ProtectedRoute>
-        } />
-
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/gdpr-checklist" element={<GDPRChecklist />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/kafekompasset-privacy" element={<Layout><KafekompassetPrivacy /></Layout>} />
-        <Route path="/kafekompasset-support" element={<Layout><KafekompassetSupport /></Layout>} />
         <Route path="/silmaril" element={<Silmaril />} />
-        <Route path="/login" element={<LoginForm />} />
-
-        <Route path="/admin" element={
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/admin/*" element={
-          <ProtectedRoute>
-            <Layout>
-              <Routes>
-                <Route path="posts" element={<div>Newsletter Management</div>} />
-                <Route path="posts/new" element={<BlogCMS />} />
-                <Route path="media" element={<div>Media Library</div>} />
-                <Route path="subscribers" element={<AdminSubscribers />} />
-                <Route path="settings" element={<div>Site Settings</div>} />
-              </Routes>
-            </Layout>
-          </ProtectedRoute>
-        } />
+        <Route path="/development" element={<Development />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/calar-os" element={<CalarOS />} />
+        <Route path="/consulting" element={<Consulting />} />
+        <Route path="/news" element={<Layout><News /></Layout>} />
       </Routes>
-      {location.pathname !== '/contact' && location.pathname !== '/silmaril' && <Footer />}
+      {!['/silmaril', '/about', '/development', '/calar-os'].includes(location.pathname) && <Footer />}
       <CookieConsent />
     </>
   );
