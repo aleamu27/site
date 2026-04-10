@@ -31,7 +31,7 @@ function AppContent() {
         <Route path="/consulting" element={<Consulting />} />
         <Route path="/news" element={<Layout><News /></Layout>} />
       </Routes>
-      {!['/silmaril', '/about', '/development', '/calar-os'].includes(location.pathname) && <Footer />}
+      {!['/silmaril', '/about', '/calar-os'].includes(location.pathname) && <Footer />}
       <CookieConsent />
     </>
   );
