@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import SmallSiteFooter from '../components/SmallSiteFooter';
 
 // ── Typewriter component ───────────────────────────────────────────────────────
 
@@ -200,30 +201,6 @@ const RowBody = styled.p`
   }
 `;
 
-const SmallFooter = styled.footer`
-  background: #F2F1ED;
-  padding: 2rem 5vw;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const FooterLeft = styled.span`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
-  color: #888;
-  letter-spacing: 0.05em;
-`;
-
-const FooterRight = styled.a`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.8rem;
-  color: #888;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  &:hover { color: #1a1a1a; }
-`;
-
 // ── RowWithAnimations ─────────────────────────────────────────────────────────
 
 const RowBlock = ({ heading, tagline, body, headingDelay = 0, taglineDelay = 0 }) => {
@@ -308,10 +285,7 @@ const About = () => {
         <AnimatedLine />
       </RowsSection>
 
-      <SmallFooter>
-        <FooterLeft>The Infrastructure Beneath Digital Trust</FooterLeft>
-        <FooterRight>© {new Date().getFullYear()} Hepta</FooterRight>
-      </SmallFooter>
+      <SmallSiteFooter />
     </>
   );
 };

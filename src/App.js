@@ -9,7 +9,7 @@ import About from './pages/About';
 import CalarOS from './pages/CalarOS';
 import Consulting from './pages/Consulting';
 import News from './pages/News';
-import Layout from './components/Layout';
+import NewsArticle from './pages/NewsArticle';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -29,9 +29,11 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/calar-os" element={<CalarOS />} />
         <Route path="/consulting" element={<Consulting />} />
-        <Route path="/news" element={<Layout><News /></Layout>} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:slug" element={<NewsArticle />} />
       </Routes>
-      {!['/silmaril', '/about', '/calar-os'].includes(location.pathname) && <Footer />}
+      {!['/silmaril', '/about', '/calar-os'].includes(location.pathname) &&
+        !location.pathname.startsWith('/news') && <Footer />}
       <CookieConsent />
     </>
   );
