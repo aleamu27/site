@@ -72,10 +72,18 @@ const FullImage = styled.img`
 // Showcase data
 const SHOWCASE_DATA = [
   {
+    id: 'calar-os',
+    tabName: 'Calar OS',
+    type: 'fullImage',
+    imageSrc: '/calaros-showcase.png',
+    link: '/calar-os',
+  },
+  {
     id: 'development',
     tabName: 'Development',
     type: 'fullImage',
     imageSrc: '/devimage.png',
+    link: '/development',
   },
   {
     id: 'client1',

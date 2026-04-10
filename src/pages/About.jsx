@@ -300,7 +300,7 @@ const About = () => {
         />
         <RowBlock
           heading="Our Team"
-          tagline="Senior engineers. No overhead."
+          tagline="Experienced engineers. No overhead."
           body="Our team consists of experienced software engineers and security specialists. We have built web platforms, security monitoring tools, and custom software products across multiple industries. We move fast, we care about the details, and we are not trying to be everything to everyone. The team is small by design, not by accident."
           headingDelay={0}
           taglineDelay={150}
