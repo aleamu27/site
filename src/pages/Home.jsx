@@ -451,7 +451,12 @@ const Home = () => {
               <CardCoverLink to="/calar-os" />
               <ServiceTitle>Calar OS</ServiceTitle>
               <CardBottom className="card-bottom">
-                <ServiceDescription>Coming soon.</ServiceDescription>
+                <ServiceDescriptionParagraph>
+                  Calar OS shows you who is on your site and how they move through your funnel. It connects visits back to the channels and campaigns that drove them.
+                </ServiceDescriptionParagraph>
+                <ServiceDescriptionParagraph>
+                  Leads are scored from on-site behavior in real time.
+                </ServiceDescriptionParagraph>
               </CardBottom>
               <CardLearnMore to="/calar-os" className="card-learn-more">Learn more</CardLearnMore>
             </ServiceCard>
