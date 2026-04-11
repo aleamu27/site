@@ -392,6 +392,13 @@ function Contact() {
         await submitForm(form);
         console.log('✅ Submission successful, setting submitted state');
         setSubmitted(true);
+
+        // Send lead to Hepta Analytics
+        if (window.heptaCapture) {
+          window.heptaCapture(form.email, null, form.company)
+            .then(res => console.log('📊 Hepta capture:', res))
+            .catch(err => console.warn('Hepta capture failed:', err));
+        }
       } catch (error) {
         console.error('❌ Submission failed:', error.message);
         setError(error.message);

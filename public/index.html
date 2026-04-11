@@ -9,6 +9,50 @@
     <link href="https://fonts.cdnfonts.com/css/ocr-b-std" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <title>hepta</title>
+    <!-- Hepta Analytics Tracking -->
+    <script>
+    (function() {
+      let visitorId = localStorage.getItem('hepta_visitor');
+      if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem('hepta_visitor', visitorId);
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const attribution = {
+        utmSource: params.get('utm_source'),
+        utmMedium: params.get('utm_medium'),
+        utmCampaign: params.get('utm_campaign'),
+        referrer: document.referrer,
+        landingPage: window.location.href
+      };
+
+      if (attribution.utmSource) {
+        localStorage.setItem('hepta_attribution', JSON.stringify(attribution));
+      }
+
+      window.heptaCapture = async function(email, name, company) {
+        const attr = JSON.parse(localStorage.getItem('hepta_attribution') || '{}');
+
+        const response = await fetch('https://calar.vercel.app/api/v1/capture', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': 'hpt_live_abc123xyz789'
+          },
+          body: JSON.stringify({
+            visitorUuid: visitorId,
+            email: email,
+            name: name,
+            company: company,
+            attribution: attr
+          })
+        });
+
+        return response.json();
+      };
+    })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
