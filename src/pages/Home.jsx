@@ -435,19 +435,6 @@ const Home = () => {
           </ServicesHeader>
           <ServicesGrid ref={gridRef}>
             <ServiceCard>
-              <CardCoverLink to="/silmaril" />
-              <ServiceTitle>SILMARIL</ServiceTitle>
-              <CardBottom className="card-bottom">
-                <ServiceDescriptionParagraph>
-                  Silmaril continuously scans and monitors the web infrastructure of domains you manage, surfacing security findings across SSL, DNS, headers, and more.
-                </ServiceDescriptionParagraph>
-                <ServiceDescriptionParagraph>
-                  Built as a distributed system, it runs parallel scans on schedule and delivers structured results your team can act on.
-                </ServiceDescriptionParagraph>
-              </CardBottom>
-              <CardLearnMore to="/silmaril" className="card-learn-more">Learn more</CardLearnMore>
-            </ServiceCard>
-            <ServiceCard>
               <CardCoverLink to="/calar-os" />
               <ServiceTitle>Calar OS</ServiceTitle>
               <CardBottom className="card-bottom">
@@ -469,6 +456,19 @@ const Home = () => {
                 </ServiceDescription>
               </CardBottom>
               <CardLearnMore to="/development" className="card-learn-more">Learn more</CardLearnMore>
+            </ServiceCard>
+            <ServiceCard>
+              <CardCoverLink to="/visual-identity" />
+              <ServiceTitle>Visual identity</ServiceTitle>
+              <CardBottom className="card-bottom">
+                <ServiceDescriptionParagraph>
+                  Brand systems, typography, colour, and art direction so your product and marketing feel like one coherent story.
+                </ServiceDescriptionParagraph>
+                <ServiceDescriptionParagraph>
+                  We align visuals with how you actually operate: clear guidelines your team can ship with, not a deck that sits in a folder.
+                </ServiceDescriptionParagraph>
+              </CardBottom>
+              <CardLearnMore to="/visual-identity" className="card-learn-more">Learn more</CardLearnMore>
             </ServiceCard>
             <ServiceCard>
               <CardCoverLink to="/about" />

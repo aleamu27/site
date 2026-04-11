@@ -481,8 +481,8 @@ const MobileNewsCard = styled.div`
 
 // Navigation links
 const NAV_LINKS = [
-  { to: '/silmaril', label: 'Silmaril' },
   { to: '/calar-os', label: 'Calar OS' },
+  { to: '/visual-identity', label: 'Visual identity' },
   { to: '/development', label: 'Development' },
   { to: '/about', label: 'About us' },
   { to: '/consulting', label: 'Consulting' },

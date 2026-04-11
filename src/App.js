@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Silmaril from './pages/Silmaril';
+import VisualIdentity from './pages/VisualIdentity';
 import Development from './pages/Development';
 import About from './pages/About';
 import CalarOS from './pages/CalarOS';
@@ -21,10 +21,11 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      {location.pathname !== '/silmaril' && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/silmaril" element={<Silmaril />} />
+        <Route path="/visual-identity" element={<VisualIdentity />} />
+        <Route path="/silmaril" element={<Navigate to="/visual-identity" replace />} />
         <Route path="/development" element={<Development />} />
         <Route path="/about" element={<About />} />
         <Route path="/calar-os" element={<CalarOS />} />
@@ -32,7 +33,7 @@ function AppContent() {
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsArticle />} />
       </Routes>
-      {!['/silmaril', '/about', '/calar-os'].includes(location.pathname) &&
+      {!['/about', '/calar-os'].includes(location.pathname) &&
         !location.pathname.startsWith('/news') && <Footer />}
       <CookieConsent />
     </>

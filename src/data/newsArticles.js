@@ -25,7 +25,7 @@ export const NEWS_ARTICLES = [
     imageSrc: '/devimage.png',
     imageAlt: 'Development workspace',
     paragraphs: [
-      'Silmaril started as an internal tool: we needed to see SSL, DNS, and HTTP configuration drift across many domains without opening a spreadsheet every Monday.',
+      'The project started as an internal tool: we needed to see SSL, DNS, and HTTP configuration drift across many domains without opening a spreadsheet every Monday.',
       'Running scans on a schedule sounds easy until you factor in rate limits, flaky resolvers, and the fact that a single false positive trains teams to ignore the product. We invested early in structured results, deduplication, and clear severity so alerts mean something.',
       'The product runs as a distributed system so we can parallelise work and keep latency predictable as customers add domains. That architecture cost more up front than a cron script, but it is what allows the service to stay reliable as usage grows.',
       'The lesson for us was the same one we bring to client work: operational software has to earn trust every week. Monitoring that cries wolf is worse than no monitoring at all.',

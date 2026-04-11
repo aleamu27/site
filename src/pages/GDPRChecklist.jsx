@@ -264,7 +264,7 @@ const createQuestions = () => {
       id: 9,
       title: "Roles & Training",
       items: [
-        "Is someone—formally or informally—responsible for GDPR within the business (privacy lead or DPO)?",
+        "Is someone (formally or informally) responsible for GDPR within the business (privacy lead or DPO)?",
         "Have all staff had basic GDPR training? Do they know how to spot/report breaches or respond to requests?"
       ]
     },
@@ -272,7 +272,7 @@ const createQuestions = () => {
       id: 10,
       title: "Regular Review & Updates",
       items: [
-        "Do we review and update our policies/processes regularly—at least annually?",
+        "Do we review and update our policies/processes regularly, at least annually?",
         "Do we audit vendor compliance and update DPAs as needed?"
       ]
     }

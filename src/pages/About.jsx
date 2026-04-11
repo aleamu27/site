@@ -36,9 +36,9 @@ const TypewriterText = ({ text, as: Tag = 'span', speed = 18, delay = 0, style, 
 
   return (
     <Tag ref={ref} style={{ ...style, position: 'relative' }} className={className}>
-      {/* Full text invisible — holds height so nothing shifts */}
+      {/* Full text invisible; holds height so nothing shifts */}
       <span style={{ visibility: 'hidden', display: 'block' }}>{text}</span>
-      {/* Typewriter overlaid — transparent pad keeps current word on correct line */}
+      {/* Typewriter overlaid; transparent pad keeps current word on correct line */}
       <span style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
         {typed}<span style={{ color: 'transparent' }}>{transparentPad}</span>
       </span>
@@ -245,7 +245,7 @@ const About = () => {
       <HeroSection>
         <div>
           <HeroLabel>About</HeroLabel>
-          <HeroText>Web Development &amp; Security Monitoring for Organizations That Cannot Afford to Get It Wrong.</HeroText>
+          <HeroText>Web development, Calar OS, and digital infrastructure for organizations that cannot afford to get it wrong.</HeroText>
         </div>
       </HeroSection>
 
@@ -255,7 +255,7 @@ const About = () => {
         <MissionLabel>Mission</MissionLabel>
         <TypewriterText
           as={MissionTitle}
-          text="We design and develop web infrastructure, security monitoring systems, and custom software for organizations where digital performance is mission-critical."
+          text="We design and develop web infrastructure, Calar OS for first-party journey intelligence, and custom software for organizations where digital performance is mission-critical."
           speed={10}
         />
       </MissionSection>
@@ -264,21 +264,21 @@ const About = () => {
         <RowBlock
           heading="Our Work"
           tagline="End-to-end web development and digital infrastructure."
-          body="We build custom websites, web applications, and backend systems that are fast, secure, and built to scale. From frontend development to server architecture, API integrations, and cloud deployment, we deliver production-ready software. We also develop and operate Silmaril, a security monitoring platform that continuously scans SSL certificates, DNS records, and HTTP headers across the domains our clients manage."
+          body="We build custom websites, web applications, and backend systems that are fast, secure, and built to scale. From frontend development to server architecture, API integrations, and cloud deployment, we deliver production-ready software. Our product focus is Calar OS: first-party attribution and on-site journey intelligence so sales and marketing see real behaviour, not borrowed scores. We also help teams define visual identity and brand systems that match how they ship."
           headingDelay={0}
           taglineDelay={150}
         />
         <RowBlock
           heading="Our Standards"
-          tagline={"We work with organizations that take\ndigital security seriously."}
-          body="Hepta works with a deliberately small number of clients. We specialize in web security monitoring, vulnerability detection, and digital infrastructure for organizations operating in high-exposure environments. We do not work with everyone. We look for clients who understand what they are building and are ready to move. A focused client list means better work across the board."
+          tagline={"We work with organizations that take\ntheir digital surface seriously."}
+          body="Hepta works with a deliberately small number of clients. We specialize in production web systems, Calar OS rollouts, and digital infrastructure for teams that need clarity under pressure. We do not work with everyone. We look for clients who understand what they are building and are ready to move. A focused client list means better work across the board."
           headingDelay={0}
           taglineDelay={150}
         />
         <RowBlock
           heading="Our Team"
           tagline="Experienced engineers. No overhead."
-          body="Our team consists of experienced software engineers and security specialists. We have built web platforms, security monitoring tools, and custom software products across multiple industries. We move fast, we care about the details, and we are not trying to be everything to everyone. The team is small by design, not by accident."
+          body="Our team consists of experienced software engineers and product specialists. We have built web platforms, analytics products, and custom software across multiple industries. We move fast, we care about the details, and we are not trying to be everything to everyone. The team is small by design, not by accident."
           headingDelay={0}
           taglineDelay={150}
         />
