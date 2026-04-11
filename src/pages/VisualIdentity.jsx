@@ -1,5 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+/* Same footprint as the hero image strip (full width within section padding). */
+const heroStripLayout = css`
+  width: 100%;
+  height: clamp(260px, 38.4vw, 470px);
+  flex-shrink: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #e8e8e8;
+`;
 
 const Page = styled.main`
   min-height: 100vh;
@@ -23,13 +33,8 @@ const FirstSection = styled.section`
 `;
 
 const MediaFigure = styled.figure`
-  width: 100%;
-  height: clamp(260px, 38.4vw, 470px);
-  flex-shrink: 0;
+  ${heroStripLayout}
   margin: 0;
-  border-radius: 5px;
-  overflow: hidden;
-  background: #e8e8e8;
 
   img {
     width: 100%;
@@ -40,7 +45,6 @@ const MediaFigure = styled.figure`
   }
 `;
 
-/* Crop favours the right edge of the asset (wide compositions). */
 const PanelFigure = styled(MediaFigure)`
   img {
     object-position: right center;
@@ -62,8 +66,14 @@ const SplitRow = styled.div`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   min-width: 0;
+
+  /* First Lead blurb: match vertical air around the later blurb (duo block adds ~3.5–6rem below images). */
+  & > section:first-of-type {
+    padding-top: clamp(2.5rem, 6.5vh, 4rem);
+    padding-bottom: clamp(3.5rem, 10vh, 6rem);
+  }
 `;
 
 const StickyRail = styled.div`
@@ -71,10 +81,16 @@ const StickyRail = styled.div`
   align-self: stretch;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   min-height: 0;
+  /* Same vertical offset as before when the rail was only as tall as the panel: (panel − headline) / 2 */
+  padding-top: max(0px, calc((clamp(260px, 38.4vw, 470px) - 6.25rem) / 2));
+
+  @media (max-width: 768px) {
+    padding-top: 0;
+  }
 `;
 
-/* Equal flex spacers vertically center the sticky block (transform cannot live on the sticky node). */
 const RailSpacer = styled.div`
   flex: 1;
   min-height: 0;
@@ -132,35 +148,19 @@ const PageHeader = styled.h1`
   max-width: 18em;
 `;
 
+/* Inside FirstSection: no extra horizontal padding (FirstSection already pads). */
 const TextSection = styled.section`
   width: 100%;
   box-sizing: border-box;
-  padding: clamp(1.25rem, 3vh, 2rem) 1.1rem clamp(3rem, 9vh, 5.5rem);
-
-  @media (max-width: 768px) {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-`;
-
-const TextSectionGrid = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: clamp(1rem, 3vw, 2.25rem);
-  align-items: start;
-  min-width: 0;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
+  padding: clamp(1.25rem, 3vh, 2rem) 0 clamp(3rem, 9vh, 5.5rem);
 `;
 
 const TextColumn = styled.div`
   min-width: 0;
+  width: 100%;
   max-width: 36rem;
 `;
 
-/* Scale between Consulting page title and body: readable “big” lead, not hero-sized */
 const LeadBlurb = styled.p`
   font-family: 'Inter', sans-serif;
   font-size: clamp(1.15rem, 2vw, 1.5rem);
@@ -171,16 +171,55 @@ const LeadBlurb = styled.p`
   margin: 0;
 `;
 
-const TextRailSpacer = styled.div`
+const DuoSection = styled.section`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0 clamp(3.5rem, 10vh, 6rem);
+`;
+
+const DuoRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: clamp(20px, 4vw, 48px);
   min-width: 0;
+  align-items: stretch;
+`;
+
+const DuoFigure = styled.figure`
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  height: clamp(380px, 54vw, 720px);
+  border-radius: 5px;
+  overflow: hidden;
+  background: #e8e8e8;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+`;
+
+const FeatureSection = styled.section`
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(0.75rem, 2vh, 1.25rem) 1.1rem clamp(3rem, 9vh, 5.5rem);
 
   @media (max-width: 768px) {
-    display: none;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;
 
 const HERO_IMG = '/visual-identity-hero.png';
 const PANEL_IMG = '/visual-identity-panel.png';
+const SHOWCASE_LEFT = '/visual-identity-showcase-left.png';
+const SHOWCASE_RIGHT = '/visual-identity-showcase-right.png';
+/* Wide strip below the split—same naming pattern as other page assets; replace the file in public/. */
+const FEATURE_IMG = '/visual-identity-feature.png';
 
 const VisualIdentity = () => (
   <Page>
@@ -203,9 +242,49 @@ const VisualIdentity = () => (
               decoding="async"
             />
           </PanelFigure>
+
+          <TextSection aria-label="Visual identity">
+            <TextColumn>
+              <LeadBlurb>
+                We help you refresh brand identity, reshape product UI, or bring both under one
+                system. You walk away with clear visuals, patterns, and guidance your team can ship.
+              </LeadBlurb>
+            </TextColumn>
+          </TextSection>
+
+          <DuoSection aria-label="Product and brand showcase">
+            <DuoRow>
+              <DuoFigure>
+                <img
+                  src={SHOWCASE_LEFT}
+                  alt="Parkshare mobile app concept: parking marketplace landing screen"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </DuoFigure>
+              <DuoFigure>
+                <img
+                  src={SHOWCASE_RIGHT}
+                  alt="Health records mobile app concept: documents and verified list UI"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </DuoFigure>
+            </DuoRow>
+          </DuoSection>
+
+          <TextSection aria-label="Engineering and visual craft">
+            <TextColumn>
+              <LeadBlurb>
+                We build backends and services for real load and real scrutiny. The interface gets
+                the same ambition: visually striking, easy to read, and aligned with what the product
+                actually does.
+              </LeadBlurb>
+            </TextColumn>
+          </TextSection>
         </LeftColumn>
+
         <StickyRail>
-          <RailSpacer aria-hidden />
           <HeaderBlock>
             <HeaderInner>
               <Eyebrow>Brand + Product</Eyebrow>
@@ -217,17 +296,16 @@ const VisualIdentity = () => (
       </SplitRow>
     </FirstSection>
 
-    <TextSection aria-label="Visual identity">
-      <TextSectionGrid>
-        <TextColumn>
-          <LeadBlurb>
-            We help you refresh brand identity, reshape product UI, or bring both under one system.
-            You walk away with clear visuals, patterns, and guidance your team can ship.
-          </LeadBlurb>
-        </TextColumn>
-        <TextRailSpacer aria-hidden />
-      </TextSectionGrid>
-    </TextSection>
+    <FeatureSection aria-label="Visual identity feature image">
+      <MediaFigure>
+        <img
+          src={FEATURE_IMG}
+          alt="Hepta visual identity: wide feature frame"
+          loading="lazy"
+          decoding="async"
+        />
+      </MediaFigure>
+    </FeatureSection>
   </Page>
 );
 
