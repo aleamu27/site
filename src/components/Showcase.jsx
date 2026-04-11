@@ -27,16 +27,29 @@ const TabsDivider = styled.div`
 
 const Tab = styled.button`
   position: relative;
-  background: #F3F3F3;
-  border: 1px solid transparent;
-  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f3f3;
+  border: 2px solid ${props => (props.$active ? '#2563eb' : 'transparent')};
+  border-radius: 2px;
   padding: 10px;
   gap: 10px;
   font-family: 'OCR-B', 'OCR B', monospace;
   font-size: 0.7rem;
-  color: ${props => props.$active ? '#222' : '#999'};
+  color: ${props => (props.$active ? '#222' : '#999')};
   cursor: pointer;
   letter-spacing: 0.05em;
+`;
+
+const TabThumb = styled.img`
+  display: block;
+  height: 0.85rem;
+  width: auto;
+  max-width: 5.5rem;
+  object-fit: cover;
+  object-position: center;
+  opacity: ${props => (props.$active ? 1 : 0.52)};
 `;
 
 const ShowcaseCard = styled(Link)`
@@ -76,6 +89,7 @@ const SHOWCASE_DATA = [
     tabName: 'Calar OS',
     type: 'fullImage',
     imageSrc: '/calaros-showcase.png',
+    tabImageSrc: '/calaros-showcase.png',
     link: '/calar-os',
   },
   {
@@ -191,10 +205,19 @@ const Showcase = () => {
         {SHOWCASE_DATA.map((item, index) => (
           <Tab
             key={item.id}
+            type="button"
             $active={index === activeIndex}
             onClick={() => handleTabClick(index)}
           >
-            {item.tabName}
+            {item.tabImageSrc ? (
+              <TabThumb
+                src={item.tabImageSrc}
+                alt={item.tabName}
+                $active={index === activeIndex}
+              />
+            ) : (
+              item.tabName
+            )}
           </Tab>
         ))}
       </TabsContainer>
