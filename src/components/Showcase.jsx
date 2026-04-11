@@ -27,44 +27,15 @@ const TabsDivider = styled.div`
 
 const Tab = styled.button`
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   background: #f3f3f3;
-  border: 2px solid ${props => (props.$active ? '#2563eb' : 'transparent')};
-  border-radius: 2px;
+  border: 1px solid transparent;
+  border-radius: 0;
   padding: 10px;
-  gap: 10px;
   font-family: 'OCR-B', 'OCR B', monospace;
   font-size: 0.7rem;
   color: ${props => (props.$active ? '#222' : '#999')};
   cursor: pointer;
   letter-spacing: 0.05em;
-`;
-
-const TabInner = styled.span`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  text-align: center;
-`;
-
-const TabTitle = styled.span`
-  font-family: inherit;
-  font-size: inherit;
-  letter-spacing: inherit;
-  line-height: 1.2;
-`;
-
-const TabThumb = styled.img`
-  display: block;
-  height: 0.95rem;
-  width: auto;
-  max-width: 5.75rem;
-  object-fit: cover;
-  object-position: center;
-  opacity: ${props => (props.$active ? 1 : 0.52)};
 `;
 
 const ShowcaseCard = styled(Link)`
@@ -104,7 +75,6 @@ const SHOWCASE_DATA = [
     tabName: 'Calar OS',
     type: 'fullImage',
     imageSrc: '/calaros-showcase.png',
-    tabImageSrc: '/calaros-showcase.png',
     link: '/calar-os',
   },
   {
@@ -224,19 +194,7 @@ const Showcase = () => {
             $active={index === activeIndex}
             onClick={() => handleTabClick(index)}
           >
-            {item.tabImageSrc ? (
-              <TabInner>
-                <TabTitle>{item.tabName}</TabTitle>
-                <TabThumb
-                  src={item.tabImageSrc}
-                  alt=""
-                  aria-hidden
-                  $active={index === activeIndex}
-                />
-              </TabInner>
-            ) : (
-              item.tabName
-            )}
+            {item.tabName}
           </Tab>
         ))}
       </TabsContainer>
