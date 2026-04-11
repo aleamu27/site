@@ -42,11 +42,26 @@ const Tab = styled.button`
   letter-spacing: 0.05em;
 `;
 
+const TabInner = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+`;
+
+const TabTitle = styled.span`
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: 1.2;
+`;
+
 const TabThumb = styled.img`
   display: block;
-  height: 0.85rem;
+  height: 0.95rem;
   width: auto;
-  max-width: 5.5rem;
+  max-width: 5.75rem;
   object-fit: cover;
   object-position: center;
   opacity: ${props => (props.$active ? 1 : 0.52)};
@@ -210,11 +225,15 @@ const Showcase = () => {
             onClick={() => handleTabClick(index)}
           >
             {item.tabImageSrc ? (
-              <TabThumb
-                src={item.tabImageSrc}
-                alt={item.tabName}
-                $active={index === activeIndex}
-              />
+              <TabInner>
+                <TabTitle>{item.tabName}</TabTitle>
+                <TabThumb
+                  src={item.tabImageSrc}
+                  alt=""
+                  aria-hidden
+                  $active={index === activeIndex}
+                />
+              </TabInner>
             ) : (
               item.tabName
             )}
