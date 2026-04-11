@@ -137,7 +137,8 @@ const Consulting = () => {
           <SectionTitle>Get in touch</SectionTitle>
           <Divider />
           <Body>
-            If you are considering a consulting engagement, reach out at hello@heptaindustries.com. Tell us briefly what you are working on and what kind of help you need. We will respond within one business day.
+            If you are considering a consulting engagement, reach out at{' '}
+            <a href="mailto:j@hepta.no">j@hepta.no</a>. Tell us briefly what you are working on and what kind of help you need. We will respond within one business day.
           </Body>
         </Section>
       </RightCol>

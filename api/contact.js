@@ -128,7 +128,7 @@ module.exports = async function handler(req, res) {
     if (resend) {
       const { data, error: notificationError } = await resend.emails.send({
         from: 'Contact Form <j@hepta.no>', // Your verified domain
-        to: ['alexbolgenamundsen@gmail.com'], // Send form data to you
+        to: ['alexbolgenamundsen@gmail.com'], // Form notifications (reliable inbox)
         subject: `New Contact Form Submission from ${company}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -433,7 +433,7 @@ module.exports = async function handler(req, res) {
                 <div class="footer-links">
                     <a href="https://hepta.no" class="footer-link">Visit our website</a>
                     <a href="https://x.com/HeptaCreative" class="footer-link">Follow us on X</a>
-                    <a href="mailto:alexbolgenamundsen@gmail.com" class="footer-link">Contact us</a>
+                    <a href="mailto:j@hepta.no" class="footer-link">Contact us</a>
                 </div>
                 <div class="footer-brand">
                     <a href="https://hepta.no" class="brand-link">hepta.no</a> • Oslo

@@ -153,7 +153,7 @@ const KafekompassetPrivacy = () => {
           
           <ContactInfo>
             <ContactTitle>Kontaktinformasjon</ContactTitle>
-            <ContactText>E-post: hei@alexanderamundsen.no</ContactText>
+            <ContactText>E-post: j@hepta.no</ContactText>
           </ContactInfo>
         </PrivacySection>
       </PrivacyContainer>

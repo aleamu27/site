@@ -150,7 +150,7 @@ const KafekompassetSupport = () => {
             Opplever du feil i appen eller har forslag til forbedringer? Send oss en e-post, så svarer vi så raskt som mulig!
           </ContactText>
           <ContactText>
-            📧 E-post: <EmailLink href="mailto:a@hepta.no">a@hepta.no</EmailLink>
+            📧 E-post: <EmailLink href="mailto:j@hepta.no">j@hepta.no</EmailLink>
           </ContactText>
         </ContactSection>
       </SupportContainer>

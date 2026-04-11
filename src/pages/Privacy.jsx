@@ -177,7 +177,7 @@ const Privacy = () => {
           
           <ContactInfo>
             <ContactTitle>Hepta AS</ContactTitle>
-            <ContactText>Email: personvern@hepta.no</ContactText>
+            <ContactText>Email: j@hepta.no</ContactText>
           </ContactInfo>
         </PrivacySection>
 

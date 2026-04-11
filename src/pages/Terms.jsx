@@ -263,7 +263,7 @@ const Terms = () => {
           <ContactInfo>
             <ContactTitle>Hepta AS</ContactTitle>
             <ContactText>Organization number: 934762002</ContactText>
-            <ContactText>Email: hey@hepta.biz</ContactText>
+            <ContactText>Email: j@hepta.no</ContactText>
             <ContactText>Address: Setervegen 23</ContactText>
           </ContactInfo>
         </TermsSection>

@@ -45,7 +45,7 @@ const UnderConstruction = () => {
       <Container>
         <Title>Under Construction</Title>
         <Subtitle>New site live April 1st</Subtitle>
-        <Email href="mailto:alexbolgenamundsen@gmail.com">alexbolgenamundsen@gmail.com</Email>
+        <Email href="mailto:j@hepta.no">j@hepta.no</Email>
       </Container>
     </>
   );

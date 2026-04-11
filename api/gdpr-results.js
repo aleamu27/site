@@ -87,7 +87,7 @@ module.exports = async function handler(req, res) {
         console.log('📤 Sending GDPR results email...');
         
         const { data: emailData, error: emailError } = await resend.emails.send({
-          from: 'Hepta <noreply@hepta.no>',
+          from: 'Hepta <j@hepta.no>',
           to: [email],
           subject: `Your Personalized GDPR Compliance Analysis`,
           html: resultsHtml,

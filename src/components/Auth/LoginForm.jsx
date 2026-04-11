@@ -207,7 +207,7 @@ const LoginForm = () => {
     setSuccess('');
 
     // Temporary bypass for testing (remove in production)
-    if (email === 'admin@hepta.no' && password === 'hepta2025') {
+    if (email === 'j@hepta.no' && password === 'hepta2025') {
       console.log('🔓 Using temporary bypass for testing');
       setSuccess('Temporary access granted - bypassing Supabase auth');
       setTimeout(() => {
@@ -278,7 +278,7 @@ const LoginForm = () => {
             • Go to Supabase Dashboard → Authentication → Settings
             • Disable "Custom Access Token Hook"
             
-            For immediate access, use: admin@hepta.no / hepta2025`;
+            For immediate access, use: j@hepta.no / hepta2025`;
         } else if (error.message.includes('output claims field is missing')) {
           console.warn('🔧 Auth error: output claims field is missing - this may indicate Supabase auth configuration issues');
           console.warn('💡 Potential solutions:');

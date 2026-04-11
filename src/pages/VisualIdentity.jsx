@@ -214,12 +214,12 @@ const FeatureSection = styled.section`
   }
 `;
 
-const HERO_IMG = '/visual-identity-hero.png';
-const PANEL_IMG = '/visual-identity-panel.png';
-const SHOWCASE_LEFT = '/visual-identity-showcase-left.png';
-const SHOWCASE_RIGHT = '/visual-identity-showcase-right.png';
-/* Wide strip below the split—same naming pattern as other page assets; replace the file in public/. */
-const FEATURE_IMG = '/visual-identity-feature.png';
+const R2 = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev';
+const HERO_IMG = `${R2}/visualidentity/visual-identity-hero.png`;
+const PANEL_IMG = `${R2}/visualidentity/visual-identity-panel.png`;
+const SHOWCASE_LEFT = `${R2}/visualidentity/visual-identity-showcase-left.png`;
+const SHOWCASE_RIGHT = `${R2}/visualidentity/visual-identity-showcase-right.png`;
+const FEATURE_IMG = `${R2}/visualidentity/visual-identity-feature.png`;
 
 const VisualIdentity = () => (
   <Page>

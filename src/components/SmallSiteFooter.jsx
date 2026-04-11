@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const SmallFooter = styled.footer`
   background: ${p => (p.$surface === 'white' ? '#ffffff' : '#f2f1ed')};
@@ -7,6 +7,12 @@ const SmallFooter = styled.footer`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${p =>
+    p.$topRule &&
+    css`
+      border-top: 1px solid #e8e8e8;
+    `}
 `;
 
 const FooterLeft = styled.span`
@@ -23,8 +29,8 @@ const FooterRight = styled.span`
   letter-spacing: 0.05em;
 `;
 
-const SmallSiteFooter = ({ surface = 'warm' }) => (
-  <SmallFooter $surface={surface}>
+const SmallSiteFooter = ({ surface = 'warm', topRule = false }) => (
+  <SmallFooter $surface={surface} $topRule={topRule}>
     <FooterLeft>The Infrastructure Beneath Digital Trust</FooterLeft>
     <FooterRight>© {new Date().getFullYear()} Hepta</FooterRight>
   </SmallFooter>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
+import LandingContactSection from '../components/LandingContactSection';
 import styled from 'styled-components';
 
 const StatementSection = styled.div`
@@ -187,136 +188,6 @@ const BottomDivider = styled.div`
   margin-top: 9rem;
 `;
 
-const ContactSection = styled.section`
-  background: #f0f0f0;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5vw;
-  padding: 5vh 2.5vw;
-  min-height: 40vh;
-  margin-bottom: 7rem;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    margin-bottom: 4rem;
-  }
-`;
-
-const ContactImage = styled.div`
-  border-radius: 0.3vw;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    min-height: 38vh;
-  }
-
-  @media (max-width: 900px) {
-    img {
-      min-height: 30vh;
-    }
-  }
-`;
-
-const ContactCard = styled.div`
-  background: #fff;
-  border-radius: 0.3vw;
-  padding: 3vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  @media (max-width: 600px) {
-    padding: 5vw;
-  }
-`;
-
-const ContactHeading = styled.h2`
-  font-family: 'Montserrat', sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0 0 1rem 0;
-  text-align: center;
-`;
-
-const ContactSubtext = styled.p`
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #1a1a1a;
-  text-align: center;
-  margin: 0 auto 2rem;
-  line-height: 1.5;
-  max-width: 480px;
-`;
-
-const ContactForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const ContactInput = styled.input`
-  width: 200px;
-  padding: 0.5rem 0;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
-  border: none;
-  border-bottom: 1px solid #1a1a1a;
-  background: transparent;
-  outline: none;
-
-  &::placeholder {
-    color: #1a1a1a;
-  }
-`;
-
-const ContactTextarea = styled.textarea`
-  width: 200px;
-  padding: 0.5rem 0;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
-  border: none;
-  border-bottom: 1px solid #1a1a1a;
-  background: transparent;
-  outline: none;
-  resize: none;
-  min-height: 24px;
-
-  &::placeholder {
-    color: #1a1a1a;
-  }
-`;
-
-const ContactButton = styled.button`
-  margin-top: 1.5rem;
-  padding: 0.6rem 1.5rem;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: #1a1a1a;
-  background: transparent;
-  border: 1px solid #1a1a1a;
-  border-radius: 0;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-
-  &:hover {
-    background: #1a1a1a;
-    color: #fff;
-  }
-`;
-
 const Home = () => {
   const statementRef = useRef(null);
   const headerRef = useRef(null);
@@ -497,25 +368,19 @@ const Home = () => {
           <BottomDivider />
         </ServicesSection>
 
-        <ContactSection>
-          <ContactImage>
-            <img
-              src="/cta-image.png"
-              alt="Mountain coastline"
-            />
-          </ContactImage>
-          <ContactCard>
-            <ContactHeading>Ready for the next step?</ContactHeading>
-            <ContactSubtext>
-              Hepta delivers solutions for organizations that take their<br />digital presence seriously.
-            </ContactSubtext>
-            <ContactForm>
-              <ContactInput type="email" placeholder="Email" />
-              <ContactTextarea placeholder="Message" rows={1} />
-              <ContactButton type="submit">Send</ContactButton>
-            </ContactForm>
-          </ContactCard>
-        </ContactSection>
+        <LandingContactSection
+          inquirySource="Home page contact"
+          heading="Ready for the next step?"
+          subtext={
+            <>
+              Hepta delivers solutions for organizations that take their
+              <br />
+              digital presence seriously.
+            </>
+          }
+          imageSrc="/cta-image.png"
+          imageAlt="Mountain coastline"
+        />
       </Layout>
     </>
   );

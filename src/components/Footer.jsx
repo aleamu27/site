@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import SmallSiteFooter from './SmallSiteFooter';
 
 const FooterWrapper = styled.footer`
   width: 100%;
@@ -80,6 +82,7 @@ const EmailButton = styled.a`
   text-decoration: none;
   margin-top: auto;
   align-self: flex-start;
+  border: none;
   transition: background 0.2s, color 0.2s;
 
   &:hover {
@@ -89,6 +92,12 @@ const EmailButton = styled.a`
 `;
 
 const Footer = () => {
+  const { pathname } = useLocation();
+
+  if (pathname === '/contact' || pathname === '/visual-identity') {
+    return <SmallSiteFooter surface="white" topRule />;
+  }
+
   return (
     <FooterWrapper>
       <FooterContent>
@@ -96,7 +105,12 @@ const Footer = () => {
           <img
             src="/logo.png"
             alt="Hepta"
-            style={{ width: '24px', height: '24px', objectFit: 'contain', filter: 'brightness(0) invert(1)' }}
+            style={{
+              width: '24px',
+              height: '24px',
+              objectFit: 'contain',
+              filter: 'brightness(0) invert(1)',
+            }}
           />
           HEPTA
         </Logo>
@@ -105,9 +119,7 @@ const Footer = () => {
           The Infrastructure Beneath<br />
           Digital Trust
         </Headline>
-        <EmailButton href="mailto:hello@hepta.io">
-          Hello@hepta.io
-        </EmailButton>
+        <EmailButton href="mailto:j@hepta.no">j@hepta.no</EmailButton>
       </FooterContent>
     </FooterWrapper>
   );

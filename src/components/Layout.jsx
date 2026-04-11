@@ -1,11 +1,18 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { COLORS } from '../styles/colors';
 
 const Wrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1.5rem 3rem 1.5rem;
+  overflow-x: visible;
+
+  ${p =>
+    p.$tightFooter &&
+    css`
+      padding-bottom: 0.25rem;
+    `}
 `;
 
 const Hero = styled.section`
@@ -26,12 +33,13 @@ const Hero = styled.section`
 
 const Main = styled.main`
   margin-top: 2rem;
+  overflow-x: visible;
 `;
 
-const Layout = ({ hero, children }) => (
+const Layout = ({ hero, children, tightFooter = false }) => (
   <>
     {hero && <Hero>{hero}</Hero>}
-    <Wrapper>
+    <Wrapper $tightFooter={tightFooter}>
       <Main>{children}</Main>
     </Wrapper>
   </>

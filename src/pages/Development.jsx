@@ -810,7 +810,7 @@ const Development = () => {
                     reply personally when there is a fit.
                   </p>
                   <p>Share context, timeline, and what you need built. No pitch deck required.</p>
-                  <DevContactMail href="mailto:hello@hepta.io">hello@hepta.io</DevContactMail>
+                  <DevContactMail href="mailto:j@hepta.no">j@hepta.no</DevContactMail>
                 </DevContactBody>
               </DevContactBlock>
             </div>
