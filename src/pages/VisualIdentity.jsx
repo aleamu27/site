@@ -217,7 +217,7 @@ const FeatureSection = styled.section`
 const R2 = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev';
 const HERO_IMG = `${R2}/visualidentity/visual-identity-hero.png`;
 const PANEL_IMG = `${R2}/visualidentity/visual-identity-panel.png`;
-const SHOWCASE_LEFT = `${R2}/visualidentity/visual-identity-showcase-left.png`;
+const SHOWCASE_LEFT = '/visual-identity-showcase-left.png';
 const SHOWCASE_RIGHT = `${R2}/visualidentity/visual-identity-showcase-right.png`;
 const FEATURE_IMG = `${R2}/visualidentity/visual-identity-feature.png`;
 
