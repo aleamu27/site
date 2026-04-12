@@ -52,6 +52,7 @@ const CardContent = styled.div`
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
     height: auto;
+    min-width: 0;
   }
 `;
 
@@ -61,10 +62,18 @@ const VideoContainer = styled.div`
   height: 100%;
   box-sizing: border-box;
   overflow: hidden;
+  min-width: 0;
 
   @media (max-width: 900px) {
     min-height: 350px;
     padding: 0 0 12px 0;
+  }
+
+  /* Grid min-width:auto was locking the column to the image’s intrinsic width. */
+  @media (max-width: 490px) {
+    min-height: unset;
+    height: auto;
+    overflow: visible;
   }
 `;
 
@@ -79,6 +88,16 @@ const Video = styled.video`
   @media (max-width: 900px) {
     min-height: 300px;
   }
+
+  @media (max-width: 490px) {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: unset;
+    max-height: none;
+    object-fit: contain;
+    object-position: center top;
+  }
 `;
 
 const MediaImage = styled.img`
@@ -91,6 +110,15 @@ const MediaImage = styled.img`
 
   @media (max-width: 900px) {
     min-height: 300px;
+  }
+
+  @media (max-width: 490px) {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: unset;
+    object-fit: contain;
+    object-position: center top;
   }
 `;
 
@@ -127,6 +155,7 @@ const Sidebar = styled.div`
   gap: 6px;
   overflow-y: auto;
   padding-bottom: 16px;
+  min-width: 0;
 
   @media (max-width: 900px) {
     padding-bottom: 12px;
