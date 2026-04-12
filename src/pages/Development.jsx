@@ -24,6 +24,20 @@ const lineRevealStyles = css`
 
 const clamp01 = v => Math.min(Math.max(v, 0), 1);
 
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const onChange = () => setMatches(mq.matches);
+    onChange();
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, [query]);
+  return matches;
+}
+
 const HeroScroll = styled.section`
   position: relative;
   height: 240vh;
@@ -113,6 +127,12 @@ const Section = styled.section`
   padding: clamp(4rem, 10vw, 8rem) clamp(1.25rem, 5vw, 4rem);
   max-width: 1400px;
   margin: 0 auto;
+`;
+
+const AdaptOuterSection = styled(Section)`
+  @media (max-width: 768px) {
+    padding-bottom: clamp(0.75rem, 2.5vw, 1.25rem);
+  }
 `;
 
 const SectionDivider = styled.div`
@@ -212,13 +232,45 @@ const UploadVisual = styled.div`
   @media (max-width: 900px) {
     border-right: none;
     border-bottom: 1px solid #e5e5e5;
-    min-height: 300px;
+    min-height: unset;
+    flex-direction: column;
+    gap: clamp(1rem, 3vw, 1.75rem);
+    /* Diagram moves to UploadVisualDiagram so “contain” cannot draw through the copy. */
+    background-image: none;
+
+    &::before {
+      display: none;
+    }
+  }
+`;
+
+/* Stack diagram under copy on narrow screens only (desktop keeps layered background on UploadVisual). */
+const UploadVisualDiagram = styled.div`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: clamp(200px, 42vw, 300px);
+    overflow: hidden;
+    background-color: #fafafa;
+    background-image: url('/development-stack-diagram.png');
+    background-repeat: no-repeat;
+    /* Vertical % > 50% shifts crop toward the lower part of the asset (PLATFORM / QUALITY). */
+    background-position: center 72%;
+    background-size: min(112%, 86vw) auto;
   }
 `;
 
 const UploadVisualCopy = styled.div`
   position: relative;
   z-index: 1;
+
+  @media (max-width: 900px) {
+    flex: 0 0 auto;
+    background: #fafafa;
+  }
 `;
 
 const UploadVisualTitle = styled.h3`
@@ -348,12 +400,28 @@ const AdaptMain = styled.div`
   flex: 1;
   min-height: 0;
   background: #fff;
+
+  @media (max-width: 768px) {
+    flex: 0 1 auto;
+    align-self: stretch;
+  }
 `;
 
 const AdaptPanelCopy = styled.div`
   flex: 0 1 auto;
   margin-bottom: 1.25rem;
   min-width: 0;
+
+  /* Mobile: Plan ^02 is tallest — fixed height so tabs don’t jump; shorter steps get space below the lead. */
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    height: clamp(17.25rem, 58vw, 20.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
 `;
 
 const AdaptMainTitle = styled.h3`
@@ -401,6 +469,15 @@ const AdaptPanelMediaSlot = styled.div`
   border: 1px solid #e8e8e8;
   background: #fafafa;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    display: block;
+    line-height: 0;
+  }
 `;
 
 const AdaptStepImage = styled.img`
@@ -408,6 +485,13 @@ const AdaptStepImage = styled.img`
   height: 100%;
   object-fit: cover;
   display: block;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+  }
 `;
 
 const AdaptMediaPlaceholder = styled(ScreenshotPlaceholder)`
@@ -418,6 +502,13 @@ const AdaptMediaPlaceholder = styled(ScreenshotPlaceholder)`
   border: none;
   border-radius: 0;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    min-height: 8rem;
+    height: auto;
+    width: 100%;
+    align-self: stretch;
+  }
 `;
 
 const AdaptPanelInner = styled.div`
@@ -426,12 +517,23 @@ const AdaptPanelInner = styled.div`
   flex: 1;
   min-height: 0;
   justify-content: flex-start;
+
+  @media (max-width: 768px) {
+    flex: 0 1 auto;
+    min-height: 0;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
 `;
 
 const CapabilitiesSection = styled.div`
   border-top: 1px solid #e8e8e8;
   padding: clamp(4rem, 10vw, 7rem) 0 clamp(6rem, 12vw, 10rem);
   ${revealStyles}
+
+  @media (max-width: 768px) {
+    padding: clamp(1.5rem, 4vw, 2.25rem) 0 clamp(2.5rem, 7vw, 3.5rem);
+  }
 `;
 
 const CapabilitiesGrid = styled.div`
@@ -444,6 +546,7 @@ const CapabilitiesGrid = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: clamp(0.75rem, 2.5vw, 1.25rem);
   }
 `;
 
@@ -497,6 +600,12 @@ const CapabilitiesStickyCol = styled.div`
   position: sticky;
   top: ${DEV_STICKY_TOP};
   align-self: start;
+
+  /* Single-column layout: sticky would pin the heading over the body copy while scrolling. */
+  @media (max-width: 768px) {
+    position: static;
+    top: auto;
+  }
 `;
 
 const DevContactBlock = styled.div`
@@ -633,6 +742,7 @@ const Development = () => {
   const heroScrollRef = useRef(null);
   const [heroLight, setHeroLight] = useState(false);
   const [adaptIndex, setAdaptIndex] = useState(0);
+  const adaptNarrow = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
     document.title = 'Development | Hepta';
@@ -702,6 +812,7 @@ const Development = () => {
                   Strategy, design, and engineering stay aligned so you are not juggling mismatched handoffs or fragile shortcuts.
                 </UploadVisualLead>
               </UploadVisualCopy>
+              <UploadVisualDiagram aria-hidden />
             </UploadVisual>
             <UploadStack>
               <UploadStackItem>
@@ -726,7 +837,7 @@ const Development = () => {
           </UploadCard>
         </Section>
 
-        <Section style={{ paddingTop: 'clamp(3rem, 8vw, 5rem)' }}>
+        <AdaptOuterSection style={{ paddingTop: 'clamp(3rem, 8vw, 5rem)' }}>
           <AdaptGrid data-anim style={{ transitionDelay: '0.08s' }}>
             <AdaptNav role="tablist" aria-label="How we build">
               {ADAPT_PANELS.map((panel, i) => (
@@ -750,28 +861,42 @@ const Development = () => {
               role="tabpanel"
               aria-labelledby={`adapt-tab-${ADAPT_PANELS[adaptIndex].id}`}
             >
-              <AdaptScrollViewport>
-                <AdaptScrollStrip $index={adaptIndex}>
-                  {ADAPT_PANELS.map(panel => (
-                    <AdaptScrollPage key={panel.id}>
-                      <AdaptPanelInner>
-                        <AdaptPanelCopy>
-                          <AdaptMainTitle>{panel.title}</AdaptMainTitle>
-                          <AdaptMainLead>{panel.lead}</AdaptMainLead>
-                        </AdaptPanelCopy>
-                        <AdaptStepMedia
-                          imageSrc={panel.imageSrc}
-                          imageAlt={panel.imageAlt}
-                          fallbackLabel={panel.surfaceLabel}
-                        />
-                      </AdaptPanelInner>
-                    </AdaptScrollPage>
-                  ))}
-                </AdaptScrollStrip>
-              </AdaptScrollViewport>
+              {adaptNarrow ? (
+                <AdaptPanelInner>
+                  <AdaptPanelCopy>
+                    <AdaptMainTitle>{ADAPT_PANELS[adaptIndex].title}</AdaptMainTitle>
+                    <AdaptMainLead>{ADAPT_PANELS[adaptIndex].lead}</AdaptMainLead>
+                  </AdaptPanelCopy>
+                  <AdaptStepMedia
+                    imageSrc={ADAPT_PANELS[adaptIndex].imageSrc}
+                    imageAlt={ADAPT_PANELS[adaptIndex].imageAlt}
+                    fallbackLabel={ADAPT_PANELS[adaptIndex].surfaceLabel}
+                  />
+                </AdaptPanelInner>
+              ) : (
+                <AdaptScrollViewport>
+                  <AdaptScrollStrip $index={adaptIndex}>
+                    {ADAPT_PANELS.map(panel => (
+                      <AdaptScrollPage key={panel.id}>
+                        <AdaptPanelInner>
+                          <AdaptPanelCopy>
+                            <AdaptMainTitle>{panel.title}</AdaptMainTitle>
+                            <AdaptMainLead>{panel.lead}</AdaptMainLead>
+                          </AdaptPanelCopy>
+                          <AdaptStepMedia
+                            imageSrc={panel.imageSrc}
+                            imageAlt={panel.imageAlt}
+                            fallbackLabel={panel.surfaceLabel}
+                          />
+                        </AdaptPanelInner>
+                      </AdaptScrollPage>
+                    ))}
+                  </AdaptScrollStrip>
+                </AdaptScrollViewport>
+              )}
             </AdaptMain>
           </AdaptGrid>
-        </Section>
+        </AdaptOuterSection>
 
         <CapabilitiesSection data-anim style={{ transitionDelay: '0.06s' }}>
           <CapabilitiesGrid>
