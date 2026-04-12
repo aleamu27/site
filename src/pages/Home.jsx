@@ -15,15 +15,7 @@ const StatementSection = styled.div`
   margin-top: 5rem;
 
   @media (max-width: 768px) {
-    display: block;
-    padding: 6rem 0 7rem;
-    text-align: center;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    padding: 6rem 4vw 7rem;
   }
 `;
 
@@ -40,14 +32,9 @@ const StatementText = styled.p`
   will-change: opacity, transform;
 
   @media (max-width: 768px) {
-    display: inline-block;
-    max-width: none;
-    margin: 0;
-    padding: 0 1.25rem;
-    font-size: clamp(1.28rem, 4.2vw, 1.65rem);
-    line-height: 1.25;
-    white-space: nowrap;
-    text-align: center;
+    font-size: clamp(1.14rem, 2.6vw, 1.35rem);
+    line-height: 1.38;
+    max-width: 100%;
   }
 `;
 

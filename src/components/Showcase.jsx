@@ -52,9 +52,9 @@ const Tab = styled.button`
   @media (max-width: 768px) {
     flex: 0 0 auto;
     white-space: nowrap;
-    font-size: 0.88rem;
-    padding: 11px 14px;
-    letter-spacing: 0.04em;
+    font-size: 0.76rem;
+    padding: 8px 11px;
+    letter-spacing: 0.045em;
   }
 `;
 
