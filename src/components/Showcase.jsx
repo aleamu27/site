@@ -17,6 +17,18 @@ const TabsContainer = styled.div`
   gap: 0.75rem;
   margin-bottom: 1.5rem;
   padding: 0 2.5vw;
+
+  @media (max-width: 768px) {
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const TabsDivider = styled.div`
@@ -36,6 +48,14 @@ const Tab = styled.button`
   color: ${props => (props.$active ? '#222' : '#999')};
   cursor: pointer;
   letter-spacing: 0.05em;
+
+  @media (max-width: 768px) {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.88rem;
+    padding: 11px 14px;
+    letter-spacing: 0.04em;
+  }
 `;
 
 const ShowcaseCard = styled(Link)`

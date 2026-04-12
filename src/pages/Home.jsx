@@ -13,6 +13,18 @@ const StatementSection = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 5rem;
+
+  @media (max-width: 768px) {
+    display: block;
+    padding: 6rem 0 7rem;
+    text-align: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const StatementText = styled.p`
@@ -26,6 +38,17 @@ const StatementText = styled.p`
   margin: 0;
   letter-spacing: -0.02em;
   will-change: opacity, transform;
+
+  @media (max-width: 768px) {
+    display: inline-block;
+    max-width: none;
+    margin: 0;
+    padding: 0 1.25rem;
+    font-size: clamp(1.28rem, 4.2vw, 1.65rem);
+    line-height: 1.25;
+    white-space: nowrap;
+    text-align: center;
+  }
 `;
 
 const GrayText = styled.span`
