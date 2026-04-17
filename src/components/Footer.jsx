@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import SmallSiteFooter from './SmallSiteFooter';
+import { getDomainConfig } from '../utils/domainConfig';
 
 const FooterWrapper = styled.footer`
   width: 100%;
@@ -93,6 +94,7 @@ const EmailButton = styled.a`
 
 const Footer = () => {
   const { pathname } = useLocation();
+  const { email } = getDomainConfig();
 
   if (pathname === '/contact' || pathname === '/visual-identity') {
     return <SmallSiteFooter surface="white" topRule />;
@@ -119,7 +121,7 @@ const Footer = () => {
           The Infrastructure Beneath<br />
           Digital Trust
         </Headline>
-        <EmailButton href="mailto:j@hepta.no">j@hepta.no</EmailButton>
+        <EmailButton href={`mailto:${email}`}>{email}</EmailButton>
       </FooterContent>
     </FooterWrapper>
   );

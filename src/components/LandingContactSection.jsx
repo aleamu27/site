@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { getDomainConfig } from '../utils/domainConfig';
 
 const contactBleedGrid = css`
   width: 100vw;
@@ -178,12 +179,12 @@ const ThankYou = styled.p`
   max-width: 420px;
 `;
 
-async function submitContact({ company, project, email }) {
+async function submitContact({ company, project, email, sourceDomain }) {
   const apiUrl = process.env.REACT_APP_API_URL || '/api/contact';
   const response = await fetch(apiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ company, project, email }),
+    body: JSON.stringify({ company, project, email, sourceDomain }),
   });
   let data;
   try {
@@ -229,11 +230,13 @@ function LandingContactSection({
       return;
     }
     setLoading(true);
+    const { domain } = getDomainConfig();
     try {
       await submitContact({
         company: inquirySource,
         project: trimmedMessage,
         email: trimmedEmail,
+        sourceDomain: domain,
       });
       setSubmitted(true);
       if (window.heptaCapture) {

@@ -31,7 +31,14 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { company, project, email, type } = req.body;
+    const { company, project, email, type, sourceDomain } = req.body;
+
+    // Determine email config based on source domain
+    const isHeptatech = sourceDomain === 'heptatech.io';
+    const targetEmail = isHeptatech ? 'hello@heptatech.io' : 'j@hepta.no';
+    const brandName = isHeptatech ? 'Heptatech' : 'Hepta';
+    const brandDomain = isHeptatech ? 'heptatech.io' : 'hepta.no';
+    const brandUrl = isHeptatech ? 'https://heptatech.io' : 'https://hepta.no';
 
     // Handle newsletter subscription
     if (type === 'newsletter') {
@@ -127,27 +134,27 @@ module.exports = async function handler(req, res) {
 
     if (resend) {
       const { data, error: notificationError } = await resend.emails.send({
-        from: 'Contact Form <j@hepta.no>', // Your verified domain
-        to: ['alexbolgenamundsen@gmail.com'], // Form notifications (reliable inbox)
+        from: `Contact Form <${targetEmail}>`,
+        to: [targetEmail],
         subject: `New Contact Form Submission from ${company}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #184B54;">New Contact Form Submission</h2>
-            
+
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="margin-top: 0; color: #333;">Company Information</h3>
               <p><strong>Company:</strong> ${company}</p>
               <p><strong>Contact Email:</strong> ${email}</p>
             </div>
-            
+
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="margin-top: 0; color: #333;">Project Details</h3>
               <p style="line-height: 1.6;">${project}</p>
             </div>
-            
+
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
               <p>Reply to: <a href="mailto:${email}">${email}</a></p>
-              <p>This form was submitted via hepta.no contact form.</p>
+              <p>This form was submitted via ${brandDomain} contact form.</p>
             </div>
           </div>
         `,
@@ -165,7 +172,7 @@ module.exports = async function handler(req, res) {
     // Send thank you email to the user
     if (resend) {
       const { data, error } = await resend.emails.send({
-        from: 'Hepta <j@hepta.no>', // Your verified domain
+        from: `${brandName} <${targetEmail}>`,
         to: [email], // Send to the user
         subject: 'Thank you for reaching out!',
         html: `<!DOCTYPE html>
@@ -173,7 +180,7 @@ module.exports = async function handler(req, res) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank you for reaching out - Hepta</title>
+    <title>Thank you for reaching out - ${brandName}</title>
     <style>
         /* Reset and base styles */
         body, table, td, p, h1, h2, h3 {
@@ -424,19 +431,19 @@ module.exports = async function handler(req, res) {
                 
                 <div class="signature">
                     Best regards,<br>
-                    <span class="team-name">The Hepta team</span>
+                    <span class="team-name">The ${brandName} team</span>
                 </div>
             </div>
             
             <!-- Footer -->
             <div class="footer">
                 <div class="footer-links">
-                    <a href="https://hepta.no" class="footer-link">Visit our website</a>
+                    <a href="${brandUrl}" class="footer-link">Visit our website</a>
                     <a href="https://x.com/HeptaCreative" class="footer-link">Follow us on X</a>
-                    <a href="mailto:j@hepta.no" class="footer-link">Contact us</a>
+                    <a href="mailto:${targetEmail}" class="footer-link">Contact us</a>
                 </div>
                 <div class="footer-brand">
-                    <a href="https://hepta.no" class="brand-link">hepta.no</a> • Oslo
+                    <a href="${brandUrl}" class="brand-link">${brandDomain}</a> • Oslo
                 </div>
             </div>
         </div>
