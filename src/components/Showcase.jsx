@@ -154,9 +154,7 @@ const SHOWCASE_DATA = [
         content: 'Hepta designed and built a web presence that reflects the depth and seriousness of BE:RG\'s work. Clean, structured, and built to present their portfolio and engagements with clarity.',
         author: 'Alexander Amundsen'
       }
-    ],
-    externalLink: 'https://be-rg.com',
-    externalLinkText: 'BE:RG.COM'
+    ]
   }
 ];
 
