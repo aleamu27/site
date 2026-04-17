@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SmallSiteFooter from './SmallSiteFooter';
 import { getDomainConfig } from '../utils/domainConfig';
 
@@ -92,6 +92,24 @@ const EmailButton = styled.a`
   }
 `;
 
+const FooterPrivacyLink = styled(Link)`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  margin-top: 1rem;
+  align-self: flex-start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+  }
+`;
+
 const Footer = () => {
   const { pathname } = useLocation();
   const { email } = getDomainConfig();
@@ -122,6 +140,7 @@ const Footer = () => {
           Digital Trust
         </Headline>
         <EmailButton href={`mailto:${email}`}>{email}</EmailButton>
+        <FooterPrivacyLink to="/privacy">Privacy</FooterPrivacyLink>
       </FooterContent>
     </FooterWrapper>
   );

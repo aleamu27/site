@@ -1,190 +1,130 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Layout from '../components/Layout';
 
-const PrivacyContainer = styled.div`
-  max-width: 800px;
+const Wrapper = styled.div`
+  max-width: 42rem;
   margin: 0 auto;
-  padding: 4rem 2rem;
-  @media (max-width: 768px) {
-    padding: 2rem 1rem;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 5vw, 2rem) clamp(4rem, 10vw, 6rem);
+`;
+
+const Title = styled.h1`
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.02em;
+`;
+
+const Lead = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.65;
+  margin: 0 0 2rem;
+`;
+
+const Block = styled.section`
+  margin-bottom: 1.75rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
   }
 `;
 
-const PrivacyTitle = styled.h1`
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: #222;
-  margin: 0 0 3rem 0;
-  line-height: 1.2;
-`;
-
-const PrivacySection = styled.section`
-  margin-bottom: 3rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 1.5rem;
+const BlockTitle = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #222;
-  margin: 0 0 1.5rem 0;
-  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #1a1a1a;
+  margin: 0 0 0.6rem;
 `;
 
-const SectionText = styled.p`
-  font-size: 1rem;
-  color: #666;
-  line-height: 1.7;
-  margin: 0 0 1.5rem 0;
+const Body = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.65;
+  margin: 0;
 `;
 
-const List = styled.ul`
-  font-size: 1rem;
-  color: #666;
-  line-height: 1.7;
-  margin: 0 0 1.5rem 0;
-  padding-left: 1.5rem;
+const InlineLink = styled.a`
+  color: #184b54;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: #0d2f36;
+  }
 `;
 
-const ListItem = styled.li`
-  margin-bottom: 0.5rem;
-`;
-
-const ContactInfo = styled.div`
-  background: #f8f8f8;
-  padding: 2rem;
-  border-radius: 8px;
-  margin-top: 2rem;
-`;
-
-const ContactTitle = styled.h3`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #222;
-  margin: 0 0 1rem 0;
-`;
-
-const ContactText = styled.p`
-  font-size: 1rem;
-  color: #666;
-  line-height: 1.7;
-  margin: 0 0 0.5rem 0;
-`;
-
-const LastUpdated = styled.div`
-  font-size: 0.9rem;
+const Meta = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
   color: #999;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
   border-top: 1px solid #eee;
-  text-align: center;
 `;
 
 const Privacy = () => {
+  useEffect(() => {
+    document.title = 'Privacy | Hepta';
+  }, []);
+
   return (
     <Layout>
-      <PrivacyContainer>
-        <PrivacyTitle>Privacy Policy for Hepta AS</PrivacyTitle>
-        <SectionText>
-          This privacy policy explains how Hepta AS collects and uses personal data.
-        </SectionText>
+      <Wrapper>
+        <Title>Privacy</Title>
+        <Lead>
+          Hepta builds websites, web applications, and Calar OS. We work with organizations that need reliable digital
+          infrastructure. This page explains what we collect on <strong>hepta.no</strong> (and our marketing site) and
+          why.
+        </Lead>
 
-        <PrivacySection>
-          <SectionTitle>1. Data Controller</SectionTitle>
-          <SectionText>
-            Hepta AS is the data controller for personal data collected and processed in connection with our services.
-          </SectionText>
-        </PrivacySection>
+        <Block>
+          <BlockTitle>Contact &amp; enquiries</BlockTitle>
+          <Body>
+            When you email us or use the contact form, we receive what you send (for example your email address and
+            message). We use that only to respond, to work with you if there is a fit, and to keep ordinary business
+            records—not to sell lists or spam you.
+          </Body>
+        </Block>
 
-        <PrivacySection>
-          <SectionTitle>2. What personal data we collect</SectionTitle>
-          <SectionText>We may collect the following personal data:</SectionText>
-          <List>
-            <ListItem>Contact information (name, email address, phone number)</ListItem>
-            <ListItem>User information (username, password)</ListItem>
-            <ListItem>Payment information</ListItem>
-            <ListItem>Information about your use of our services</ListItem>
-          </List>
-        </PrivacySection>
+        <Block>
+          <BlockTitle>Cookies &amp; analytics</BlockTitle>
+          <Body>
+            We ask for your choice in a cookie banner. If you accept, we may load analytics (such as Google Analytics
+            and Microsoft Clarity) to understand how the site is used and to improve it. If you decline, those tools
+            are not loaded. You can change your mind anytime using the cookie icon on the screen.
+          </Body>
+        </Block>
 
-        <PrivacySection>
-          <SectionTitle>3. Purpose of processing</SectionTitle>
-          <SectionText>We process personal data for the following purposes:</SectionText>
-          <List>
-            <ListItem>To deliver and improve our services</ListItem>
-            <ListItem>To communicate with you</ListItem>
-            <ListItem>To process payments</ListItem>
-            <ListItem>To comply with legal obligations</ListItem>
-          </List>
-        </PrivacySection>
+        <Block>
+          <BlockTitle>Your rights</BlockTitle>
+          <Body>
+            Depending on where you live, you may have rights to access, correct, or delete personal data we hold about
+            you, or to object to certain processing. For anything privacy-related, contact us at{' '}
+            <InlineLink href="mailto:j@hepta.no">j@hepta.no</InlineLink> and we will help.
+          </Body>
+        </Block>
 
-        <PrivacySection>
-          <SectionTitle>4. Legal basis for processing</SectionTitle>
-          <SectionText>We process personal data based on the following legal grounds:</SectionText>
-          <List>
-            <ListItem>Performance of contract</ListItem>
-            <ListItem>Legitimate interest</ListItem>
-            <ListItem>Consent</ListItem>
-            <ListItem>Legal obligation</ListItem>
-          </List>
-        </PrivacySection>
+        <Block>
+          <BlockTitle>Updates</BlockTitle>
+          <Body>
+            We may update this page occasionally. When we do, we will change the date below. It is not a full legal
+            memorandum—if you need something formal for your organization, ask us and we can point you to the right
+            documents.
+          </Body>
+        </Block>
 
-        <PrivacySection>
-          <SectionTitle>5. Sharing of personal data</SectionTitle>
-          <SectionText>
-            We only share personal data with third parties when necessary to deliver our services or when we are legally obligated to do so.
-          </SectionText>
-        </PrivacySection>
-
-        <PrivacySection>
-          <SectionTitle>6. Storage of personal data</SectionTitle>
-          <SectionText>
-            We store personal data for as long as necessary to fulfill the purposes described in this privacy policy, or as long as we are required to do so according to applicable legislation.
-          </SectionText>
-        </PrivacySection>
-
-        <PrivacySection>
-          <SectionTitle>7. Your rights</SectionTitle>
-          <SectionText>You have the right to:</SectionText>
-          <List>
-            <ListItem>Access the personal data we have about you</ListItem>
-            <ListItem>Request correction or deletion of personal data</ListItem>
-            <ListItem>Request restriction of processing</ListItem>
-            <ListItem>Object to processing</ListItem>
-            <ListItem>Receive the personal data in a structured, commonly used and machine-readable format</ListItem>
-          </List>
-        </PrivacySection>
-
-        <PrivacySection>
-          <SectionTitle>8. Cookies</SectionTitle>
-          <SectionText>
-            We use cookies to improve the user experience on our website. You can manage your cookie preferences in your browser settings.
-          </SectionText>
-        </PrivacySection>
-
-        <PrivacySection>
-          <SectionTitle>9. Changes to the privacy policy</SectionTitle>
-          <SectionText>
-            We may update this privacy policy from time to time. We will inform about significant changes on our website.
-          </SectionText>
-        </PrivacySection>
-
-        <PrivacySection>
-          <SectionTitle>10. Contact information</SectionTitle>
-          <SectionText>
-            If you have questions about our processing of personal data, you can contact us at:
-          </SectionText>
-          
-          <ContactInfo>
-            <ContactTitle>Hepta AS</ContactTitle>
-            <ContactText>Email: j@hepta.no</ContactText>
-          </ContactInfo>
-        </PrivacySection>
-
-        <LastUpdated>Last updated: 30-03-2025</LastUpdated>
-      </PrivacyContainer>
+        <Meta>Last updated: April 2026</Meta>
+      </Wrapper>
     </Layout>
   );
 };
 
-export default Privacy; 
+export default Privacy;

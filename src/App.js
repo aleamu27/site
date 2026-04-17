@@ -11,6 +11,7 @@ import Consulting from './pages/Consulting';
 import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import Contact from './pages/Contact';
+import Privacy from './pages/Privacy';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="/calar-os" element={<CalarOS />} />
         <Route path="/consulting" element={<Consulting />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsArticle />} />
       </Routes>
