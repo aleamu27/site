@@ -1,0 +1,39 @@
+{
+  "statement": {
+    "text": "Our software monitors, protects, and builds the {{highlight}} of organizations that operate where exposure isn't an option.",
+    "highlight": "digital surface"
+  },
+  "servicesHeader": {
+    "light": "WE ARE ",
+    "bold": "HEPTA"
+  },
+  "services": {
+    "calarOS": {
+      "title": "Calar OS",
+      "description1": "Calar OS shows you who is on your site and how they move through your funnel. It connects visits back to the channels and campaigns that drove them.",
+      "description2": "Leads are scored from on-site behavior in real time."
+    },
+    "development": {
+      "title": "Development",
+      "description": "Clean architecture, production-ready code, and nothing you don't need. We design and ship web systems that will not need to be rebuilt."
+    },
+    "visualIdentity": {
+      "title": "Visual identity",
+      "description1": "Brand systems, typography, colour, and art direction so your product and marketing feel like one coherent story.",
+      "description2": "We align visuals with how you actually operate: clear guidelines your team can ship with, not a deck that sits in a folder."
+    },
+    "aboutUs": {
+      "title": "About Us",
+      "description": "We are a small team that builds serious digital infrastructure. We care about the work and the people we work with."
+    },
+    "consulting": {
+      "title": "Consulting",
+      "description1": "We work with organizations to assess, plan, and improve their digital presence.",
+      "description2": "From infrastructure decisions to platform strategy, we give you a clear picture of where you are and a concrete path to where you need to be."
+    }
+  },
+  "contact": {
+    "heading": "Ready for the next step?",
+    "subtext": "Hepta delivers solutions for organizations that take their digital presence seriously."
+  }
+}

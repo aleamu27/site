@@ -1,0 +1,20 @@
+{
+  "labels": {
+    "email": "E-post",
+    "message": "Melding"
+  },
+  "buttons": {
+    "send": "Send",
+    "sending": "Sender..."
+  },
+  "validation": {
+    "emailRequired": "Vennligst oppgi en gyldig e-postadresse.",
+    "messageRequired": "Vennligst skriv en melding."
+  },
+  "success": {
+    "thankYou": "Takk for at du tok kontakt. Vi kommer tilbake til deg snart."
+  },
+  "errors": {
+    "generic": "Noe gikk galt. Vennligst prøv igjen."
+  }
+}

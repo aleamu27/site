@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "calarOS": "Calar OS",
+    "visualIdentity": "Visuell identitet",
+    "development": "Utvikling",
+    "aboutUs": "Om oss",
+    "consulting": "Konsultering",
+    "getInTouch": "Kontakt oss",
+    "navigation": "Navigasjon",
+    "latestNews": "Siste nytt",
+    "viewAll": "Se alle",
+    "readMore": "Les mer",
+    "menu": "Meny",
+    "close": "Lukk",
+    "noPosts": "Ingen innlegg enda.",
+    "learnMore": "Les mer"
+  },
+  "footer": {
+    "tagline": "Infrastrukturen bak digital tillit",
+    "copyright": "Hepta"
+  },
+  "cookie": {
+    "title": "Vi verdsetter ditt personvern",
+    "description": "Vi bruker informasjonskapsler for å analysere trafikk og forbedre opplevelsen din. Ved å klikke \"Godta\" samtykker du til vår bruk av analysekapsler.",
+    "privacyLink": "Les mer i vår personvernpolicy.",
+    "accept": "Godta",
+    "decline": "Avslå"
+  },
+  "hero": {
+    "line1": "Infrastrukturen bak",
+    "line2": "digital tillit"
+  }
+}

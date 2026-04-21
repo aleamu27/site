@@ -1,0 +1,33 @@
+{
+  "nav": {
+    "calarOS": "Calar OS",
+    "visualIdentity": "Visual identity",
+    "development": "Development",
+    "aboutUs": "About us",
+    "consulting": "Consulting",
+    "getInTouch": "Get in touch",
+    "navigation": "Navigation",
+    "latestNews": "Latest News",
+    "viewAll": "View all",
+    "readMore": "Read More",
+    "menu": "Menu",
+    "close": "Close",
+    "noPosts": "No posts yet.",
+    "learnMore": "Learn more"
+  },
+  "footer": {
+    "tagline": "The Infrastructure Beneath Digital Trust",
+    "copyright": "Hepta"
+  },
+  "cookie": {
+    "title": "We value your privacy",
+    "description": "We use cookies to analyze traffic and improve your experience. By clicking \"Accept\", you consent to our use of analytics cookies.",
+    "privacyLink": "Read more in our privacy policy.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "hero": {
+    "line1": "The Infrastructure Beneath",
+    "line2": "Digital Trust"
+  }
+}

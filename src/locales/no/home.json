@@ -1,0 +1,39 @@
+{
+  "statement": {
+    "text": "Vår programvare overvåker, beskytter og bygger {{highlight}} til organisasjoner som opererer der eksponering ikke er et alternativ.",
+    "highlight": "den digitale overflaten"
+  },
+  "servicesHeader": {
+    "light": "VI ER ",
+    "bold": "HEPTA"
+  },
+  "services": {
+    "calarOS": {
+      "title": "Calar OS",
+      "description1": "Calar OS viser deg hvem som er på nettsiden din og hvordan de beveger seg gjennom trakten. Den kobler besøk tilbake til kanalene og kampanjene som førte dem dit.",
+      "description2": "Leads scores basert på atferd på nettsiden i sanntid."
+    },
+    "development": {
+      "title": "Utvikling",
+      "description": "Ren arkitektur, produksjonsklar kode, og ingenting du ikke trenger. Vi designer og leverer websystemer som ikke trenger å bygges om."
+    },
+    "visualIdentity": {
+      "title": "Visuell identitet",
+      "description1": "Merkevaresystemer, typografi, farger og art direction slik at produktet og markedsføringen din føles som én sammenhengende historie.",
+      "description2": "Vi tilpasser det visuelle til hvordan dere faktisk opererer: klare retningslinjer teamet ditt kan bruke, ikke en presentasjon som blir liggende i en mappe."
+    },
+    "aboutUs": {
+      "title": "Om oss",
+      "description": "Vi er et lite team som bygger seriøs digital infrastruktur. Vi bryr oss om arbeidet og menneskene vi jobber med."
+    },
+    "consulting": {
+      "title": "Konsultering",
+      "description1": "Vi jobber med organisasjoner for å vurdere, planlegge og forbedre deres digitale tilstedeværelse.",
+      "description2": "Fra infrastrukturbeslutninger til plattformstrategi gir vi deg et klart bilde av hvor du er og en konkret vei til dit du trenger å være."
+    }
+  },
+  "contact": {
+    "heading": "Klar for neste steg?",
+    "subtext": "Hepta leverer løsninger for organisasjoner som tar sin digitale tilstedeværelse på alvor."
+  }
+}
