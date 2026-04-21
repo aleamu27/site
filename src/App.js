@@ -1,3 +1,4 @@
+import './i18n';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
@@ -17,6 +18,7 @@ import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import ScrollToTop from './components/ScrollToTop';
 import CookieConsent from './components/CookieConsent';
+import { Analytics } from '@vercel/analytics/react';
 
 function AppContent() {
   const location = useLocation();
@@ -51,6 +53,7 @@ function App() {
       <Router>
         <AppContent />
       </Router>
+      <Analytics />
     </AuthProvider>
   );
 }

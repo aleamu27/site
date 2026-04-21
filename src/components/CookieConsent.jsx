@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Overlay = styled.div`
   position: fixed;
@@ -128,6 +129,7 @@ const SettingsButton = styled.button`
 `;
 
 const CookieConsent = () => {
+  const { t } = useTranslation('common');
   const [showModal, setShowModal] = useState(false);
   const [hasConsented, setHasConsented] = useState(false);
 
@@ -196,18 +198,17 @@ const CookieConsent = () => {
         <>
           <Overlay onClick={() => {}} />
           <Modal>
-            <Title>We value your privacy</Title>
+            <Title>{t('cookie.title')}</Title>
             <Text>
-              We use cookies to analyze traffic and improve your experience.
-              By clicking "Accept", you consent to our use of analytics cookies.
-              Read more in our <Link to="/privacy">privacy policy</Link>.
+              {t('cookie.description')}{' '}
+              <Link to="/privacy">{t('cookie.privacyLink')}</Link>
             </Text>
             <ButtonGroup>
               <DeclineButton onClick={handleDecline}>
-                Decline
+                {t('cookie.decline')}
               </DeclineButton>
               <AcceptButton onClick={handleAccept}>
-                Accept
+                {t('cookie.accept')}
               </AcceptButton>
             </ButtonGroup>
           </Modal>

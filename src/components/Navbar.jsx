@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabase';
+import { getLocale } from '../utils/domainConfig';
 
 
 const NAV_MONO = 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
@@ -479,21 +481,20 @@ const MobileNewsCard = styled.div`
   }
 `;
 
-// Navigation links
-const NAV_LINKS = [
-  { to: '/calar-os', label: 'Calar OS' },
-  { to: '/visual-identity', label: 'Visual identity' },
-  { to: '/development', label: 'Development' },
-  { to: '/about', label: 'About us' },
-  { to: '/consulting', label: 'Consulting' },
-];
-
-
 const Navbar = () => {
+  const { t } = useTranslation('common');
   const [logoError, setLogoError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopMenuOpen, setDesktopMenuOpen] = useState(false);
   const [latestPosts, setLatestPosts] = useState([]);
+
+  const NAV_LINKS = [
+    { to: '/calar-os', label: t('nav.calarOS') },
+    { to: '/visual-identity', label: t('nav.visualIdentity') },
+    { to: '/development', label: t('nav.development') },
+    { to: '/about', label: t('nav.aboutUs') },
+    { to: '/consulting', label: t('nav.consulting') },
+  ];
 
   useEffect(() => {
     fetchLatestPosts();
@@ -525,7 +526,7 @@ const Navbar = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(getLocale(), {
       month: 'long',
       day: 'numeric',
       year: 'numeric'
@@ -569,7 +570,7 @@ const Navbar = () => {
             <LogoText>HEPTA</LogoText>
           </NavLeft>
           <NavRight>
-            <RightButton to="/contact">Get in touch</RightButton>
+            <RightButton to="/contact">{t('nav.getInTouch')}</RightButton>
             <HamburgerButton onClick={toggleDesktopMenu} aria-label="Toggle menu">
               <HamburgerIcon $isOpen={desktopMenuOpen}>
                 <span></span>
@@ -584,7 +585,7 @@ const Navbar = () => {
           <MenuDropdownInner>
             <MenuContent>
               <MenuNavSection>
-                <MenuSectionLabel>Navigation</MenuSectionLabel>
+                <MenuSectionLabel>{t('nav.navigation')}</MenuSectionLabel>
                 <MenuNavLinks>
                   {NAV_LINKS.map((link) => (
                     <MenuNavLink key={link.to} to={link.to} onClick={closeDesktopMenu}>
@@ -596,9 +597,9 @@ const Navbar = () => {
 
               <LatestNewsSection>
                 <LatestNewsHeader>
-                  <MenuSectionLabel>Latest News</MenuSectionLabel>
+                  <MenuSectionLabel>{t('nav.latestNews')}</MenuSectionLabel>
                   <ViewAllLink to="/news" onClick={closeDesktopMenu}>
-                    View all →
+                    {t('nav.viewAll')} →
                   </ViewAllLink>
                 </LatestNewsHeader>
                 <NewsGrid>
@@ -615,12 +616,12 @@ const Navbar = () => {
                         <NewsExcerpt>{post.excerpt}</NewsExcerpt>
                       )}
                       <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeDesktopMenu}>
-                        Read More
+                        {t('nav.readMore')}
                       </ReadMoreLink>
                     </NewsCard>
                   ))}
                   {latestPosts.length === 0 && (
-                    <NewsExcerpt>No posts yet.</NewsExcerpt>
+                    <NewsExcerpt>{t('nav.noPosts')}</NewsExcerpt>
                   )}
                 </NewsGrid>
               </LatestNewsSection>
@@ -647,11 +648,11 @@ const Navbar = () => {
               </MobileLogo>
               <MobileMenuButtonGroup>
                 <MobileGetInTouchLink to="/contact">
-                  Get in touch
+                  {t('nav.getInTouch')}
                 </MobileGetInTouchLink>
                 <MenuSeparator>|</MenuSeparator>
                 <MobileMenuToggle onClick={toggleMobileMenu}>
-                  {mobileMenuOpen ? 'Close' : 'Menu'}
+                  {mobileMenuOpen ? t('nav.close') : t('nav.menu')}
                 </MobileMenuToggle>
               </MobileMenuButtonGroup>
             </MobileHeaderTop>
@@ -660,7 +661,7 @@ const Navbar = () => {
           {/* Mobile Dropdown Menu */}
           <MobileMenuDropdown $isOpen={mobileMenuOpen}>
             <MobileMenuDropdownInner>
-              <MenuSectionLabel>Navigation</MenuSectionLabel>
+              <MenuSectionLabel>{t('nav.navigation')}</MenuSectionLabel>
               <MobileMenuNavLinks>
                 {NAV_LINKS.map((link) => (
                   <MobileMenuNavLink key={link.to} to={link.to} onClick={closeMobileMenu}>
@@ -671,9 +672,9 @@ const Navbar = () => {
 
               <MobileNewsSection>
                 <LatestNewsHeader>
-                  <MenuSectionLabel style={{ marginBottom: 0 }}>Latest News</MenuSectionLabel>
+                  <MenuSectionLabel style={{ marginBottom: 0 }}>{t('nav.latestNews')}</MenuSectionLabel>
                   <ViewAllLink to="/news" onClick={closeMobileMenu}>
-                    View all →
+                    {t('nav.viewAll')} →
                   </ViewAllLink>
                 </LatestNewsHeader>
                 {latestPosts.map((post) => (
@@ -681,12 +682,12 @@ const Navbar = () => {
                     <NewsDate>{formatDate(post.created_at)}</NewsDate>
                     <NewsTitle>{post.title}</NewsTitle>
                     <ReadMoreLink to={`/newsletter/${post.slug}`} onClick={closeMobileMenu}>
-                      Read More
+                      {t('nav.readMore')}
                     </ReadMoreLink>
                   </MobileNewsCard>
                 ))}
                 {latestPosts.length === 0 && (
-                  <NewsExcerpt>No posts yet.</NewsExcerpt>
+                  <NewsExcerpt>{t('nav.noPosts')}</NewsExcerpt>
                 )}
               </MobileNewsSection>
             </MobileMenuDropdownInner>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const revealUp = keyframes`
   0% {
@@ -96,6 +97,7 @@ const TextReveal = styled.span`
 `;
 
 const Hero = () => {
+  const { t } = useTranslation('common');
   const [startAnimation, setStartAnimation] = useState(false);
 
   useEffect(() => {
@@ -133,10 +135,10 @@ const Hero = () => {
       <HeroTextBlock>
         <HeroTextInner>
           <TextLine>
-            <TextReveal animate={startAnimation} delay="0s">The Infrastructure Beneath</TextReveal>
+            <TextReveal animate={startAnimation} delay="0s">{t('hero.line1')}</TextReveal>
           </TextLine>
           <TextLine>
-            <TextReveal animate={startAnimation} delay="0.2s">Digital Trust</TextReveal>
+            <TextReveal animate={startAnimation} delay="0.2s">{t('hero.line2')}</TextReveal>
           </TextLine>
         </HeroTextInner>
       </HeroTextBlock>
