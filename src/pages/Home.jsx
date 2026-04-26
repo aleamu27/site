@@ -38,10 +38,6 @@ const StatementText = styled.p`
   }
 `;
 
-const GrayText = styled.span`
-  color: #999;
-`;
-
 const ServicesSection = styled.div`
   background: #fff;
   width: 100vw;
@@ -302,9 +298,11 @@ const Home = () => {
 
         <StatementSection>
           <StatementText ref={statementRef}>
-            Our software monitors, protects, and builds
-            the <GrayText>digital surface</GrayText> of organizations that
-            operate where exposure isn't an option.
+            We build to outlast, outperform, and win.
+            <br />
+            Every decision we make is the decision
+            <br />
+            of someone who refuses to ship second place.
           </StatementText>
         </StatementSection>
 
