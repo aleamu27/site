@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# Plain-text / static HTML overview (no JavaScript required) for assistants and crawlers
+# https://hepta.no/llms.txt
+# https://hepta.no/hepta-overview.html
+
 # Sitemap location
 Sitemap: https://hepta.no/sitemap.xml
 

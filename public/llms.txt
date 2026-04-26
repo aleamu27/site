@@ -1,0 +1,29 @@
+# Hepta (hepta.no)
+
+## Purpose of this file
+The public marketing site is a JavaScript (React) single-page application. Tools that fetch HTML without executing JavaScript may see an almost empty shell. This file and `/hepta-overview.html` provide the same factual overview in plain text and static HTML so assistants, crawlers, and archive tools can read what Hepta does without running client-side code.
+
+## Organization
+Hepta is a small software and design studio. It builds production web systems, product UI, and digital infrastructure for teams that need clarity and reliability.
+
+## Products and services
+- **Calar OS** — First-party website intelligence: who is on the site, how they move through the funnel, attribution to channels and campaigns, lead scoring from on-site behaviour, and signals for sales teams. Path: https://hepta.no/calar-os
+- **Development** — Websites, web applications, APIs, integrations, performance, accessibility, and cloud deployment. Path: https://hepta.no/development
+- **Visual identity** — Brand systems, typography, colour, and art direction aligned with how the product ships. Path: https://hepta.no/visual-identity
+- **Consulting** — Assessment, planning, and improvement of digital presence. Path: https://hepta.no/consulting
+- **About** — Team and how Hepta works with clients. Path: https://hepta.no/about
+- **Contact** — Enquiries and project discussions. Path: https://hepta.no/contact
+- **News** — Updates and articles when published. Path: https://hepta.no/news
+
+## Contact
+Email (general): j@hepta.no
+
+## Privacy
+High-level privacy summary: https://hepta.no/privacy  
+(That route is part of the React app; for a static summary, see the “Privacy & data” section in `/hepta-overview.html`.)
+
+## Static mirror (full HTML)
+https://hepta.no/hepta-overview.html
+
+## Last updated
+2026-04-12
