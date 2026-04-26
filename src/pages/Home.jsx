@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
 import LandingContactSection from '../components/LandingContactSection';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 const StatementSection = styled.div`
   background: #fff;
@@ -38,18 +38,8 @@ const StatementText = styled.p`
   }
 `;
 
-const statementGradientShine = keyframes`
-  0%,
-  100% {
-    background-position: 0% 40%;
-  }
-  50% {
-    background-position: 100% 60%;
-  }
-`;
-
-/* Grey → blue base, with a soft highlight that slowly moves (shine). */
-const StatementGradientWord = styled.span`
+/* Grey → blue + highlight; position updated from scroll in JS (data-shine). */
+const StatementGradientWord = styled.span.attrs({ 'data-shine': '' })`
   background: linear-gradient(
     118deg,
     #bdbdbd 0%,
@@ -65,10 +55,8 @@ const StatementGradientWord = styled.span`
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  animation: ${statementGradientShine} 9s ease-in-out infinite;
 
   @media (prefers-reduced-motion: reduce) {
-    animation: none;
     background: linear-gradient(180deg, #c4c4c4 0%, #7ebfe8 100%);
     background-size: 100% 100%;
   }
@@ -242,6 +230,9 @@ const Home = () => {
     const el = statementRef.current;
     if (!el) return;
 
+    const reduceMotion = () =>
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const handleScroll = () => {
       const rect = el.getBoundingClientRect();
       const windowHeight = window.innerHeight;
@@ -249,6 +240,15 @@ const Home = () => {
       const progress = Math.min(Math.max((windowHeight - rect.top) / (windowHeight * 0.55), 0), 1);
       el.style.opacity = progress;
       el.style.transform = `translateY(${14 * (1 - progress)}px) scale(${0.96 + 0.04 * progress})`;
+
+      /* One-way grey → blue with scroll: driven by same progress as fade (no scrollY wrap). */
+      if (!reduceMotion()) {
+        const px = progress * 100;
+        const py = 40 + progress * 20;
+        el.querySelectorAll('[data-shine]').forEach(node => {
+          node.style.backgroundPosition = `${px}% ${py}%`;
+        });
+      }
     };
 
     handleScroll();
