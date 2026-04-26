@@ -421,15 +421,10 @@ const Home = () => {
         </ServicesSection>
 
         <LandingContactSection
-          inquirySource="Home page contact"
-          heading="Ready for the next step?"
-          subtext={
-            <>
-              Hepta delivers solutions for organizations that take their
-              <br />
-              digital presence seriously.
-            </>
-          }
+          ctaVariant="bookCall"
+          inquirySource="Home page — Book a call"
+          heading="Let's talk about what you're building."
+          subtext="We take on a limited number of projects. If you're serious about your digital presence, book a 20 minute call and we'll tell you exactly what we'd do differently."
           imageSrc="/cta-image.png"
           imageAlt="Mountain coastline"
         />
