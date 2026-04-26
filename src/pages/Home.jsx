@@ -8,14 +8,21 @@ import styled from 'styled-components';
 
 const StatementSection = styled.div`
   background: #fff;
-  padding: 12rem 2.5vw;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 5rem;
+  /* At least one full viewport tall; generous padding so the quote can sit alone when scrolled here */
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(11rem, 34vh, 24rem) 2.5vw;
+  margin-top: clamp(7rem, 14vh, 11rem);
+  margin-bottom: clamp(6rem, 11vh, 10rem);
 
   @media (max-width: 768px) {
-    padding: 6rem 4vw 7rem;
+    padding: clamp(8rem, 28vh, 16rem) 4vw;
+    margin-top: clamp(4rem, 10vh, 7rem);
+    margin-bottom: clamp(3.5rem, 8vh, 6rem);
   }
 `;
 
