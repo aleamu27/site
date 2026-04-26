@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import Hero from '../components/Hero';
 import Showcase from '../components/Showcase';
 import LandingContactSection from '../components/LandingContactSection';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const StatementSection = styled.div`
   background: #fff;
@@ -38,13 +38,40 @@ const StatementText = styled.p`
   }
 `;
 
-/* Vertical gradient: light grey (top) → light blue (bottom) */
+const statementGradientShine = keyframes`
+  0%,
+  100% {
+    background-position: 0% 40%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+`;
+
+/* Grey → blue base, with a soft highlight that slowly moves (shine). */
 const StatementGradientWord = styled.span`
-  background: linear-gradient(180deg, #c4c4c4 0%, #7ebfe8 100%);
+  background: linear-gradient(
+    118deg,
+    #bdbdbd 0%,
+    #d0d0d0 22%,
+    #e8f4fc 42%,
+    #7ebfe8 52%,
+    #72b3dc 78%,
+    #c8c8c8 100%
+  );
+  background-size: 280% 280%;
+  background-position: 0% 40%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  animation: ${statementGradientShine} 9s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background: linear-gradient(180deg, #c4c4c4 0%, #7ebfe8 100%);
+    background-size: 100% 100%;
+  }
 `;
 
 const ServicesSection = styled.div`
