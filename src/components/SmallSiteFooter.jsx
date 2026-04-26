@@ -31,7 +31,11 @@ const FooterRight = styled.span`
 
 const SmallSiteFooter = ({ surface = 'warm', topRule = false }) => (
   <SmallFooter $surface={surface} $topRule={topRule}>
-    <FooterLeft>The Infrastructure Beneath Digital Trust</FooterLeft>
+    <FooterLeft>
+      Built to win.
+      <br />
+      Online.
+    </FooterLeft>
     <FooterRight>© {new Date().getFullYear()} Hepta</FooterRight>
   </SmallFooter>
 );

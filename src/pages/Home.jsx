@@ -21,7 +21,7 @@ const StatementSection = styled.div`
 
 const StatementText = styled.p`
   font-family: 'OCR-B', 'OCR B', monospace;
-  font-size: clamp(1.1rem, 2.2vw, 2rem);
+  font-size: clamp(0.95rem, 1.85vw, 1.72rem);
   font-weight: 400;
   color: #1a1a1a;
   text-align: center;
@@ -32,10 +32,19 @@ const StatementText = styled.p`
   will-change: opacity, transform;
 
   @media (max-width: 768px) {
-    font-size: clamp(1.14rem, 2.6vw, 1.35rem);
+    font-size: clamp(1.02rem, 2.35vw, 1.22rem);
     line-height: 1.38;
     max-width: 100%;
   }
+`;
+
+/* Vertical gradient: light grey (top) → light blue (bottom) */
+const StatementGradientWord = styled.span`
+  background: linear-gradient(180deg, #c4c4c4 0%, #7ebfe8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 `;
 
 const ServicesSection = styled.div`
@@ -298,7 +307,8 @@ const Home = () => {
 
         <StatementSection>
           <StatementText ref={statementRef}>
-            We build to outlast, outperform, and win.
+            We build to <StatementGradientWord>outlast,</StatementGradientWord>{' '}
+            <StatementGradientWord>outperform,</StatementGradientWord> and <StatementGradientWord>win.</StatementGradientWord>
             <br />
             Every decision we make is the decision
             <br />
