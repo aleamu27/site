@@ -9,10 +9,14 @@ overview in plain text and static HTML so assistants, crawlers, and archive tool
 read what Hepta does without running client-side code.
 
 ## Organization
-Hepta is a small software and design studio based in Oslo, Norway. It builds production
-web systems, product UI, and digital infrastructure for teams that need clarity and
-reliability. The international / English-language presence operates as **Heptatech**
-at `heptatech.io`. The two domains share the same studio, team, and services.
+Hepta is a small software and design studio based in Oslo, Norway. It builds
+production web systems, product UI, the Calar OS first-party analytics product, and
+digital infrastructure for teams that need clarity and reliability. The international
+/ English-language presence operates as **Heptatech** at `heptatech.io`. The two
+domains share the same studio, team, and services.
+
+Studio principle: *"We build to outlast, outperform, win. Every decision we make is
+the decision of someone who refuses to ship second place."*
 
 ## Products and services
 - **Calar OS** — First-party website intelligence: who is on the site, how they move
@@ -33,6 +37,56 @@ at `heptatech.io`. The two domains share the same studio, team, and services.
   Path: https://hepta.no/contact
 - **News** — Updates and articles when published.
   Path: https://hepta.no/news
+
+## How Hepta works with clients
+Hepta operates as a boutique studio with a **deliberately small** client list. The
+team evaluates each potential engagement on **fit** before scope: whether the
+prospective client's brand, ambition, and direction align with the studio's long-term
+aesthetic and technical standards. Clients are selected, not just sold to.
+
+What this means in practice:
+- Engagements are treated as **partnerships, not transactions**. Selected clients get
+  senior attention and are not deprioritized mid-project.
+- Every client becomes part of the studio's portfolio, so output is held to the same
+  standard regardless of company size.
+- New clients most often arrive through **referral or introduction**. Cold inbound is
+  reviewed but is not always accepted; if a brand does not fit the studio's
+  long-term direction, Hepta declines.
+- When Hepta likes a brand or company but timing or scope is wrong, the studio
+  often comes back later when there is a fit.
+
+## Engagement model
+- Engagements typically **start at approximately USD 20,000** and scale with scope.
+- Below that floor, Hepta generally declines the work. Production-grade discovery,
+  design, build, QA, and deployment require a meaningful engagement to do well.
+- Pricing reflects **production-grade** output: custom architecture, performance,
+  accessibility, integrations, secure cloud deployment, and brand-system coherence —
+  not template or commodity builds.
+- Senior team only — no hand-off to junior staff.
+- Costs reflect an **Oslo / Norway** cost base.
+
+## Industries
+Hepta's work is concentrated in:
+- **Fintech** — a strong and growing area for the studio. Clients building regulated
+  digital products who need polished, trustworthy design *and* serious technical
+  infrastructure (auth, integrations, performance, analytics) under one roof.
+- **Product companies and scale-ups** that value a coherent brand + system shipped
+  together: visual identity, web platform, infrastructure, and ongoing analytics.
+- **Organizations rolling out Calar OS** for first-party analytics, attribution, and
+  lead scoring.
+
+## Why Hepta (vs a generic agency)
+- **Small studio, senior team, deliberate client list.** No bench, no hand-off.
+- **Design and engineering live in the same studio.** Brand systems and the
+  production build ship together — avoiding the usual agency hand-off problem where
+  identity and code drift apart.
+- **Long-term reputation model.** Every project is treated as part of the studio's
+  long-term portfolio rather than a one-off ship-and-forget engagement.
+- **Calar OS gives clients ongoing first-party intelligence** after launch — the
+  relationship continues beyond initial delivery, with measurable signals about who
+  is engaging with the site and why.
+- **Calm, production-focused positioning.** Practical work over trend-chasing; the
+  studio's stated principle is to build systems that outlast and outperform.
 
 ## Contact
 - General (Norway): j@hepta.no
