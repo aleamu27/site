@@ -140,7 +140,15 @@ module.exports = async function handler(req, res) {
     let confirmationData = null;
     let confirmationError = null;
 
+    console.log('📧 Starting email send process...');
+    console.log('📧 Domain:', brandDomain);
+    console.log('📧 Target email:', targetEmail);
+    console.log('📧 From company:', company);
+    console.log('📧 User email:', email);
+    console.log('📧 Resend client configured:', !!resend);
+
     if (resend) {
+      console.log('📤 Sending notification email to:', targetEmail);
       const { data, error: notificationError } = await resend.emails.send({
         from: `Contact Form <${targetEmail}>`,
         to: [targetEmail],
@@ -170,15 +178,19 @@ module.exports = async function handler(req, res) {
 
       notificationData = data;
       if (notificationError) {
-        console.error('Notification email error:', notificationError);
+        console.error('❌ Notification email FAILED:', notificationError);
         return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
       }
+      console.log('✅ Notification email SENT successfully!');
+      console.log('✅ Email ID:', notificationData?.id);
+      console.log('✅ Sent to:', targetEmail);
     } else {
-      console.warn('Resend not configured, skipping notification email.');
+      console.warn('⚠️ Resend not configured, skipping notification email.');
     }
 
     // Send thank you email to the user
     if (resend) {
+      console.log('📤 Sending confirmation email to user:', email);
       const { data, error } = await resend.emails.send({
         from: `${brandName} <${targetEmail}>`,
         to: [email], // Send to the user
@@ -464,28 +476,30 @@ module.exports = async function handler(req, res) {
       confirmationError = error;
 
       if (confirmationError) {
-        console.error('Confirmation email error:', confirmationError);
-        // Don't fail the whole request if confirmation email fails
-        console.log('Notification email sent successfully, but confirmation email failed');
+        console.error('❌ Confirmation email FAILED:', confirmationError);
+        console.log('⚠️ Notification was sent, but confirmation to user failed');
+      } else {
+        console.log('✅ Confirmation email SENT successfully!');
+        console.log('✅ Email ID:', confirmationData?.id);
+        console.log('✅ Sent to user:', email);
       }
     } else {
-      console.warn('Resend not configured, skipping confirmation email.');
+      console.warn('⚠️ Resend not configured, skipping confirmation email.');
     }
 
-    if (resend) {
-      console.log('Notification email sent successfully:', notificationData);
-      if (!confirmationError) {
-        console.log('Confirmation email sent successfully:', confirmationData);
-      }
-    } else {
-      console.log('Notification email sent successfully (Resend not configured).');
-    }
-    
-    res.json({ 
-      success: true, 
+    console.log('========================================');
+    console.log('📊 EMAIL SUMMARY:');
+    console.log('📊 Notification to', targetEmail, ':', notificationData ? '✅ SENT' : '❌ FAILED');
+    console.log('📊 Notification Email ID:', notificationData?.id || 'N/A');
+    console.log('📊 Confirmation to', email, ':', confirmationData && !confirmationError ? '✅ SENT' : '❌ FAILED');
+    console.log('📊 Confirmation Email ID:', confirmationData?.id || 'N/A');
+    console.log('========================================');
+
+    res.json({
+      success: true,
       message: 'Contact form submitted successfully!',
-      notificationEmailId: resend ? notificationData.id : null,
-      confirmationEmailId: resend ? (confirmationError ? null : confirmationData.id) : null
+      notificationEmailId: resend ? notificationData?.id : null,
+      confirmationEmailId: resend ? (confirmationError ? null : confirmationData?.id) : null
     });
 
   } catch (error) {
