@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
+// Only log in development
+const DEBUG = process.env.NODE_ENV !== 'production';
+const log = (...args) => DEBUG && console.log(...args);
+const logWarn = (...args) => DEBUG && console.warn(...args);
+
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
@@ -12,12 +17,12 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    console.log('🔄 AuthContext: Initializing authentication state...');
+    log('🔄 AuthContext: Initializing authentication state...');
     
     // Check if Supabase is configured
     if (!isSupabaseConfigured() || !supabase) {
-      console.warn('⚠️ AuthContext: Supabase is not configured. Authentication features will be disabled.');
-      console.log('🔍 AuthContext: Configuration check:', {
+      logWarn('⚠️ AuthContext: Supabase is not configured. Authentication features will be disabled.');
+      log('🔍 AuthContext: Configuration check:', {
         isConfigured: isSupabaseConfigured(),
         clientExists: !!supabase,
         hasKey: !!process.env.REACT_APP_SUPABASE_ANON_KEY
@@ -26,15 +31,15 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    console.log('✅ AuthContext: Supabase is configured, getting session...');
+    log('✅ AuthContext: Supabase is configured, getting session...');
 
     // Get session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('📡 AuthContext: Session check complete');
-      console.log('🎫 AuthContext: Session data:', session ? 'Present' : 'None');
+      log('📡 AuthContext: Session check complete');
+      log('🎫 AuthContext: Session data:', session ? 'Present' : 'None');
       
       if (session) {
-        console.log('👤 AuthContext: User found in session:', {
+        log('👤 AuthContext: User found in session:', {
           id: session.user?.id,
           email: session.user?.email,
           confirmed_at: session.user?.email_confirmed_at
@@ -44,51 +49,51 @@ export const AuthProvider = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        console.log('👤 AuthContext: Fetching user profile...');
+        log('👤 AuthContext: Fetching user profile...');
         fetchProfile(session.user.id);
       }
       setLoading(false);
-      console.log('✅ AuthContext: Initial setup complete');
+      log('✅ AuthContext: Initial setup complete');
     });
 
-    console.log('👂 AuthContext: Setting up auth state listener...');
+    log('👂 AuthContext: Setting up auth state listener...');
     
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('🔄 AuthContext: Auth state changed');
-      console.log('📝 AuthContext: Event:', _event);
-      console.log('🎫 AuthContext: New session:', session ? 'Present' : 'None');
+      log('🔄 AuthContext: Auth state changed');
+      log('📝 AuthContext: Event:', _event);
+      log('🎫 AuthContext: New session:', session ? 'Present' : 'None');
       
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        console.log('👤 AuthContext: User logged in, fetching profile...');
+        log('👤 AuthContext: User logged in, fetching profile...');
         fetchProfile(session.user.id);
         // Log session creation
         logSecurityEvent('login', { method: 'session' });
       } else {
-        console.log('👋 AuthContext: User logged out, clearing profile...');
+        log('👋 AuthContext: User logged out, clearing profile...');
         setProfile(null);
       }
     });
 
     return () => {
-      console.log('🧹 AuthContext: Cleaning up auth listener...');
+      log('🧹 AuthContext: Cleaning up auth listener...');
       subscription.unsubscribe();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProfile = async (userId) => {
-    console.log('👤 AuthContext: fetchProfile called for user:', userId);
+    log('👤 AuthContext: fetchProfile called for user:', userId);
     
     if (!isSupabaseConfigured()) {
-      console.warn('⚠️ AuthContext: Cannot fetch profile - Supabase not configured');
+      logWarn('⚠️ AuthContext: Cannot fetch profile - Supabase not configured');
       return;
     }
     
     try {
-      console.log('📡 AuthContext: Querying profiles table...');
+      log('📡 AuthContext: Querying profiles table...');
       
       const { data, error } = await supabase
         .from('profiles')
@@ -96,16 +101,16 @@ export const AuthProvider = ({ children }) => {
         .eq('id', userId)
         .single();
 
-      console.log('📨 AuthContext: Profile query response received');
-      console.log('✅ AuthContext: Profile data:', data ? 'Present' : 'None');
-      console.log('❌ AuthContext: Profile error:', error ? error.message : 'None');
+      log('📨 AuthContext: Profile query response received');
+      log('✅ AuthContext: Profile data:', data ? 'Present' : 'None');
+      log('❌ AuthContext: Profile error:', error ? error.message : 'None');
 
       if (!error && data) {
-        console.log('✅ AuthContext: Profile fetched successfully');
+        log('✅ AuthContext: Profile fetched successfully');
         setProfile(data);
       } else if (error) {
-        console.warn('⚠️ AuthContext: Profile fetch failed:', error.message);
-        console.log('💡 AuthContext: This might be normal if profiles table doesn\'t exist or user has no profile');
+        logWarn('⚠️ AuthContext: Profile fetch failed:', error.message);
+        log('💡 AuthContext: This might be normal if profiles table doesn\'t exist or user has no profile');
       }
     } catch (err) {
       console.error('💥 AuthContext: Unexpected error fetching profile:', err);
