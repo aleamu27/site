@@ -483,13 +483,13 @@
   <!-- Static mirrors for non-JS clients (AI, archivers) -->
   <url>
     <loc>https://hepta.no/llms.txt</loc>
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://hepta.no/hepta-overview.html</loc>
-    <lastmod>2026-04-12</lastmod>
+    <lastmod>2026-04-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
