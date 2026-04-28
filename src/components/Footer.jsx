@@ -98,7 +98,7 @@ const Footer = () => {
   const { t } = useTranslation('common');
   const { email } = getDomainConfig();
 
-  if (pathname === '/contact' || pathname === '/visual-identity') {
+  if (pathname === '/visual-identity') {
     return <SmallSiteFooter surface="white" topRule />;
   }
 
