@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { getDomainConfig } from '../utils/domainConfig';
 
 const contactBleedGrid = css`
@@ -384,6 +385,7 @@ function LandingContactSection({
   tightFooter = false,
   ctaVariant = 'default',
 }) {
+  const { t } = useTranslation('forms');
   const isBookCall = ctaVariant === 'bookCall';
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -400,11 +402,11 @@ function LandingContactSection({
     const trimmedEmail = email.trim();
     const trimmedMessage = message.trim();
     if (!trimmedEmail || !/\S+@\S+\.\S+/.test(trimmedEmail)) {
-      setError('Please enter a valid email address.');
+      setError(t('validation.emailRequired'));
       return;
     }
     if (!trimmedMessage) {
-      setError('Please enter a message.');
+      setError(t('validation.messageRequired'));
       return;
     }
     setLoading(true);
@@ -421,7 +423,7 @@ function LandingContactSection({
         window.heptaCapture(trimmedEmail, null, inquirySource).catch(() => {});
       }
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      setError(err.message || t('errors.generic'));
     } finally {
       setLoading(false);
     }
@@ -456,7 +458,7 @@ function LandingContactSection({
         window.heptaCapture(trimmedEmail, trimmedName, inquirySource).catch(() => {});
       }
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      setError(err.message || t('errors.generic'));
     } finally {
       setLoading(false);
     }
@@ -478,12 +480,12 @@ function LandingContactSection({
           <ThankYou role="status">
             {isBookCall ? (
               <>
-                <strong>Thank you</strong>
+                <strong>{t('success.thankYouTitle')}</strong>
                 <br />
-                We’ve got your details and will be in touch shortly to schedule your 20-minute call.
+                {t('success.thankYouBookCall')}
               </>
             ) : (
-              'Thank you for reaching out. We will get back to you shortly.'
+              t('success.thankYou')
             )}
           </ThankYou>
         ) : isBookCall ? (
@@ -499,7 +501,7 @@ function LandingContactSection({
               })}
               disabled={loading}
             >
-              Book a call
+              {t('buttons.bookCall')}
             </BookCallPrimaryButton>
             <BookCallExpand $open={bookCallOpen} id="book-call-fields" aria-labelledby="book-call-toggle">
               <div className="book-call-expand-inner">
@@ -509,7 +511,7 @@ function LandingContactSection({
                       type="text"
                       name="name"
                       autoComplete="name"
-                      placeholder="Name"
+                      placeholder={t('labels.name')}
                       aria-invalid={fieldErrors.name || undefined}
                       value={name}
                       onChange={e => {
@@ -525,7 +527,7 @@ function LandingContactSection({
                       type="email"
                       name="email"
                       autoComplete="email"
-                      placeholder="Email"
+                      placeholder={t('labels.email')}
                       aria-invalid={fieldErrors.email || undefined}
                       value={email}
                       onChange={e => {
@@ -537,7 +539,7 @@ function LandingContactSection({
                     <ErrorMark $visible={fieldErrors.email} aria-hidden="true" />
                   </InputWithMark>
                   <BookCallSubmitButton type="submit" disabled={loading}>
-                    {loading ? 'Sending…' : 'Send'}
+                    {loading ? t('buttons.sending') : t('buttons.send')}
                   </BookCallSubmitButton>
                   {error ? <BookCallFormError>{error}</BookCallFormError> : null}
                 </BookCallFields>
@@ -550,14 +552,14 @@ function LandingContactSection({
               type="email"
               name="email"
               autoComplete="email"
-              placeholder="Email"
+              placeholder={t('labels.email')}
               value={email}
               onChange={e => setEmail(e.target.value)}
               disabled={loading}
             />
             <ContactTextarea
               name="message"
-              placeholder="Message"
+              placeholder={t('labels.message')}
               rows={3}
               value={message}
               onChange={e => setMessage(e.target.value)}
@@ -565,7 +567,7 @@ function LandingContactSection({
             />
             {error ? <FormError>{error}</FormError> : null}
             <ContactButton type="submit" disabled={loading}>
-              {loading ? 'Sending…' : 'Send'}
+              {loading ? t('buttons.sending') : t('buttons.send')}
             </ContactButton>
           </ContactForm>
         )}

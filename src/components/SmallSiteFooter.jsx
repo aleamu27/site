@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const SmallFooter = styled.footer`
   background: ${p => (p.$surface === 'white' ? '#ffffff' : '#f2f1ed')};
@@ -29,15 +30,19 @@ const FooterRight = styled.span`
   letter-spacing: 0.05em;
 `;
 
-const SmallSiteFooter = ({ surface = 'warm', topRule = false }) => (
-  <SmallFooter $surface={surface} $topRule={topRule}>
-    <FooterLeft>
-      Built to win.
-      <br />
-      Online.
-    </FooterLeft>
-    <FooterRight>© {new Date().getFullYear()} Hepta</FooterRight>
-  </SmallFooter>
-);
+const SmallSiteFooter = ({ surface = 'warm', topRule = false }) => {
+  const { t } = useTranslation('common');
+
+  return (
+    <SmallFooter $surface={surface} $topRule={topRule}>
+      <FooterLeft>
+        {t('hero.line1')}
+        <br />
+        {t('hero.line2')}
+      </FooterLeft>
+      <FooterRight>© {new Date().getFullYear()} {t('footer.copyright')}</FooterRight>
+    </SmallFooter>
+  );
+};
 
 export default SmallSiteFooter;

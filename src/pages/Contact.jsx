@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import Layout from '../components/Layout';
 import LandingContactSection from '../components/LandingContactSection';
 
@@ -42,28 +43,28 @@ const ContactBody = styled.div`
 `;
 
 function Contact() {
+  const { t } = useTranslation('forms');
+
   useEffect(() => {
-    document.title = 'Get in touch | Hepta';
-  }, []);
+    document.title = t('contact.pageTitle');
+  }, [t]);
 
   return (
     <Layout tightFooter>
       <ContactBody>
         <ContactIntro>
-          <IntroLine>
-            We would love to hear from you whether you have a question, feedback,
-          </IntroLine>
-          <IntroLine>or just want to say hello.</IntroLine>
+          <IntroLine>{t('contact.introLine1')}</IntroLine>
+          <IntroLine>{t('contact.introLine2')}</IntroLine>
         </ContactIntro>
         <LandingContactSection
           tightFooter
           inquirySource="Get in touch page"
-          heading="Get in touch"
+          heading={t('contact.heading')}
           subtext={
             <>
-              Tell us briefly what you are working on and how we can help.
+              {t('contact.subtext')}
               <br />
-              We read every message and respond as soon as we can.
+              {t('contact.subtextLine2')}
             </>
           }
           imageSrc="/cta-image.png"

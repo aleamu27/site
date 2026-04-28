@@ -1,20 +1,32 @@
 {
   "labels": {
     "email": "E-post",
-    "message": "Melding"
+    "message": "Melding",
+    "name": "Navn"
   },
   "buttons": {
     "send": "Send",
-    "sending": "Sender..."
+    "sending": "Sender...",
+    "bookCall": "Book en samtale"
   },
   "validation": {
     "emailRequired": "Vennligst oppgi en gyldig e-postadresse.",
     "messageRequired": "Vennligst skriv en melding."
   },
   "success": {
-    "thankYou": "Takk for at du tok kontakt. Vi kommer tilbake til deg snart."
+    "thankYou": "Takk for at du tok kontakt. Vi kommer tilbake til deg snart.",
+    "thankYouBookCall": "Vi har mottatt informasjonen din og tar kontakt snart for å avtale en 20-minutters samtale.",
+    "thankYouTitle": "Takk"
   },
   "errors": {
     "generic": "Noe gikk galt. Vennligst prøv igjen."
+  },
+  "contact": {
+    "pageTitle": "Kontakt oss | Hepta",
+    "introLine1": "Vi vil gjerne høre fra deg, enten du har et spørsmål, tilbakemelding,",
+    "introLine2": "eller bare vil si hei.",
+    "heading": "Kontakt oss",
+    "subtext": "Fortell oss kort hva du jobber med og hvordan vi kan hjelpe.",
+    "subtextLine2": "Vi leser hver melding og svarer så raskt vi kan."
   }
 }
