@@ -1,6 +1,11 @@
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
 
+// Only log in development or when DEBUG is enabled
+const DEBUG = process.env.NODE_ENV !== 'production' || process.env.DEBUG === 'true';
+const log = (...args) => DEBUG && console.log(...args);
+const logError = (...args) => console.error(...args); // Always log errors
+
 // Get Resend client based on domain
 const getResendClient = (isHeptatech) => {
   const apiKey = isHeptatech
@@ -50,7 +55,7 @@ module.exports = async function handler(req, res) {
 
     // Handle newsletter subscription
     if (type === 'newsletter') {
-      console.log('📧 Newsletter subscription request:', { email });
+      log('📧 Newsletter subscription request:', { email });
       
       if (!email) {
         return res.status(400).json({
@@ -71,7 +76,7 @@ module.exports = async function handler(req, res) {
 
       // Check Supabase connection
       if (!supabase) {
-        console.error('❌ Supabase not configured for newsletter');
+        logError('❌ Supabase not configured for newsletter');
         return res.status(500).json({
           error: 'Database not configured',
           message: 'Newsletter subscription service temporarily unavailable'
@@ -79,7 +84,7 @@ module.exports = async function handler(req, res) {
       }
 
       // Save newsletter subscriber to Supabase database
-      console.log('💾 Saving newsletter subscriber to database:', cleanEmail);
+      log('💾 Saving newsletter subscriber to database:', cleanEmail);
       
       const { data: subscriber, error: supabaseError } = await supabase
         .from('newsletter_subscribers')
@@ -92,7 +97,7 @@ module.exports = async function handler(req, res) {
         .single();
 
       if (supabaseError) {
-        console.error('❌ Supabase newsletter error:', {
+        logError('❌ Supabase newsletter error:', {
           message: supabaseError.message,
           details: supabaseError.details,
           code: supabaseError.code
@@ -113,7 +118,7 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      console.log('✅ Newsletter subscriber saved successfully:', subscriber);
+      log('✅ Newsletter subscriber saved successfully:', subscriber);
 
       res.json({ 
         success: true, 
@@ -140,15 +145,15 @@ module.exports = async function handler(req, res) {
     let confirmationData = null;
     let confirmationError = null;
 
-    console.log('📧 Starting email send process...');
-    console.log('📧 Domain:', brandDomain);
-    console.log('📧 Target email:', targetEmail);
-    console.log('📧 From company:', company);
-    console.log('📧 User email:', email);
-    console.log('📧 Resend client configured:', !!resend);
+    log('📧 Starting email send process...');
+    log('📧 Domain:', brandDomain);
+    log('📧 Target email:', targetEmail);
+    log('📧 From company:', company);
+    log('📧 User email:', email);
+    log('📧 Resend client configured:', !!resend);
 
     if (resend) {
-      console.log('📤 Sending notification email to:', targetEmail);
+      log('📤 Sending notification email to:', targetEmail);
       const { data, error: notificationError } = await resend.emails.send({
         from: `Contact Form <${targetEmail}>`,
         to: [targetEmail],
@@ -178,19 +183,19 @@ module.exports = async function handler(req, res) {
 
       notificationData = data;
       if (notificationError) {
-        console.error('❌ Notification email FAILED:', notificationError);
+        logError('❌ Notification email FAILED:', notificationError);
         return res.status(400).json({ error: 'Failed to send notification email', details: notificationError });
       }
-      console.log('✅ Notification email SENT successfully!');
-      console.log('✅ Email ID:', notificationData?.id);
-      console.log('✅ Sent to:', targetEmail);
+      log('✅ Notification email SENT successfully!');
+      log('✅ Email ID:', notificationData?.id);
+      log('✅ Sent to:', targetEmail);
     } else {
-      console.warn('⚠️ Resend not configured, skipping notification email.');
+      log('⚠️ Resend not configured, skipping notification email.');
     }
 
     // Send thank you email to the user
     if (resend) {
-      console.log('📤 Sending confirmation email to user:', email);
+      log('📤 Sending confirmation email to user:', email);
       const { data, error } = await resend.emails.send({
         from: `${brandName} <${targetEmail}>`,
         to: [email], // Send to the user
@@ -476,24 +481,24 @@ module.exports = async function handler(req, res) {
       confirmationError = error;
 
       if (confirmationError) {
-        console.error('❌ Confirmation email FAILED:', confirmationError);
-        console.log('⚠️ Notification was sent, but confirmation to user failed');
+        logError('❌ Confirmation email FAILED:', confirmationError);
+        log('⚠️ Notification was sent, but confirmation to user failed');
       } else {
-        console.log('✅ Confirmation email SENT successfully!');
-        console.log('✅ Email ID:', confirmationData?.id);
-        console.log('✅ Sent to user:', email);
+        log('✅ Confirmation email SENT successfully!');
+        log('✅ Email ID:', confirmationData?.id);
+        log('✅ Sent to user:', email);
       }
     } else {
-      console.warn('⚠️ Resend not configured, skipping confirmation email.');
+      log('⚠️ Resend not configured, skipping confirmation email.');
     }
 
-    console.log('========================================');
-    console.log('📊 EMAIL SUMMARY:');
-    console.log('📊 Notification to', targetEmail, ':', notificationData ? '✅ SENT' : '❌ FAILED');
-    console.log('📊 Notification Email ID:', notificationData?.id || 'N/A');
-    console.log('📊 Confirmation to', email, ':', confirmationData && !confirmationError ? '✅ SENT' : '❌ FAILED');
-    console.log('📊 Confirmation Email ID:', confirmationData?.id || 'N/A');
-    console.log('========================================');
+    log('========================================');
+    log('📊 EMAIL SUMMARY:');
+    log('📊 Notification to', targetEmail, ':', notificationData ? '✅ SENT' : '❌ FAILED');
+    log('📊 Notification Email ID:', notificationData?.id || 'N/A');
+    log('📊 Confirmation to', email, ':', confirmationData && !confirmationError ? '✅ SENT' : '❌ FAILED');
+    log('📊 Confirmation Email ID:', confirmationData?.id || 'N/A');
+    log('========================================');
 
     res.json({
       success: true,
@@ -503,7 +508,7 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Server error:', error);
+    logError('Server error:', error);
     res.status(500).json({ 
       error: 'Internal server error', 
       message: error.message 
