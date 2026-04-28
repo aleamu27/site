@@ -1,8 +1,13 @@
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
 
-// Initialize Resend only if API key is available
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+// Get Resend client based on domain
+const getResendClient = (isHeptatech) => {
+  const apiKey = isHeptatech
+    ? process.env.RESEND_API_KEY_HEPTATECH
+    : process.env.RESEND_API_KEY_HEPTA;
+  return apiKey ? new Resend(apiKey) : null;
+};
 
 // Initialize Supabase
 const supabaseUrl = 'https://ziksrslyraqhygilcvct.supabase.co';
@@ -39,6 +44,9 @@ module.exports = async function handler(req, res) {
     const brandName = isHeptatech ? 'Heptatech' : 'Hepta';
     const brandDomain = isHeptatech ? 'heptatech.io' : 'hepta.no';
     const brandUrl = isHeptatech ? 'https://heptatech.io' : 'https://hepta.no';
+
+    // Get the correct Resend client for this domain
+    const resend = getResendClient(isHeptatech);
 
     // Handle newsletter subscription
     if (type === 'newsletter') {
