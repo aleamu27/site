@@ -18,6 +18,7 @@ import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import ScrollToTop from './components/ScrollToTop';
 import CookieConsent from './components/CookieConsent';
+import GeoRedirectBanner from './components/GeoRedirectBanner';
 import { Analytics } from '@vercel/analytics/react';
 
 function AppContent() {
@@ -42,6 +43,7 @@ function AppContent() {
       {!['/about', '/calar-os'].includes(location.pathname) &&
         !location.pathname.startsWith('/news') && <Footer />}
       <CookieConsent />
+      <GeoRedirectBanner />
     </>
   );
 }
