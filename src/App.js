@@ -1,5 +1,5 @@
 import './i18n';
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
@@ -23,6 +23,12 @@ import { Analytics } from '@vercel/analytics/react';
 
 function AppContent() {
   const location = useLocation();
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
+
+  const handleGeoBannerDismiss = () => {
+    setShowCookieConsent(true);
+  };
+
   return (
     <>
       <ScrollToTop />
@@ -42,8 +48,8 @@ function AppContent() {
       </Routes>
       {!['/about', '/calar-os'].includes(location.pathname) &&
         !location.pathname.startsWith('/news') && <Footer />}
-      <CookieConsent />
-      <GeoRedirectBanner />
+      <GeoRedirectBanner onDismiss={handleGeoBannerDismiss} />
+      {showCookieConsent && <CookieConsent />}
     </>
   );
 }

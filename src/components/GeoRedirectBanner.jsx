@@ -1,105 +1,133 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Banner = styled.div`
+const Overlay = styled.div`
   position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  max-width: 90vw;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+`;
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    text-align: center;
-    padding: 1rem;
-    gap: 0.75rem;
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 90%;
+  z-index: 9999;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+
+  @media (max-width: 500px) {
+    padding: 1.5rem;
   }
 `;
 
-const BannerText = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  color: #333;
-  margin: 0;
-  line-height: 1.4;
+const Title = styled.h2`
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 1rem 0;
+`;
+
+const Text = styled.p`
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
+  gap: 0.75rem;
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
 `;
 
 const Button = styled.button`
-  font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-
-  ${props => props.$primary ? `
-    background: #184B54;
-    color: #fff;
-    &:hover {
-      background: #0d3a42;
-    }
-  ` : `
-    background: #f0f0f0;
-    color: #333;
-    &:hover {
-      background: #e0e0e0;
-    }
-  `}
+  transition: all 0.2s ease;
+  font-family: inherit;
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
+const PrimaryButton = styled(Button)`
+  background: #222;
+  color: #fff;
   border: none;
-  font-size: 1.2rem;
-  color: #999;
-  cursor: pointer;
-  padding: 0.25rem;
-  line-height: 1;
 
   &:hover {
-    color: #333;
-  }
-
-  @media (min-width: 601px) {
-    display: none;
+    background: #444;
   }
 `;
 
-const GeoRedirectBanner = () => {
+const SecondaryButton = styled(Button)`
+  background: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+
+  &:hover {
+    border-color: #222;
+    color: #222;
+  }
+`;
+
+// Check if geo preference is still valid (not expired)
+const getGeoPreference = () => {
+  const stored = localStorage.getItem('geo_redirect_preference');
+  if (!stored) return null;
+
+  try {
+    const { value, expiry } = JSON.parse(stored);
+    if (Date.now() > expiry) {
+      localStorage.removeItem('geo_redirect_preference');
+      return null;
+    }
+    return value;
+  } catch {
+    return null;
+  }
+};
+
+// Store preference with 1 month expiry
+const setGeoPreference = (value) => {
+  const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 days
+  localStorage.setItem('geo_redirect_preference', JSON.stringify({ value, expiry }));
+};
+
+const GeoRedirectBanner = ({ onDismiss }) => {
   const [show, setShow] = useState(false);
   const [suggestion, setSuggestion] = useState(null);
 
   useEffect(() => {
-    // Check if user already dismissed or chose
-    const dismissed = localStorage.getItem('geo_redirect_dismissed');
-    if (dismissed) return;
+    // Check if user already made a choice (and it hasn't expired)
+    const preference = getGeoPreference();
+    if (preference) {
+      onDismiss?.();
+      return;
+    }
 
     const hostname = window.location.hostname;
     const isHeptatech = hostname.includes('heptatech.io');
     const isHepta = hostname.includes('hepta.no');
 
     // Only run on production domains
-    if (!isHeptatech && !isHepta) return;
+    if (!isHeptatech && !isHepta) {
+      onDismiss?.();
+      return;
+    }
 
     // Fetch user's country from Vercel geo headers via API
     fetch('/api/geo')
@@ -110,53 +138,63 @@ const GeoRedirectBanner = () => {
         if (isHeptatech && country === 'NO') {
           // User is from Norway but on English site
           setSuggestion({
-            message: 'Det ser ut som du er fra Norge. Vil du besøke den norske siden?',
-            buttonText: 'Gå til hepta.no',
-            url: 'https://hepta.no' + window.location.pathname,
-            stayText: 'Bli her'
+            title: 'Welcome!',
+            message: 'It looks like you\'re visiting from Norway. Would you like to visit the Norwegian site?',
+            primaryText: 'Go to hepta.no',
+            secondaryText: 'Stay here',
+            url: 'https://hepta.no' + window.location.pathname
           });
           setShow(true);
         } else if (isHepta && country !== 'NO') {
           // User is not from Norway but on Norwegian site
           setSuggestion({
-            message: 'It looks like you\'re not from Norway. Would you like to visit the English site?',
-            buttonText: 'Go to heptatech.io',
-            url: 'https://heptatech.io' + window.location.pathname,
-            stayText: 'Stay here'
+            title: 'Welcome!',
+            message: 'It looks like you\'re visiting from outside Norway. Would you like to visit our English site?',
+            primaryText: 'Go to heptatech.io',
+            secondaryText: 'Stay here',
+            url: 'https://heptatech.io' + window.location.pathname
           });
           setShow(true);
+        } else {
+          // No redirect needed
+          onDismiss?.();
         }
       })
       .catch(() => {
-        // Silently fail - geo detection is not critical
+        // Geo detection failed, skip
+        onDismiss?.();
       });
-  }, []);
+  }, [onDismiss]);
 
   const handleRedirect = () => {
-    localStorage.setItem('geo_redirect_dismissed', 'redirected');
+    setGeoPreference('redirected');
     window.location.href = suggestion.url;
   };
 
-  const handleDismiss = () => {
-    localStorage.setItem('geo_redirect_dismissed', 'true');
+  const handleStay = () => {
+    setGeoPreference('stayed');
     setShow(false);
+    onDismiss?.();
   };
 
   if (!show || !suggestion) return null;
 
   return (
-    <Banner>
-      <CloseButton onClick={handleDismiss} aria-label="Close">×</CloseButton>
-      <BannerText>{suggestion.message}</BannerText>
-      <ButtonGroup>
-        <Button $primary onClick={handleRedirect}>
-          {suggestion.buttonText}
-        </Button>
-        <Button onClick={handleDismiss}>
-          {suggestion.stayText}
-        </Button>
-      </ButtonGroup>
-    </Banner>
+    <>
+      <Overlay />
+      <Modal>
+        <Title>{suggestion.title}</Title>
+        <Text>{suggestion.message}</Text>
+        <ButtonGroup>
+          <SecondaryButton onClick={handleStay}>
+            {suggestion.secondaryText}
+          </SecondaryButton>
+          <PrimaryButton onClick={handleRedirect}>
+            {suggestion.primaryText}
+          </PrimaryButton>
+        </ButtonGroup>
+      </Modal>
+    </>
   );
 };
 
