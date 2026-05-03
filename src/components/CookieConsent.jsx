@@ -171,19 +171,40 @@ const CookieConsent = () => {
     }
   };
 
-  const handleAccept = () => {
+  const storeConsent = async (consentType) => {
+    try {
+      const response = await fetch('/api/consent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          consentType,
+          domain: window.location.hostname
+        })
+      });
+      const data = await response.json();
+      if (data.consentId) {
+        localStorage.setItem('cookie-consent-id', data.consentId);
+      }
+    } catch (error) {
+      console.error('Failed to store consent:', error);
+    }
+  };
+
+  const handleAccept = async () => {
     localStorage.setItem('cookie-consent', 'accepted');
     setShowModal(false);
     setHasConsented(true);
     loadAnalytics();
+    await storeConsent('accepted');
     // Dispatch event for Hero animation
     window.dispatchEvent(new CustomEvent('cookieConsentClosed'));
   };
 
-  const handleDecline = () => {
+  const handleDecline = async () => {
     localStorage.setItem('cookie-consent', 'declined');
     setShowModal(false);
     setHasConsented(true);
+    await storeConsent('declined');
     // Dispatch event for Hero animation
     window.dispatchEvent(new CustomEvent('cookieConsentClosed'));
   };
