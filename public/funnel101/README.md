@@ -10,9 +10,7 @@ Drop all Funnel `/101` media in this folder using these exact names.
 - `solutions-03.mp4`
 - `solutions-04.mp4`
 - `highlight-criterion-main.mp4`
-- `highlight-criterion-wide-01.mp4`
 - `highlight-berg-main.mp4`
-- `highlight-berg-wide-01.mp4`
 
 ## Images (`public/funnel101/images`)
 
@@ -20,8 +18,10 @@ Drop all Funnel `/101` media in this folder using these exact names.
 - `showcase-02.png`
 - `highlight-criterion-vertical-01.png`
 - `highlight-criterion-vertical-02.png`
+- `highlight-criterion-wide-01.png`
 - `highlight-berg-vertical-01.png`
 - `highlight-berg-vertical-02.png`
+- `highlight-berg-wide-01.png`
 - `final-cta-bg.png`
 - `chat-bg.png`
 - `contact-modal.png`

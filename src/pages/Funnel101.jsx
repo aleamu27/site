@@ -242,9 +242,8 @@ const StartButton = styled.button`
 `;
 
 const HERO_VIDEO_SRC = '/funnel101/videos/hero.mp4';
-const VIDEO_SRC = 'https://cdn.coverr.co/videos/coverr-waterfall-1579/1080p.mp4';
-const CRITERION_MAIN_VIDEO_SRC =
-  'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Client.mov';
+const CRITERION_MAIN_VIDEO_SRC = '/funnel101/videos/highlight-criterion-main.mp4';
+const BERG_MAIN_VIDEO_SRC = '/funnel101/videos/highlight-berg-main.mp4';
 const SOLUTION_VIDEO_SRCS = [
   '/funnel101/videos/solutions-01.mp4',
   '/funnel101/videos/solutions-02.mp4',
@@ -256,8 +255,15 @@ const CRITERION_VERTICAL_IMAGE_SRCS = [
   '/funnel101/images/highlight-criterion-vertical-02.png',
 ];
 const CRITERION_WIDE_IMAGE_SRC = '/funnel101/images/highlight-criterion-wide-01.png';
+const BERG_VERTICAL_IMAGE_SRCS = [
+  '/funnel101/images/highlight-berg-vertical-01.png',
+  '/funnel101/images/highlight-berg-vertical-02.png',
+];
+const BERG_WIDE_IMAGE_SRC = '/funnel101/images/highlight-berg-wide-01.png';
 const SHOWCASE_IMAGE_SRCS = ['/funnel101/images/showcase-01.png', '/funnel101/images/showcase-02.png'];
 const FINAL_CTA_BG_SRC = '/funnel101/images/final-cta-bg.png';
+const CHAT_BG_SRC = '/funnel101/images/chat-bg.png';
+const CONTACT_MODAL_IMAGE_SRC = '/funnel101/images/contact-modal.png';
 
 const SolutionsSection = styled.section`
   padding: clamp(8rem, 19vh, 14rem) clamp(0.85rem, 4vw, 3rem) clamp(4.8rem, 10vh, 8rem);
@@ -631,6 +637,9 @@ const BottomMedia = styled.div`
     radial-gradient(circle at 72% 78%, rgba(0, 0, 0, 0.16), transparent 40%),
     linear-gradient(145deg, #d5d0c8 0%, #c7c1b9 52%, #b7b0a8 100%)
   `};
+  background-position: ${({ $position }) => $position || 'center'};
+  background-size: ${({ $size }) => $size || 'cover'};
+  background-repeat: no-repeat;
 `;
 
 const BottomMediaWide = styled(BottomMedia)`
@@ -1036,7 +1045,7 @@ const ContactModalImage = styled.div`
   min-height: 100%;
   background:
     linear-gradient(130deg, rgba(23, 27, 33, 0.25) 0%, rgba(23, 27, 33, 0.05) 30%, rgba(23, 27, 33, 0.35) 100%),
-    url('/cta-image.png') center / cover no-repeat;
+    url('${CONTACT_MODAL_IMAGE_SRC}') center / cover no-repeat;
 `;
 
 const ChatFooterSection = styled.section`
@@ -1053,7 +1062,7 @@ const ChatBackground = styled.div`
   justify-content: center;
   background:
     linear-gradient(130deg, rgba(18, 20, 24, 0.36) 0%, rgba(18, 20, 24, 0.2) 32%, rgba(18, 20, 24, 0.56) 100%),
-    url('/cta-image.png') center / cover no-repeat;
+    url('${CHAT_BG_SRC}') center / cover no-repeat;
 `;
 
 const ChatOrbLogo = styled.img`
@@ -1591,13 +1600,13 @@ function Funnel101() {
           <HighlightLayout>
             <LeftMediaColumn>
               <HighlightMainMedia>
-                <HighlightMainVideo autoPlay muted loop playsInline preload="metadata" src={VIDEO_SRC} />
+                <HighlightMainVideo autoPlay muted loop playsInline preload="metadata" src={BERG_MAIN_VIDEO_SRC} />
               </HighlightMainMedia>
 
               <HighlightBottomGrid>
-                <BottomMedia />
-                <BottomMedia />
-                <BottomMediaWide />
+                <BottomMedia $image={BERG_VERTICAL_IMAGE_SRCS[0]} />
+                <BottomMedia $image={BERG_VERTICAL_IMAGE_SRCS[1]} />
+                <BottomMediaWide $image={BERG_WIDE_IMAGE_SRC} $position="center bottom" $size="130% auto" />
               </HighlightBottomGrid>
             </LeftMediaColumn>
 
