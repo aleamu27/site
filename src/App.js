@@ -13,6 +13,7 @@ import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
+import Funnel101 from './pages/Funnel101';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -28,13 +29,14 @@ function AppContent() {
   const handleGeoBannerDismiss = () => {
     setShowCookieConsent(true);
   };
-
+  const isFunnelPage = location.pathname === '/101';
   return (
     <>
       <ScrollToTop />
-      <Navbar />
+      {!isFunnelPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/101" element={<Funnel101 />} />
         <Route path="/visual-identity" element={<VisualIdentity />} />
         <Route path="/silmaril" element={<Navigate to="/visual-identity" replace />} />
         <Route path="/development" element={<Development />} />
@@ -46,10 +48,11 @@ function AppContent() {
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsArticle />} />
       </Routes>
-      {!['/about', '/calar-os'].includes(location.pathname) &&
+      {!isFunnelPage &&
+        !['/about', '/calar-os'].includes(location.pathname) &&
         !location.pathname.startsWith('/news') && <Footer />}
-      <GeoRedirectBanner onDismiss={handleGeoBannerDismiss} />
-      {showCookieConsent && <CookieConsent />}
+      {!isFunnelPage && <GeoRedirectBanner onDismiss={handleGeoBannerDismiss} />}
+      {!isFunnelPage && showCookieConsent && <CookieConsent />}
     </>
   );
 }
