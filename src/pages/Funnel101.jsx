@@ -599,16 +599,17 @@ const HighlightBottomGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
-
-  @media (max-width: 920px) {
-    grid-template-columns: 1fr;
-  }
+  /* Keep two columns on mobile: stacking each mockup full-width makes aspect-ratio + min-height huge (fake “gaps”). */
 `;
 
 const BottomMedia = styled.div`
   aspect-ratio: 0.72 / 1;
   min-height: 360px;
   border-radius: 4px;
+
+  @media (max-width: 600px) {
+    min-height: 260px;
+  }
   background: ${({ $image }) =>
     $image
       ? `url(${$image}) center / cover no-repeat`
@@ -626,6 +627,10 @@ const BottomMediaWide = styled(BottomMedia)`
   aspect-ratio: auto;
   grid-column: 1 / -1;
   min-height: 460px;
+
+  @media (max-width: 600px) {
+    min-height: 320px;
+  }
 `;
 
 const ShowcaseSection = styled.section`
