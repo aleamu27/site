@@ -1446,12 +1446,8 @@ function Funnel101() {
         <Brand>
           <img src="/logo-navbar.png" alt="Hepta" />
         </Brand>
-        <NavLinks aria-label="Primary links">
-          <span>About</span>
-          <span>Calar OS</span>
-          <span>Visual Identity</span>
-          <span>Development</span>
-          <span>Consulting</span>
+        <NavLinks aria-label="Primary heading">
+          <span>WE ARE HEPTA</span>
         </NavLinks>
         <CTAButton type="button" onClick={() => openContactModal('Get in Touch')}>Get in Touch</CTAButton>
       </TopNav>

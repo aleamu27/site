@@ -13,7 +13,7 @@ import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
-import Funnel101 from './pages/Funnel101';
+import Funnel101 from './pages/Funnel101.jsx';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
