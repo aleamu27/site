@@ -1,6 +1,6 @@
 import './i18n';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, matchPath } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -14,6 +14,7 @@ import NewsArticle from './pages/NewsArticle';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Funnel101 from './pages/Funnel101.jsx';
+import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
@@ -25,6 +26,24 @@ import { Analytics } from '@vercel/analytics/react';
 function AppContent() {
   const location = useLocation();
   const [showCookieConsent, setShowCookieConsent] = useState(false);
+  const knownRoutePatterns = [
+    '/',
+    '/101',
+    '/visual-identity',
+    '/silmaril',
+    '/development',
+    '/about',
+    '/calar-os',
+    '/consulting',
+    '/contact',
+    '/privacy',
+    '/news',
+    '/news/:slug',
+  ];
+  const isKnownRoute = knownRoutePatterns.some(pattern =>
+    matchPath({ path: pattern, end: true }, location.pathname)
+  );
+  const isNotFoundPage = !isKnownRoute;
 
   const handleGeoBannerDismiss = () => {
     setShowCookieConsent(true);
@@ -33,7 +52,7 @@ function AppContent() {
   return (
     <>
       <ScrollToTop />
-      {!isFunnelPage && <Navbar />}
+      {!isFunnelPage && !isNotFoundPage && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/101" element={<Funnel101 />} />
@@ -47,12 +66,14 @@ function AppContent() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsArticle />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!isFunnelPage &&
+        !isNotFoundPage &&
         !['/about', '/calar-os'].includes(location.pathname) &&
         !location.pathname.startsWith('/news') && <Footer />}
-      {!isFunnelPage && <GeoRedirectBanner onDismiss={handleGeoBannerDismiss} />}
-      {!isFunnelPage && showCookieConsent && <CookieConsent />}
+      {!isFunnelPage && !isNotFoundPage && <GeoRedirectBanner onDismiss={handleGeoBannerDismiss} />}
+      {!isFunnelPage && !isNotFoundPage && showCookieConsent && <CookieConsent />}
     </>
   );
 }
