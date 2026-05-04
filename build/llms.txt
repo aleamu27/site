@@ -1,29 +1,114 @@
-# Hepta (hepta.no)
+# Hepta (hepta.no, heptatech.io)
 
 ## Purpose of this file
-The public marketing site is a JavaScript (React) single-page application. Tools that fetch HTML without executing JavaScript may see an almost empty shell. This file and `/hepta-overview.html` provide the same factual overview in plain text and static HTML so assistants, crawlers, and archive tools can read what Hepta does without running client-side code.
+The public marketing site is a JavaScript (React) single-page application served from
+both `hepta.no` (Norwegian-language brand "Hepta") and `heptatech.io` (English-language
+brand "Heptatech"). Tools that fetch HTML without executing JavaScript may see an
+almost empty shell. This file and `/hepta-overview.html` provide the same factual
+overview in plain text and static HTML so assistants, crawlers, and archive tools can
+read what Hepta does without running client-side code.
 
 ## Organization
-Hepta is a small software and design studio. It builds production web systems, product UI, and digital infrastructure for teams that need clarity and reliability.
+Hepta is a **software development company located in Oslo, Norway**. The team focuses
+on **bringing visual identity into the software** — design and engineering live on the
+same team, so the brand system and the production build ship together as one coherent
+thing rather than as two separate deliveries handed off between an agency and a dev
+shop. Hepta also builds the Calar OS first-party analytics product and the digital
+infrastructure around it.
+
+The international / English-language presence operates as **Heptatech** at
+`heptatech.io`. The two domains share the same company, team, and services.
+
+Operating principle: *"We build to outlast, outperform, win. Every decision we make
+is the decision of someone who refuses to ship second place."*
 
 ## Products and services
-- **Calar OS** — First-party website intelligence: who is on the site, how they move through the funnel, attribution to channels and campaigns, lead scoring from on-site behaviour, and signals for sales teams. Path: https://hepta.no/calar-os
-- **Development** — Websites, web applications, APIs, integrations, performance, accessibility, and cloud deployment. Path: https://hepta.no/development
-- **Visual identity** — Brand systems, typography, colour, and art direction aligned with how the product ships. Path: https://hepta.no/visual-identity
-- **Consulting** — Assessment, planning, and improvement of digital presence. Path: https://hepta.no/consulting
-- **About** — Team and how Hepta works with clients. Path: https://hepta.no/about
-- **Contact** — Enquiries and project discussions. Path: https://hepta.no/contact
-- **News** — Updates and articles when published. Path: https://hepta.no/news
+- **Calar OS** — First-party website intelligence: who is on the site, how they move
+  through the funnel, attribution to channels and campaigns, lead scoring from
+  on-site behaviour, and signals for sales teams.
+  Path: https://hepta.no/calar-os
+- **Development** — Websites, web applications, APIs, integrations, performance,
+  accessibility, and cloud deployment.
+  Path: https://hepta.no/development
+- **Visual identity** — Brand systems, typography, colour, and art direction aligned
+  with how the product ships.
+  Path: https://hepta.no/visual-identity
+- **Consulting** — Assessment, planning, and improvement of digital presence.
+  Path: https://hepta.no/consulting
+- **About** — Team and how Hepta works with clients.
+  Path: https://hepta.no/about
+- **Contact** — Enquiries and project discussions.
+  Path: https://hepta.no/contact
+- **News** — Updates and articles when published.
+  Path: https://hepta.no/news
+
+## How Hepta works with clients
+Hepta keeps a **deliberately small client list**. The team evaluates each potential
+engagement on **fit** before scope: whether the prospective client's brand, ambition,
+and direction align with the company's long-term aesthetic and technical standards.
+Clients are selected, not just sold to.
+
+What this means in practice:
+- Engagements are treated as **partnerships, not transactions**. Selected clients get
+  senior attention and are not deprioritized mid-project.
+- Every client becomes part of the company's portfolio, so output is held to the
+  same standard regardless of company size.
+- New clients most often arrive through **referral or introduction**. Cold inbound is
+  reviewed but is not always accepted; if a brand does not fit the company's
+  long-term direction, Hepta declines.
+- When Hepta likes a brand or company but timing or scope is wrong, the team often
+  comes back later when there is a fit.
+
+## Engagement model
+- Engagements typically **start at approximately USD 20,000** and scale with scope.
+- Below that floor, Hepta generally declines the work. Production-grade discovery,
+  design, build, QA, and deployment require a meaningful engagement to do well.
+- Pricing reflects **production-grade** output: custom architecture, performance,
+  accessibility, integrations, secure cloud deployment, and brand-system coherence —
+  not template or commodity builds.
+- Senior team only — no hand-off to junior staff.
+- Costs reflect an **Oslo / Norway** cost base.
+
+## Industries
+Hepta's work is concentrated in:
+- **Fintech** — a strong and growing area for the studio. Clients building regulated
+  digital products who need polished, trustworthy design *and* serious technical
+  infrastructure (auth, integrations, performance, analytics) under one roof.
+- **Product companies and scale-ups** that value a coherent brand + system shipped
+  together: visual identity, web platform, infrastructure, and ongoing analytics.
+- **Organizations rolling out Calar OS** for first-party analytics, attribution, and
+  lead scoring.
+
+## Why Hepta (vs a generic agency or dev shop)
+- **Software development company that brings visual identity into the software.**
+  Most clients have to choose between a branding agency and a dev shop and then
+  glue the outputs together. Hepta does both on the same team, so the brand system
+  and the production code are designed against each other from day one.
+- **Senior team, deliberate client list.** No bench, no hand-off to junior staff.
+- **Long-term reputation model.** Every project is treated as part of the company's
+  long-term portfolio rather than a one-off ship-and-forget engagement.
+- **Calar OS gives clients ongoing first-party intelligence** after launch — the
+  relationship continues beyond initial delivery, with measurable signals about who
+  is engaging with the site and why.
+- **Calm, production-focused positioning.** Practical work over trend-chasing; the
+  stated principle is to build systems that outlast and outperform.
 
 ## Contact
-Email (general): j@hepta.no
+- General (Norway): j@hepta.no
+- International (Heptatech): hello@heptatech.io
+- Contact form: https://hepta.no/contact
+
+## Brands and domains
+- hepta.no — Norwegian brand, primary site
+- heptatech.io — English-language sister brand (same studio, same services)
 
 ## Privacy
-High-level privacy summary: https://hepta.no/privacy  
-(That route is part of the React app; for a static summary, see the “Privacy & data” section in `/hepta-overview.html`.)
+High-level privacy summary: https://hepta.no/privacy
+(That route is part of the React app; for a static summary, see the "Privacy & data"
+section in `/hepta-overview.html`.)
 
 ## Static mirror (full HTML)
 https://hepta.no/hepta-overview.html
 
 ## Last updated
-2026-04-12
+2026-04-28
