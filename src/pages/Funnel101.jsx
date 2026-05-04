@@ -150,15 +150,6 @@ const HeroVideo = styled.video`
   filter: saturate(0.88) contrast(1.08) brightness(0.9);
 `;
 
-const HeroShade = styled.div`
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.35) 33%, rgba(0, 0, 0, 0.2) 54%, rgba(0, 0, 0, 0.5) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.45) 100%);
-`;
-
 const HeroFallback = styled.div`
   position: absolute;
   inset: 0;
