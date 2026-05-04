@@ -147,17 +147,6 @@ const HeroVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.88) contrast(1.08) brightness(0.9);
-`;
-
-const HeroFallback = styled.div`
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 76% 18%, rgba(255, 255, 255, 0.07), transparent 29%),
-    radial-gradient(circle at 20% 66%, rgba(255, 255, 255, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.82) 100%),
-    #080808;
 `;
 
 const HeroOverlay = styled.div`
@@ -505,7 +494,7 @@ const HighlightMainVideo = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.86) contrast(1.02) brightness(0.9);
+  filter: ${p => (p.$noTint ? 'none' : 'saturate(0.86) contrast(1.02) brightness(0.9)')};
 `;
 
 const StickyPanel = styled.aside`
@@ -1453,7 +1442,6 @@ function Funnel101() {
       </TopNav>
 
       <HeroFrame aria-label="Hero video section">
-        <HeroFallback />
         <HeroVideo autoPlay muted loop playsInline preload="metadata" src={HERO_VIDEO_SRC} />
         <HeroOverlay>
           <HeroMainRow>
@@ -1591,7 +1579,15 @@ function Funnel101() {
           <HighlightLayout>
             <LeftMediaColumn>
               <HighlightMainMedia>
-                <HighlightMainVideo autoPlay muted loop playsInline preload="metadata" src={BERG_MAIN_VIDEO_SRC} />
+                <HighlightMainVideo
+                  $noTint
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  src={BERG_MAIN_VIDEO_SRC}
+                />
               </HighlightMainMedia>
 
               <HighlightBottomGrid>
