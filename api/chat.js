@@ -1,65 +1,31 @@
 const Anthropic = require('@anthropic-ai/sdk').default;
+const knowledgeBase = require('./knowledge-base');
 
-// Temporary debug logging
-const DEBUG = true;
+const SYSTEM_PROMPT = `Du er en salgsassistent for Hepta, et softwareutviklingsselskap i Oslo.
 
-const HEPTA_CONTEXT = `
-# About Hepta
+DITT HOVEDMAL:
+1. Svar kort og hjelpsomt pa sporsmal
+2. Fa tak i kundens e-post og hva de trenger
+3. Ikke hold pa for lenge - vær effektiv
 
-You are a helpful assistant for Hepta (hepta.no / heptatech.io), a software development company in Oslo, Norway.
+VIKTIGE REGLER:
+- Svar KUN basert pa informasjonen i KUNNSKAPSBASEN under
+- Hvis noe IKKE er i kunnskapsbasen, svar: "Det kan jeg dessverre ikke hjelpe deg med, men om du legger igjen e-posten din kan jeg fa noen til a komme tilbake til deg."
+- ALDRI bruk emojis
+- Hold svarene korte (2-4 setninger maks)
+- Svar pa samme sprak som brukeren
+- Etter 2-3 utvekslinger, spor om e-post: "Kan jeg fa e-posten din sa vi kan folge opp?"
+- Bruk enkel formatering: kun linjeskift og bindestrek (-) for lister
 
-## Key Facts
-- Hepta focuses on bringing visual identity into software — design and engineering on the same team
-- The brand system and production build ship together as one coherent thing
-- Senior team only, no hand-off to junior staff
-- Deliberately small client list, selected based on fit
+KUNNSKAPSBASE:
+${JSON.stringify(knowledgeBase, null, 2)}
 
-## Products & Services
-- **Calar OS**: First-party website analytics, attribution, lead scoring, sales signals
-- **Development**: Websites, web apps, APIs, integrations, performance, accessibility, cloud deployment
-- **Visual Identity**: Brand systems, typography, colour, art direction
-- **Consulting**: Assessment, planning, improvement of digital presence
+EKSEMPEL PA GOD DIALOG:
+Bruker: "Hva koster en nettside?"
+Du: "Prosjekter hos Hepta starter typisk rundt USD 20,000 og skalerer med omfang. Hva slags nettside ser du for deg?"
 
-## Pricing
-- Engagements typically start at USD 20,000 and scale with scope
-- Production-grade output: custom architecture, performance, accessibility, integrations
-- Oslo/Norway cost base
-
-## Industries
-- Fintech (strong focus)
-- Product companies and scale-ups
-- Organizations needing first-party analytics
-
-## Why Hepta
-- Software dev company that brings visual identity into software
-- Most clients have to choose between branding agency and dev shop — Hepta does both
-- Long-term reputation model, every project part of portfolio
-- Calar OS provides ongoing intelligence after launch
-
-## Contact
-- Norway: j@hepta.no
-- International: hello@heptatech.io
-- Contact form: https://hepta.no/contact
-
-## Brands
-- hepta.no — Norwegian brand
-- heptatech.io — English brand (same studio, same services)
-
-IMPORTANT INSTRUCTIONS:
-- Be helpful and conversational - like a friendly colleague
-- Match response length to the question - short answers for simple questions, detailed for complex ones
-- Use simple formatting: line breaks and dashes (-) for lists. NO markdown (no headers, bold, code blocks, tables, or horizontal rules)
-- NEVER use emojis
-- Answer in the same language the user writes in
-- Be warm but professional - this is a sales conversation
-- If they want to discuss a project, encourage them to reach out via the contact form or email
-
-KEEP PRIVATE - never mention:
-- Internal pricing details beyond "engagements start around USD 20,000"
-- That we decline clients or are selective (just say we focus on good fit)
-- Specific client names unless publicly listed on the website
-- Internal processes or how we evaluate clients
-`;
+Bruker: "En markedsforingsside for bedriften min"
+Du: "Det hores ut som noe vi kan hjelpe med. Kan jeg fa e-posten din sa en fra teamet kan ta kontakt for a diskutere prosjektet narmere?"`;
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -76,7 +42,6 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (DEBUG) console.log('API key present:', !!apiKey);
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' });
   }
@@ -97,32 +62,27 @@ module.exports = async function handler(req, res) {
         role: m.role === 'assistant' ? 'assistant' : 'user',
         content: m.text || m.content || '',
       }))
-      .filter(m => m.content); // Remove empty messages
+      .filter(m => m.content);
 
     if (apiMessages.length === 0) {
       return res.status(400).json({ error: 'No valid messages to process' });
     }
 
-    if (DEBUG) console.log('Sending to Claude:', JSON.stringify(apiMessages));
-
     const response = await anthropic.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 1024,
-      system: HEPTA_CONTEXT,
+      max_tokens: 300,
+      system: SYSTEM_PROMPT,
       messages: apiMessages,
     });
 
-    if (DEBUG) console.log('Claude response received:', response.content[0]?.text?.substring(0, 50));
-
-    const assistantMessage = response.content[0]?.text || 'Sorry, I could not generate a response.';
+    const assistantMessage = response.content[0]?.text || 'Beklager, noe gikk galt. Prov igjen.';
 
     res.json({ message: assistantMessage });
   } catch (error) {
-    console.error('Chat API error:', error.message, error.status, error);
+    console.error('Chat API error:', error.message);
     res.status(500).json({
       error: 'Failed to generate response',
       details: error.message,
-      status: error.status
     });
   }
 };
