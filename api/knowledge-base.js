@@ -42,8 +42,7 @@ module.exports = {
   industries: ["Fintech", "Produktselskaper", "Scale-ups", "Organisasjoner som trenger forstepartsanalyse"],
 
   contact: {
-    norway: "j@hepta.no",
-    international: "hello@heptatech.io",
+    email: "hello@heptatech.io",
     form: "hepta.no/contact",
   },
 
