@@ -4,7 +4,7 @@ import SmallSiteFooter from '../components/SmallSiteFooter';
 
 // Preload critical assets on module load
 const preloadAssets = () => {
-  const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/hepta/funnel101-assets';
+  const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-assets';
 
   const criticalVideos = [
     `${R2_BASE}/videos/hero.mp4`,
@@ -258,7 +258,7 @@ const StartButton = styled.button`
   cursor: pointer;
 `;
 
-const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/hepta/funnel101-assets';
+const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-assets';
 
 const HERO_VIDEO_SRC = `${R2_BASE}/videos/hero.mp4`;
 const CRITERION_MAIN_VIDEO_SRC =
