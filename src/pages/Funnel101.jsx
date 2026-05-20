@@ -1246,6 +1246,46 @@ const AnimatedAssistantAvatar = styled(ChatMessageAvatar)`
   animation: ${orbPopIn} 260ms cubic-bezier(0.2, 0.75, 0.26, 1) both;
 `;
 
+const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const skeletonShimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const SpinningOrbLogo = styled.img`
+  width: 24px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+  animation: ${spinAnimation} 1.2s linear infinite;
+`;
+
+const SkeletonBubble = styled(ChatAssistantBubble)`
+  min-width: 180px;
+  min-height: 42px;
+  background: linear-gradient(
+    90deg,
+    rgba(241, 246, 249, 0.15) 25%,
+    rgba(241, 246, 249, 0.35) 50%,
+    rgba(241, 246, 249, 0.15) 75%
+  );
+  background-size: 200% 100%;
+  animation: ${skeletonShimmer} 1.5s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+`;
+
 const ChatComposer = styled.form`
   margin-top: 0.8rem;
   display: flex;
@@ -1749,6 +1789,16 @@ function Funnel101() {
                   </ChatRow>
                 );
               })}
+              {chatLoading && (
+                <ChatRow>
+                  <ChatAssistantLane>
+                    <ChatMessageAvatar>
+                      <SpinningOrbLogo src="/logo-navbar.png" alt="Hepta thinking" />
+                    </ChatMessageAvatar>
+                    <SkeletonBubble />
+                  </ChatAssistantLane>
+                </ChatRow>
+              )}
             </ChatMessages>
 
             <ChatComposer onSubmit={handleChatSubmit}>
