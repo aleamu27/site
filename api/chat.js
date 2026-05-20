@@ -93,7 +93,7 @@ module.exports = async function handler(req, res) {
     if (DEBUG) console.log('Sending to Claude:', JSON.stringify(apiMessages));
 
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-3-haiku-20240307',
       max_tokens: 500,
       system: HEPTA_CONTEXT,
       messages: apiMessages,
