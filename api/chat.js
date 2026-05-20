@@ -73,21 +73,29 @@ module.exports = async function handler(req, res) {
 
     const anthropic = new Anthropic({ apiKey });
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 500,
-      system: HEPTA_CONTEXT,
-      messages: messages.map(m => ({
+    // Filter out the initial assistant greeting and ensure first message is from user
+    const apiMessages = messages
+      .filter((m, i) => !(i === 0 && m.role === 'assistant'))
+      .map(m => ({
         role: m.role === 'assistant' ? 'assistant' : 'user',
         content: m.text || m.content,
-      })),
+      }));
+
+    const response = await anthropic.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 500,
+      system: HEPTA_CONTEXT,
+      messages: apiMessages,
     });
 
     const assistantMessage = response.content[0]?.text || 'Sorry, I could not generate a response.';
 
     res.json({ message: assistantMessage });
   } catch (error) {
-    console.error('Chat API error:', error);
-    res.status(500).json({ error: 'Failed to generate response' });
+    console.error('Chat API error:', error.message, error.status, error.error);
+    res.status(500).json({
+      error: 'Failed to generate response',
+      details: error.message
+    });
   }
 };
