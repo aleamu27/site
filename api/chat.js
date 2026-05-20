@@ -78,8 +78,15 @@ module.exports = async function handler(req, res) {
       .filter((m, i) => !(i === 0 && m.role === 'assistant'))
       .map(m => ({
         role: m.role === 'assistant' ? 'assistant' : 'user',
-        content: m.text || m.content,
-      }));
+        content: m.text || m.content || '',
+      }))
+      .filter(m => m.content); // Remove empty messages
+
+    if (apiMessages.length === 0) {
+      return res.status(400).json({ error: 'No valid messages to process' });
+    }
+
+    console.log('Sending to Claude:', JSON.stringify(apiMessages));
 
     const response = await anthropic.messages.create({
       model: 'claude-3-5-sonnet-20241022',
@@ -87,6 +94,8 @@ module.exports = async function handler(req, res) {
       system: HEPTA_CONTEXT,
       messages: apiMessages,
     });
+
+    console.log('Claude response received');
 
     const assistantMessage = response.content[0]?.text || 'Sorry, I could not generate a response.';
 
