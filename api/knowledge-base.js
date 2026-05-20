@@ -34,9 +34,10 @@ module.exports = {
   },
 
   pricing: {
-    minimum: "USD 20,000",
-    description: "Prosjekter starter typisk rundt USD 20,000 og skalerer med omfang. Dette reflekterer produksjonsklar kode med tilpasset arkitektur.",
+    range: "Stort spenn avhengig av prosjektet",
+    description: "Prisen varierer mye basert pa kompleksitet og omfang. Mindre prosjekter kan starte lavt, mens storre systemer koster mer. Vi gir alltid et konkret tilbud etter a ha forstatt behovet.",
     factors: ["Kompleksitet", "Antall sider/funksjoner", "Visuell identitet", "Integrasjoner", "Tekniske krav"],
+    note: "For a gi et presist estimat trenger vi a vite mer om prosjektet. Ta kontakt sa kan vi diskutere.",
   },
 
   industries: ["Fintech", "Produktselskaper", "Scale-ups", "Organisasjoner som trenger forstepartsanalyse"],
@@ -57,7 +58,7 @@ module.exports = {
     },
     {
       q: "Hva koster en nettside?",
-      a: "Prosjekter starter typisk rundt USD 20,000 og skalerer med omfang og kompleksitet.",
+      a: "Det varierer veldig basert pa hva du trenger. For a gi et godt estimat ma vi vite mer om prosjektet ditt. Legg igjen e-posten din sa tar vi en prat.",
     },
     {
       q: "Hvilke teknologier bruker dere?",
@@ -65,7 +66,7 @@ module.exports = {
     },
     {
       q: "Jobber dere med sma bedrifter?",
-      a: "Vi fokuserer pa prosjekter der det er god match mellom ambisjon og budsjett. Minimumsengasjement er rundt USD 20,000.",
+      a: "Ja, vi jobber med bedrifter i alle storrelser. Det viktigste er at det er god match mellom ambisjon og prosjekt.",
     },
   ],
 };

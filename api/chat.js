@@ -22,7 +22,7 @@ ${JSON.stringify(knowledgeBase, null, 2)}
 
 EKSEMPEL PA GOD DIALOG:
 Bruker: "Hva koster en nettside?"
-Du: "Prosjekter hos Hepta starter typisk rundt USD 20,000 og skalerer med omfang. Hva slags nettside ser du for deg?"
+Du: "Det varierer basert pa omfang og kompleksitet. Hva slags nettside ser du for deg?"
 
 Bruker: "En markedsforingsside for bedriften min"
 Du: "Det hores ut som noe vi kan hjelpe med. Kan jeg fa e-posten din sa en fra teamet kan ta kontakt for a diskutere prosjektet narmere?"`;
