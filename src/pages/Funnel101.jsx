@@ -1374,6 +1374,7 @@ function Funnel101() {
     { role: 'assistant', text: 'How can we help you?' },
   ]);
   const [chatInput, setChatInput] = React.useState('');
+  const [chatLeadCaptured, setChatLeadCaptured] = React.useState(false);
   const chatMessagesRef = React.useRef(null);
   const chatSectionRef = React.useRef(null);
   const [playIntroAvatarAnim, setPlayIntroAvatarAnim] = React.useState(false);
@@ -1485,16 +1486,26 @@ function Funnel101() {
     setChatLoading(true);
 
     try {
+      const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({
+          messages: newMessages,
+          sourceDomain,
+          leadCaptured: chatLeadCaptured,
+        }),
       });
 
       if (!response.ok) throw new Error('Chat failed');
 
       const data = await response.json();
       setChatMessages(prev => [...prev, { role: 'assistant', text: data.message }]);
+
+      // Track if lead was captured
+      if (data.leadCaptured && !chatLeadCaptured) {
+        setChatLeadCaptured(true);
+      }
     } catch (err) {
       console.error('Chat error:', err);
       setChatMessages(prev => [
