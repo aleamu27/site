@@ -1,5 +1,8 @@
 const Anthropic = require('@anthropic-ai/sdk').default;
 
+// Temporary debug logging
+const DEBUG = true;
+
 const HEPTA_CONTEXT = `
 # About Hepta
 
@@ -60,6 +63,7 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (DEBUG) console.log('API key present:', !!apiKey);
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' });
   }
@@ -86,7 +90,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'No valid messages to process' });
     }
 
-    console.log('Sending to Claude:', JSON.stringify(apiMessages));
+    if (DEBUG) console.log('Sending to Claude:', JSON.stringify(apiMessages));
 
     const response = await anthropic.messages.create({
       model: 'claude-3-5-sonnet-20241022',
@@ -95,16 +99,17 @@ module.exports = async function handler(req, res) {
       messages: apiMessages,
     });
 
-    console.log('Claude response received');
+    if (DEBUG) console.log('Claude response received:', response.content[0]?.text?.substring(0, 50));
 
     const assistantMessage = response.content[0]?.text || 'Sorry, I could not generate a response.';
 
     res.json({ message: assistantMessage });
   } catch (error) {
-    console.error('Chat API error:', error.message, error.status, error.error);
+    console.error('Chat API error:', error.message, error.status, error);
     res.status(500).json({
       error: 'Failed to generate response',
-      details: error.message
+      details: error.message,
+      status: error.status
     });
   }
 };
