@@ -189,6 +189,24 @@ module.exports = async function handler(req, res) {
       log('✅ Notification email SENT successfully!');
       log('✅ Email ID:', notificationData?.id);
       log('✅ Sent to:', targetEmail);
+
+      // Send personal alert to Alex
+      log('📤 Sending personal alert to Alex...');
+      await resend.emails.send({
+        from: `${brandName} Alert <${targetEmail}>`,
+        to: ['alexbolgenamundsen@gmail.com'],
+        subject: `🔔 New ${brandName} lead: ${company}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2 style="color: #184B54;">New contact form submission</h2>
+            <p><strong>From:</strong> ${company}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message preview:</strong> ${project.substring(0, 150)}${project.length > 150 ? '...' : ''}</p>
+            <p style="margin-top: 20px; color: #666;">Check ${targetEmail} for full details.</p>
+          </div>
+        `,
+      }).then(() => log('✅ Personal alert sent to Alex'))
+        .catch(err => logError('⚠️ Personal alert failed:', err));
     } else {
       log('⚠️ Resend not configured, skipping notification email.');
     }

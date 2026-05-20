@@ -2,6 +2,43 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import SmallSiteFooter from '../components/SmallSiteFooter';
 
+// Preload critical assets on module load
+const preloadAssets = () => {
+  const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/hepta/funnel101-assets';
+
+  const criticalVideos = [
+    `${R2_BASE}/videos/hero.mp4`,
+  ];
+
+  const criticalImages = [
+    `${R2_BASE}/images/showcase-01.png`,
+    `${R2_BASE}/images/showcase-02.png`,
+    `${R2_BASE}/images/final-cta-bg.png`,
+  ];
+
+  criticalVideos.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = src;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  });
+
+  criticalImages.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  });
+};
+
+if (typeof window !== 'undefined') {
+  preloadAssets();
+}
+
 const subtleTextIn = keyframes`
   from {
     opacity: 0;
@@ -221,29 +258,31 @@ const StartButton = styled.button`
   cursor: pointer;
 `;
 
-const HERO_VIDEO_SRC = '/funnel101/videos/hero.mp4';
+const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/hepta/funnel101-assets';
+
+const HERO_VIDEO_SRC = `${R2_BASE}/videos/hero.mp4`;
 const CRITERION_MAIN_VIDEO_SRC =
   'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Client.mov';
-const BERG_MAIN_VIDEO_SRC = '/funnel101/videos/highlight-berg-main.mp4';
+const BERG_MAIN_VIDEO_SRC = `${R2_BASE}/videos/highlight-berg-main.mp4`;
 const SOLUTION_VIDEO_SRCS = [
-  '/funnel101/videos/solutions-01.mp4',
-  '/funnel101/videos/solutions-02.mp4',
-  '/funnel101/videos/solutions-03.mp4',
-  '/funnel101/videos/solutions-04.mp4',
+  `${R2_BASE}/videos/solutions-01.mp4`,
+  `${R2_BASE}/videos/solutions-02.mp4`,
+  `${R2_BASE}/videos/solutions-03.mp4`,
+  `${R2_BASE}/videos/solutions-04.mp4`,
 ];
 const CRITERION_VERTICAL_IMAGE_SRCS = [
-  '/funnel101/images/highlight-criterion-vertical-01.png',
-  '/funnel101/images/highlight-criterion-vertical-02.png',
+  `${R2_BASE}/images/highlight-criterion-vertical-01.png`,
+  `${R2_BASE}/images/highlight-criterion-vertical-02.png`,
 ];
-const CRITERION_WIDE_IMAGE_SRC = '/funnel101/images/highlight-criterion-wide-01.png';
+const CRITERION_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-criterion-wide-01.png`;
 const BERG_VERTICAL_IMAGE_SRCS = [
-  '/funnel101/images/highlight-berg-vertical-01.png',
-  '/funnel101/images/highlight-berg-vertical-02.png',
+  `${R2_BASE}/images/highlight-berg-vertical-01.png`,
+  `${R2_BASE}/images/highlight-berg-vertical-02.png`,
 ];
-const BERG_WIDE_IMAGE_SRC = '/funnel101/images/highlight-berg-wide-01.png';
-const SHOWCASE_IMAGE_SRCS = ['/funnel101/images/showcase-01.png', '/funnel101/images/showcase-02.png'];
-const FINAL_CTA_BG_SRC = '/funnel101/images/final-cta-bg.png';
-const CONTACT_MODAL_IMAGE_SRC = '/funnel101/images/contact-modal.png';
+const BERG_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-berg-wide-01.png`;
+const SHOWCASE_IMAGE_SRCS = [`${R2_BASE}/images/showcase-01.png`, `${R2_BASE}/images/showcase-02.png`];
+const FINAL_CTA_BG_SRC = `${R2_BASE}/images/final-cta-bg.png`;
+const CONTACT_MODAL_IMAGE_SRC = `${R2_BASE}/images/contact-modal.png`;
 
 const SolutionsSection = styled.section`
   padding: clamp(8rem, 19vh, 14rem) clamp(0.85rem, 4vw, 3rem) clamp(4.8rem, 10vh, 8rem);
@@ -1290,12 +1329,11 @@ function Funnel101() {
   const [contactModalTitle, setContactModalTitle] = React.useState('Get in Touch');
   const [contactForm, setContactForm] = React.useState({ name: '', email: '', message: '' });
   const [contactSubmitted, setContactSubmitted] = React.useState(false);
+  const [contactLoading, setContactLoading] = React.useState(false);
   const [chatMessages, setChatMessages] = React.useState([
     { role: 'assistant', text: 'How can we help you?' },
   ]);
   const [chatInput, setChatInput] = React.useState('');
-  const [chatStage, setChatStage] = React.useState('need');
-  const [leadName, setLeadName] = React.useState('');
   const chatMessagesRef = React.useRef(null);
   const chatSectionRef = React.useRef(null);
   const [playIntroAvatarAnim, setPlayIntroAvatarAnim] = React.useState(false);
@@ -1369,50 +1407,63 @@ function Funnel101() {
     setContactForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleContactSubmit = event => {
+  const handleContactSubmit = async event => {
     event.preventDefault();
-    setContactSubmitted(true);
+    setContactLoading(true);
+    try {
+      const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company: contactForm.name,
+          project: `[Funnel101 - ${contactModalTitle}] ${contactForm.message}`,
+          email: contactForm.email,
+          sourceDomain,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to send');
+      setContactSubmitted(true);
+    } catch (err) {
+      console.error('Contact submit error:', err);
+    } finally {
+      setContactLoading(false);
+    }
   };
 
-  const pushAssistant = text => {
-    setChatMessages(prev => [...prev, { role: 'assistant', text }]);
-  };
+  const [chatLoading, setChatLoading] = React.useState(false);
 
-  const handleChatSubmit = event => {
+  const handleChatSubmit = async event => {
     event.preventDefault();
     const value = chatInput.trim();
-    if (!value) return;
+    if (!value || chatLoading) return;
 
-    setChatMessages(prev => [...prev, { role: 'user', text: value }]);
+    const userMessage = { role: 'user', text: value };
+    const newMessages = [...chatMessages, userMessage];
+    setChatMessages(newMessages);
     setChatInput('');
+    setChatLoading(true);
 
-    if (chatStage === 'need') {
-      pushAssistant('Great, we can help with that. What is your name?');
-      setChatStage('name');
-      return;
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: newMessages }),
+      });
+
+      if (!response.ok) throw new Error('Chat failed');
+
+      const data = await response.json();
+      setChatMessages(prev => [...prev, { role: 'assistant', text: data.message }]);
+    } catch (err) {
+      console.error('Chat error:', err);
+      setChatMessages(prev => [
+        ...prev,
+        { role: 'assistant', text: 'Sorry, something went wrong. Please try again or contact us at hello@heptatech.io' },
+      ]);
+    } finally {
+      setChatLoading(false);
     }
-
-    if (chatStage === 'name') {
-      setLeadName(value);
-      pushAssistant(`Nice to meet you, ${value}. What is your email?`);
-      setChatStage('email');
-      return;
-    }
-
-    if (chatStage === 'email') {
-      const isValidEmail = /\S+@\S+\.\S+/.test(value);
-      if (!isValidEmail) {
-        pushAssistant('Please share a valid email so we can follow up.');
-        return;
-      }
-      pushAssistant(
-        `Perfect. Thanks ${leadName || 'there'} — we have your details and will follow up shortly.`
-      );
-      setChatStage('done');
-      return;
-    }
-
-    pushAssistant('Got it. If you want, share more context and we can guide next steps.');
   };
 
   const renderStickyAccordion = (sections, openIndex, setOpenIndex, chipLabel) => (
@@ -1703,18 +1754,13 @@ function Funnel101() {
             <ChatComposer onSubmit={handleChatSubmit}>
               <ChatInput
                 type="text"
-                placeholder={
-                  chatStage === 'email'
-                    ? 'Email'
-                    : chatStage === 'name'
-                      ? 'Name'
-                      : 'Message'
-                }
+                placeholder={chatLoading ? 'Thinking...' : 'Ask us anything about Hepta...'}
                 value={chatInput}
                 onChange={event => setChatInput(event.target.value)}
+                disabled={chatLoading}
                 aria-label="Message input"
               />
-              <ChatSendButton type="submit" aria-label="Send message">
+              <ChatSendButton type="submit" disabled={chatLoading} aria-label="Send message">
                 <ChatSendArrow viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M12.7 4.3a1 1 0 0 0-1.4 0l-5 5a1 1 0 1 0 1.4 1.4L11 7.4V19a1 1 0 1 0 2 0V7.4l3.3 3.3a1 1 0 0 0 1.4-1.4l-5-5Z" />
                 </ChatSendArrow>
@@ -1765,7 +1811,9 @@ function Funnel101() {
                       onChange={handleContactFieldChange}
                     />
                     <ContactModalActions>
-                      <ContactModalSend type="submit">Send</ContactModalSend>
+                      <ContactModalSend type="submit" disabled={contactLoading}>
+                        {contactLoading ? 'Sending...' : 'Send'}
+                      </ContactModalSend>
                     </ContactModalActions>
                   </ContactModalForm>
                 </>
