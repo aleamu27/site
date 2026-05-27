@@ -1,0 +1,2113 @@
+import React from 'react';
+import styled, { css, keyframes } from 'styled-components';
+import SmallSiteFooter from '../components/SmallSiteFooter';
+
+const preloadAssets = () => {
+  const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-assets';
+
+  const criticalVideos = [
+    `${R2_BASE}/videos/hero.mp4`,
+  ];
+
+  const criticalImages = [
+    `${R2_BASE}/images/showcase-01.png`,
+    `${R2_BASE}/images/showcase-02.png`,
+    `${R2_BASE}/images/final-cta-bg.png`,
+  ];
+
+  criticalVideos.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = src;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  });
+
+  criticalImages.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  });
+};
+
+if (typeof window !== 'undefined') {
+  preloadAssets();
+}
+
+const subtleTextIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+    filter: blur(0.4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+`;
+
+const modalBackdropIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const modalCardIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    filter: blur(1.2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+`;
+
+const modalPaneInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const modalPaneInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const subtleTextMotion = css`
+  animation: ${subtleTextIn} 420ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+const Page = styled.main`
+  min-height: 100vh;
+  background: #fff;
+  padding: 8px;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li,
+  button:not([data-placeholder-text]),
+  span:not([data-placeholder-text]) {
+    ${subtleTextMotion}
+  }
+`;
+
+const TopNav = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding: 1px 6px 9px;
+`;
+
+const Brand = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    width: 60px;
+    height: auto;
+    display: block;
+  }
+`;
+
+const NavLinks = styled.nav`
+  display: flex;
+  align-items: center;
+  gap: clamp(1.1rem, 2vw, 1.9rem);
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.012em;
+  color: #0a0a0a;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
+
+const CTAButton = styled.button`
+  border: 1px solid #171717;
+  background: #0a0a0a;
+  color: #fff;
+  padding: 0.5rem 0.95rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.013em;
+  cursor: pointer;
+`;
+
+const HeroFrame = styled.section`
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: min(82vh, 780px);
+  background: #020202;
+  isolation: isolate;
+`;
+
+const HeroVideo = styled.video`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const HeroOverlay = styled.div`
+  position: absolute;
+  z-index: 3;
+  left: clamp(1rem, 6.8vw, 4rem);
+  bottom: clamp(1.1rem, 8vh, 3.1rem);
+  color: #fff;
+`;
+
+const HeroMainRow = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(2.4rem, 4.5vw, 4.8rem);
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+`;
+
+const HeadlineColumn = styled.div`
+  display: grid;
+  gap: 1.15rem;
+`;
+
+const Headline = styled.h1`
+  margin: 0;
+  font-size: clamp(2.05rem, 4.55vw, 3.95rem);
+  line-height: 1.01;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  max-width: none;
+
+  .line {
+    display: block;
+    white-space: nowrap;
+  }
+`;
+
+const HeroSubtext = styled.p`
+  margin: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 38ch;
+`;
+
+const StartButton = styled.button`
+  width: fit-content;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: #171717;
+  padding: 0.62rem 1.08rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  cursor: pointer;
+`;
+
+const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-assets';
+
+const HERO_VIDEO_SRC = `${R2_BASE}/videos/hero.mp4`;
+const CRITERION_MAIN_VIDEO_SRC =
+  'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Client.mov';
+const BERG_MAIN_VIDEO_SRC = `${R2_BASE}/videos/highlight-berg-main.mp4`;
+const SOLUTION_VIDEO_SRCS = [
+  `${R2_BASE}/videos/solutions-01.mp4`,
+  `${R2_BASE}/videos/solutions-02.mp4`,
+  `${R2_BASE}/videos/solutions-03.mp4`,
+  `${R2_BASE}/videos/solutions-04.mp4`,
+];
+const CRITERION_VERTICAL_IMAGE_SRCS = [
+  `${R2_BASE}/images/highlight-criterion-vertical-01.png`,
+  `${R2_BASE}/images/highlight-criterion-vertical-02.png`,
+];
+const CRITERION_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-criterion-wide-01.png`;
+const BERG_VERTICAL_IMAGE_SRCS = [
+  `${R2_BASE}/images/highlight-berg-vertical-01.png`,
+  `${R2_BASE}/images/highlight-berg-vertical-02.png`,
+];
+const BERG_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-berg-wide-01.png`;
+const SHOWCASE_IMAGE_SRCS = [`${R2_BASE}/images/showcase-01.png`, `${R2_BASE}/images/showcase-02.png`];
+const FINAL_CTA_BG_SRC = `${R2_BASE}/images/final-cta-bg.png`;
+const CONTACT_MODAL_IMAGE_SRC = `${R2_BASE}/images/contact-modal.png`;
+
+const UrgencyBanner = styled.div`
+  background: linear-gradient(90deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: #fff;
+  text-align: center;
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+
+  span {
+    color: #e9ff37;
+    font-weight: 600;
+  }
+`;
+
+const ProblemSection = styled.section`
+  padding: clamp(5rem, 12vh, 8rem) clamp(0.85rem, 4vw, 3rem);
+  background: #fafafa;
+`;
+
+const ProblemGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ProblemLeft = styled.div``;
+
+const ProblemEyebrow = styled.p`
+  margin: 0 0 0.8rem;
+  color: #c44;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+`;
+
+const ProblemHeading = styled.h2`
+  margin: 0 0 1.2rem;
+  color: #1a1a1a;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-weight: 500;
+`;
+
+const ProblemText = styled.p`
+  margin: 0 0 1.5rem;
+  color: #444;
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
+`;
+
+const ProblemList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+const ProblemListItem = styled.li`
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.4;
+
+  &::before {
+    content: '✗';
+    color: #c44;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+`;
+
+const ProblemRight = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid #e8e8e8;
+`;
+
+const StatBlock = styled.div`
+  margin-bottom: 1.8rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const StatNumber = styled.div`
+  color: #1a1a1a;
+  font-size: clamp(2.2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+`;
+
+const StatLabel = styled.p`
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.35;
+`;
+
+const SolutionsSection = styled.section`
+  padding: clamp(8rem, 19vh, 14rem) clamp(0.85rem, 4vw, 3rem) clamp(4.8rem, 10vh, 8rem);
+`;
+
+const SolutionsHeading = styled.h2`
+  margin: 0 0 0.8rem;
+  max-width: 36ch;
+  color: #1a1a1a;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  font-weight: 500;
+`;
+
+const SolutionsSubhead = styled.p`
+  margin: 0 0 clamp(2rem, 4vw, 3rem);
+  color: #555;
+  font-size: clamp(0.95rem, 1.1vw, 1.08rem);
+  line-height: 1.5;
+  max-width: 52ch;
+`;
+
+const SolutionsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.15vw, 1rem);
+
+  @media (max-width: 1100px) {
+    overflow-x: auto;
+    grid-template-columns: repeat(4, minmax(245px, 245px));
+    padding-bottom: 0.3rem;
+    scrollbar-width: thin;
+  }
+`;
+
+const SolutionCard = styled.article`
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+`;
+
+const CardVideoPlaceholder = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #5f6670;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.38) 100%);
+    z-index: 1;
+  }
+`;
+
+const CardVideo = styled.video`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.02) brightness(0.94);
+`;
+
+const CardHoverShade = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 180ms ease;
+
+  ${CardVideoPlaceholder}:hover &,
+  ${CardVideoPlaceholder}:focus-within & {
+    opacity: 1;
+  }
+`;
+
+const CardHoverText = styled.button.attrs({ 'data-placeholder-text': 'true' })`
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -42%);
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.98);
+  font-size: calc(clamp(0.72rem, 0.85vw, 1rem) + 2px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 180ms ease, transform 180ms ease;
+
+  ${CardVideoPlaceholder}:hover &,
+  ${CardVideoPlaceholder}:focus-within & {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+`;
+
+const CardTitle = styled.h3`
+  margin: 0.76rem 0 0.34rem;
+  color: #404040;
+  font-size: clamp(1.07rem, 1.42vw, 1.55rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+`;
+
+const CardBody = styled.p`
+  margin: 0;
+  color: #666b73;
+  font-size: clamp(0.78rem, 0.91vw, 0.95rem);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+`;
+
+const CardLearnMoreButton = styled.button`
+  margin-top: 1.15rem;
+  align-self: flex-start;
+  margin-left: 0;
+  width: fit-content;
+  border: 0;
+  border-radius: 0;
+  background: #111315;
+  color: #fff;
+  padding: 0.58rem 0.92rem;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 220ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #e9ff37;
+    transform: translateX(-102%);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  }
+
+  &:hover {
+    color: #0d0f12;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const CompetitorSection = styled.section`
+  padding: clamp(4rem, 10vh, 7rem) clamp(0.85rem, 4vw, 3rem);
+  background: #111;
+  color: #fff;
+`;
+
+const CompetitorInner = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const CompetitorHeading = styled.h2`
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+`;
+
+const CompetitorText = styled.p`
+  margin: 0 0 2rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
+  max-width: 58ch;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const CompetitorCTA = styled.button`
+  border: 0;
+  background: #e9ff37;
+  color: #111;
+  padding: 0.85rem 1.6rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(233, 255, 55, 0.25);
+  }
+`;
+
+const HighlightSection = styled.section`
+  padding: clamp(3.2rem, 7vw, 5.4rem) clamp(0.85rem, 4vw, 3rem) clamp(2.2rem, 5vw, 3.6rem);
+`;
+
+const HighlightInner = styled.div`
+  max-width: 1400px;
+`;
+
+const HighlightEyebrow = styled.p`
+  margin: 0 0 0.7rem;
+  color: #8f9398;
+  font-size: 0.9rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 400;
+`;
+
+const HighlightTitle = styled.h2`
+  margin: 0 0 1.3rem;
+  max-width: 22ch;
+  color: #404040;
+  font-size: clamp(1.35rem, 2.35vw, 2.1rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-weight: 400;
+`;
+
+const HighlightLayout = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 0.8rem;
+
+  @media (max-width: 1160px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const LeftMediaColumn = styled.div`
+  min-width: 0;
+`;
+
+const HighlightMainMedia = styled.div`
+  border-radius: 6px;
+  overflow: hidden;
+  min-height: clamp(240px, 37vw, 520px);
+  background: #c8ced3;
+  position: relative;
+`;
+
+const HighlightMainVideo = styled.video`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: ${p => (p.$noTint ? 'none' : 'saturate(0.86) contrast(1.02) brightness(0.9)')};
+`;
+
+const StickyPanel = styled.aside`
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+
+  @media (max-width: 1160px) {
+    position: static;
+  }
+`;
+
+const StickyAccordionItem = styled.div`
+  background: #ededee;
+  border-radius: 4px;
+  overflow: hidden;
+`;
+
+const StickyAccordionHeader = styled.button`
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #1f2226;
+  border-radius: 4px;
+  padding: 0.95rem 1rem;
+  font-size: 0.97rem;
+  font-weight: 600;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+`;
+
+const StickyAccordionIcon = styled.span`
+  font-size: 1.04rem;
+  line-height: 1;
+  color: #1f2226;
+`;
+
+const StickyAccordionContent = styled.div`
+  padding: 0 1rem 1rem;
+`;
+
+const StickyAccordionCollapse = styled.div`
+  overflow: hidden;
+  transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+`;
+
+const StoryText = styled.p`
+  margin: 0;
+  color: #32363b;
+  font-size: 0.94rem;
+  line-height: 1.35;
+  white-space: pre-line;
+`;
+
+const SiteChip = styled.button`
+  margin-top: 0.35rem;
+  width: fit-content;
+  border: 0;
+  background: #1b1b1d;
+  color: #fff;
+  border-radius: 0;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 220ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #e9ff37;
+    transform: translateX(-102%);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  }
+
+  &:hover {
+    color: #0d0f12;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const HighlightBottomGrid = styled.div`
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+`;
+
+const BottomMedia = styled.div`
+  aspect-ratio: 0.72 / 1;
+  min-height: 360px;
+  border-radius: 4px;
+
+  @media (max-width: 600px) {
+    min-height: 260px;
+  }
+  background: ${({ $image }) =>
+    $image
+      ? `url(${$image}) center / cover no-repeat`
+      : `
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.26), transparent 34%),
+    radial-gradient(circle at 72% 78%, rgba(0, 0, 0, 0.16), transparent 40%),
+    linear-gradient(145deg, #d5d0c8 0%, #c7c1b9 52%, #b7b0a8 100%)
+  `};
+  background-position: ${({ $position }) => $position || 'center'};
+  background-size: ${({ $size }) => $size || 'cover'};
+  background-repeat: no-repeat;
+`;
+
+const BottomMediaWide = styled(BottomMedia)`
+  aspect-ratio: auto;
+  grid-column: 1 / -1;
+  min-height: 460px;
+
+  @media (max-width: 600px) {
+    min-height: 320px;
+  }
+`;
+
+const TestimonialSection = styled.section`
+  padding: clamp(5rem, 12vh, 8rem) clamp(0.85rem, 4vw, 3rem);
+  background: #fafafa;
+`;
+
+const TestimonialInner = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const TestimonialQuote = styled.blockquote`
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  line-height: 1.5;
+  color: #222;
+  font-style: italic;
+  font-weight: 400;
+
+  &::before {
+    content: '"';
+  }
+  &::after {
+    content: '"';
+  }
+`;
+
+const TestimonialAuthor = styled.div`
+  color: #666;
+  font-size: 0.95rem;
+`;
+
+const ShowcaseSection = styled.section`
+  background: #fff;
+  padding: clamp(6rem, 14vh, 10rem) clamp(0.85rem, 4vw, 3rem) clamp(3rem, 7vw, 5.5rem);
+`;
+
+const ShowcaseGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.95rem, 1.5vw, 1.3rem);
+
+  @media (max-width: 920px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ShowcaseCard = styled.article`
+  min-width: 0;
+`;
+
+const ShowcaseImagePlaceholder = styled.div`
+  width: 100%;
+  aspect-ratio: 1.02 / 1;
+  border-radius: 2px;
+  background: ${({ $image }) =>
+    $image
+      ? `url(${$image}) center / cover no-repeat`
+      : `
+    radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.42), transparent 34%),
+    radial-gradient(circle at 75% 77%, rgba(0, 0, 0, 0.18), transparent 39%),
+    linear-gradient(145deg, #dbe5e8 0%, #d0d9dc 42%, #c4cccf 100%)
+  `};
+`;
+
+const ShowcaseCardTitle = styled.h3`
+  margin: 0.85rem 0 0.35rem;
+  color: #404040;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+`;
+
+const ShowcaseCardBody = styled.p`
+  margin: 0;
+  color: #3f444a;
+  font-size: clamp(0.9rem, 1.05vw, 1.08rem);
+  line-height: 1.38;
+  max-width: 62ch;
+`;
+
+const ShowcaseCardButton = styled.button`
+  margin-top: 0.95rem;
+  width: fit-content;
+  border: 0;
+  background: #111315;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 220ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #e9ff37;
+    transform: translateX(-102%);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  }
+
+  &:hover {
+    color: #0d0f12;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const FinalCtaSection = styled.section`
+  padding: clamp(2.2rem, 5.4vw, 4.2rem) clamp(0.85rem, 4vw, 3rem) clamp(4rem, 9vw, 7rem);
+`;
+
+const FinalCtaCard = styled.div`
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  min-height: clamp(280px, 38vw, 420px);
+  background: ${({ $image }) =>
+    $image
+      ? `
+    linear-gradient(90deg, rgba(183, 214, 220, 0.42) 0%, rgba(189, 201, 173, 0.36) 38%, rgba(39, 35, 35, 0.46) 100%),
+    url(${$image}) center / cover no-repeat
+  `
+      : `
+    linear-gradient(90deg, rgba(183, 214, 220, 0.74) 0%, rgba(189, 201, 173, 0.5) 38%, rgba(39, 35, 35, 0.64) 100%),
+    radial-gradient(circle at 16% 50%, rgba(196, 226, 228, 0.62), transparent 45%),
+    linear-gradient(120deg, #b7c8cc 0%, #8c8876 44%, #443f37 100%)
+  `};
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 30%, rgba(255, 255, 255, 0) 30% 100%);
+    opacity: 0.7;
+    pointer-events: none;
+  }
+`;
+
+const FinalCtaOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.15rem;
+  padding: clamp(1.3rem, 3.6vw, 2.5rem);
+  color: #f5f6f6;
+`;
+
+const FinalCtaTitle = styled.h2`
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(1.15rem, 1.95vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+
+  .line {
+    display: block;
+    white-space: nowrap;
+  }
+`;
+
+const FinalCtaButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+`;
+
+const FinalPrimaryButton = styled.button`
+  border: 0;
+  background: #ffffff;
+  color: #191a1c;
+  padding: 0.68rem 1rem;
+  border-radius: 2px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 220ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #e9ff37;
+    transform: translateX(-102%);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  }
+
+  &:hover {
+    color: #0d0f12;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const FinalSecondaryButton = styled.button`
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: transparent;
+  color: #f8f9f9;
+  padding: 0.64rem 0.92rem;
+  border-radius: 2px;
+  font-size: 0.84rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 220ms ease, border-color 220ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #e9ff37;
+    transform: translateX(-102%);
+    transition: transform 320ms cubic-bezier(0.2, 0.72, 0.2, 1);
+  }
+
+  &:hover {
+    color: #0d0f12;
+    border-color: #e9ff37;
+  }
+
+  &:hover::before {
+    transform: translateX(0);
+  }
+
+  span {
+    position: relative;
+    z-index: 1;
+  }
+`;
+
+const ContactModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(8, 12, 16, 0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 1.4rem;
+  animation: ${modalBackdropIn} 220ms ease both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+const ContactModalCard = styled.div`
+  width: min(1140px, calc(100% - 0.4rem));
+  min-height: clamp(470px, 70vh, 600px);
+  border-radius: 6px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 48%);
+  background: rgba(170, 180, 187, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  backdrop-filter: blur(14px) saturate(1.02);
+  -webkit-backdrop-filter: blur(14px) saturate(1.02);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  animation: ${modalCardIn} 420ms cubic-bezier(0.2, 0.72, 0.2, 1) both;
+
+  @media (max-width: 920px) {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+`;
+
+const ContactModalLeft = styled.div`
+  padding: clamp(1.3rem, 2.4vw, 2rem) clamp(1.25rem, 2.5vw, 2.2rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  animation: ${modalPaneInLeft} 460ms cubic-bezier(0.2, 0.72, 0.2, 1) 80ms both;
+`;
+
+const ContactModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.8rem;
+  width: min(360px, 100%);
+`;
+
+const ContactModalLogo = styled.img`
+  width: clamp(2rem, 3.2vw, 2.9rem);
+  height: auto;
+  filter: brightness(0) invert(1);
+`;
+
+const ContactModalTitle = styled.h3`
+  margin: 0;
+  font-size: clamp(1.45rem, 2.25vw, 2.1rem);
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: #f0f5f8;
+  white-space: normal;
+`;
+
+const ContactModalForm = styled.form`
+  display: grid;
+  gap: 0.86rem;
+  width: min(360px, 100%);
+`;
+
+const ContactModalInput = styled.input`
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(215, 224, 230, 0.1);
+  color: #f7fbfd;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.98rem;
+  line-height: 1;
+  outline: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  &::placeholder {
+    color: rgba(243, 248, 252, 0.84);
+  }
+`;
+
+const ContactModalTextarea = styled.textarea`
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(215, 224, 230, 0.1);
+  color: #f7fbfd;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.98rem;
+  line-height: 1.2;
+  min-height: 150px;
+  resize: none;
+  outline: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  &::placeholder {
+    color: rgba(243, 248, 252, 0.84);
+  }
+`;
+
+const ContactModalActions = styled.div`
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+`;
+
+const ContactModalSuccess = styled.div`
+  width: min(360px, 100%);
+  padding: 0;
+  color: #f4f8fa;
+`;
+
+const ContactModalSuccessTitle = styled.h4`
+  margin: 0 0 0.38rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+`;
+
+const ContactModalSuccessText = styled.p`
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+`;
+
+const ContactModalSend = styled.button`
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(215, 224, 230, 0.07);
+  color: #f7fbfd;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.98rem;
+  line-height: 1;
+  cursor: pointer;
+`;
+
+const ContactModalRight = styled.div`
+  padding: clamp(0.95rem, 1.8vw, 1.2rem);
+  display: flex;
+  background: transparent;
+  animation: ${modalPaneInRight} 460ms cubic-bezier(0.2, 0.72, 0.2, 1) 120ms both;
+`;
+
+const ContactModalImage = styled.div`
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  background:
+    linear-gradient(130deg, rgba(23, 27, 33, 0.25) 0%, rgba(23, 27, 33, 0.05) 30%, rgba(23, 27, 33, 0.35) 100%),
+    url('${CONTACT_MODAL_IMAGE_SRC}') center / cover no-repeat;
+`;
+
+const ChatFooterSection = styled.section`
+  padding: clamp(2.8rem, 7vw, 5rem) clamp(0.85rem, 4vw, 3rem) clamp(4rem, 10vw, 8rem);
+`;
+
+const ChatBackground = styled.div`
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  min-height: clamp(540px, 72vh, 860px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(130deg, rgba(18, 20, 24, 0.36) 0%, rgba(18, 20, 24, 0.2) 32%, rgba(18, 20, 24, 0.56) 100%),
+    url('/cta-image.png') center / cover no-repeat;
+`;
+
+const ChatOrbLogo = styled.img`
+  width: 24px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+`;
+
+const ChatGlassBox = styled.div`
+  position: relative;
+  z-index: 2;
+  width: min(940px, calc(100% - 2rem));
+  min-height: clamp(340px, 52vh, 520px);
+  border-radius: 22px;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: rgba(224, 231, 235, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  box-shadow: 0 18px 44px rgba(8, 12, 16, 0.28);
+  display: flex;
+  flex-direction: column;
+`;
+
+const ChatMessages = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0.72rem;
+  flex: 1;
+  min-height: 0;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+`;
+
+const ChatRow = styled.div`
+  width: 100%;
+`;
+
+const ChatAssistantLane = styled.div`
+  display: grid;
+  grid-template-columns: 34px minmax(0, auto);
+  align-items: center;
+  gap: 0.42rem;
+  width: 100%;
+  max-width: 100%;
+`;
+
+const ChatUserLane = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 0.42rem;
+  width: 100%;
+  max-width: 100%;
+`;
+
+const ChatMessageAvatar = styled.div`
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: ${p => (p.$isUser ? '#f5fbff' : '#f5fbff')};
+  background: ${p =>
+    p.$isUser
+      ? 'linear-gradient(145deg, rgba(152, 195, 236, 0.34), rgba(108, 165, 220, 0.28))'
+      : 'rgba(229, 236, 240, 0.24)'};
+  border: 1px solid ${p => (p.$isUser ? 'rgba(196, 225, 250, 0.6)' : 'rgba(255,255,255,0.52)')};
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+`;
+
+const UserAvatarIcon = styled.svg`
+  width: 16px;
+  height: 16px;
+  fill: rgba(245, 252, 255, 0.96);
+`;
+
+const ChatBubble = styled.div`
+  max-width: min(82%, 620px);
+  border-radius: 18px;
+  padding: 0.62rem 0.84rem;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  font-size: 0.91rem;
+  line-height: 1.33;
+  color: ${p => (p.$isUser ? '#f4fbff' : '#f4fbff')};
+  background: ${p =>
+    p.$isUser
+      ? 'linear-gradient(145deg, rgba(156, 199, 238, 0.36), rgba(112, 168, 221, 0.3))'
+      : 'rgba(241, 246, 249, 0.22)'};
+  border: 1px solid ${p => (p.$isUser ? 'rgba(205, 231, 253, 0.62)' : 'rgba(255, 255, 255, 0.48)')};
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+`;
+
+const ChatAssistantBubble = styled(ChatBubble)`
+  justify-self: start;
+`;
+
+const ChatUserBubble = styled(ChatBubble)`
+  justify-self: end;
+`;
+
+const messagePopInLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-16px) translateY(8px) scale(0.9);
+    filter: blur(1px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1.02);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) scale(1);
+    filter: blur(0);
+  }
+`;
+
+const orbPopIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.84);
+    filter: blur(1px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(0) scale(1.04);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+`;
+
+const AnimatedAssistantBubble = styled(ChatAssistantBubble)`
+  animation: ${messagePopInLeft} 420ms cubic-bezier(0.2, 0.75, 0.26, 1) both;
+`;
+
+const AnimatedAssistantAvatar = styled(ChatMessageAvatar)`
+  animation: ${orbPopIn} 260ms cubic-bezier(0.2, 0.75, 0.26, 1) both;
+`;
+
+const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const skeletonShimmer = keyframes`
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+`;
+
+const SpinningOrbLogo = styled.img`
+  width: 24px;
+  height: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+  animation: ${spinAnimation} 1.2s linear infinite;
+`;
+
+const SkeletonBubble = styled(ChatAssistantBubble)`
+  min-width: 180px;
+  min-height: 42px;
+  background: linear-gradient(
+    90deg,
+    rgba(241, 246, 249, 0.15) 25%,
+    rgba(241, 246, 249, 0.35) 50%,
+    rgba(241, 246, 249, 0.15) 75%
+  );
+  background-size: 200% 100%;
+  animation: ${skeletonShimmer} 1.5s ease-in-out infinite;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+`;
+
+const ChatComposer = styled.form`
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+`;
+
+const ChatInput = styled.input`
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  background: rgba(244, 248, 250, 0.42);
+  color: #f6fbfe;
+  padding: 0.78rem 1rem;
+  font-size: 0.95rem;
+  outline: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+
+  &::placeholder {
+    color: rgba(243, 249, 252, 0.78);
+  }
+`;
+
+const ChatSendButton = styled.button`
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: rgba(223, 233, 239, 0.26);
+  backdrop-filter: blur(10px) saturate(1.08);
+  -webkit-backdrop-filter: blur(10px) saturate(1.08);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  color: #f8fbfd;
+  cursor: pointer;
+`;
+
+const ChatSendArrow = styled.svg`
+  width: 14px;
+  height: 14px;
+  fill: #ffffff;
+  transform: translateY(-0.5px);
+`;
+
+const CRITERION_SECTIONS = [
+  {
+    title: 'Utfordringen',
+    content:
+      'Criterion Property Group hadde en utdatert nettside som ikke reflekterte kvaliteten på eiendommene de solgte. Boligannonsene var vanskelige å finne, og potensielle kjøpere forlot siden før de tok kontakt.',
+  },
+  {
+    title: 'Løsningen',
+    content:
+      'Vi bygget en moderne eiendomsplattform med avansert søk, MLS-integrasjon, og dedikerte sider for premium-områder. Resultatet: 340% økning i henvendelser og kortere salgstid.',
+  },
+  {
+    title: 'Resultatet',
+    content:
+      '• 340% økning i kvalifiserte leads\n• 28% kortere tid fra listing til salg\n• 92% av besøkende finner relevant bolig\n• Markedsledende posisjon i Puget Sound',
+  },
+];
+
+const StickyAccordionAnimatedItem = ({ section, isOpen, onToggle }) => {
+  const innerRef = React.useRef(null);
+  const [height, setHeight] = React.useState(0);
+
+  React.useEffect(() => {
+    if (innerRef.current) {
+      setHeight(innerRef.current.scrollHeight);
+    }
+  }, [section.content]);
+
+  return (
+    <StickyAccordionItem>
+      <StickyAccordionHeader type="button" onClick={onToggle}>
+        <span>{section.title}</span>
+        <StickyAccordionIcon>{isOpen ? '⊗' : '⊕'}</StickyAccordionIcon>
+      </StickyAccordionHeader>
+      <StickyAccordionCollapse style={{ height: isOpen ? height : 0 }}>
+        <StickyAccordionContent ref={innerRef}>
+          <StoryText>{section.content}</StoryText>
+        </StickyAccordionContent>
+      </StickyAccordionCollapse>
+    </StickyAccordionItem>
+  );
+};
+
+function Funnel102() {
+  const [criterionOpenIndex, setCriterionOpenIndex] = React.useState(0);
+  const [isContactModalOpen, setIsContactModalOpen] = React.useState(false);
+  const [contactModalTitle, setContactModalTitle] = React.useState('Få uforpliktende tilbud');
+  const [contactForm, setContactForm] = React.useState({ name: '', email: '', message: '' });
+  const [contactSubmitted, setContactSubmitted] = React.useState(false);
+  const [contactLoading, setContactLoading] = React.useState(false);
+  const [chatMessages, setChatMessages] = React.useState([
+    { role: 'assistant', text: 'Hei! Vil du vite hvordan en profesjonell eiendomsside kan øke salget ditt?' },
+  ]);
+  const [chatInput, setChatInput] = React.useState('');
+  const [chatLeadCaptured, setChatLeadCaptured] = React.useState(false);
+  const chatMessagesRef = React.useRef(null);
+  const chatSectionRef = React.useRef(null);
+  const [playIntroAvatarAnim, setPlayIntroAvatarAnim] = React.useState(false);
+  const [playIntroMessageAnim, setPlayIntroMessageAnim] = React.useState(false);
+
+  React.useEffect(() => {
+    const section = chatSectionRef.current;
+    if (!section || playIntroMessageAnim) return;
+    let introTimer = null;
+    let messageTimer = null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          introTimer = setTimeout(() => {
+            setPlayIntroAvatarAnim(true);
+            messageTimer = setTimeout(() => {
+              setPlayIntroMessageAnim(true);
+            }, 180);
+          }, 500);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(section);
+    return () => {
+      observer.disconnect();
+      if (introTimer) clearTimeout(introTimer);
+      if (messageTimer) clearTimeout(messageTimer);
+    };
+  }, [playIntroMessageAnim]);
+
+  React.useEffect(() => {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
+
+  React.useEffect(() => {
+    document.body.style.overflow = isContactModalOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isContactModalOpen]);
+
+  React.useEffect(() => {
+    if (!isContactModalOpen) return;
+    const onKeyDown = event => {
+      if (event.key === 'Escape') {
+        setIsContactModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isContactModalOpen]);
+
+  const openContactModal = title => {
+    setContactModalTitle(title || 'Få uforpliktende tilbud');
+    setContactSubmitted(false);
+    setIsContactModalOpen(true);
+  };
+
+  const closeContactModal = () => {
+    setIsContactModalOpen(false);
+  };
+
+  const handleContactFieldChange = event => {
+    const { name, value } = event.target;
+    setContactForm(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleContactSubmit = async event => {
+    event.preventDefault();
+    setContactLoading(true);
+    try {
+      const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          company: contactForm.name,
+          project: `[Funnel102 - Eiendom - ${contactModalTitle}] ${contactForm.message}`,
+          email: contactForm.email,
+          sourceDomain,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to send');
+      setContactSubmitted(true);
+    } catch (err) {
+      console.error('Contact submit error:', err);
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
+  const [chatLoading, setChatLoading] = React.useState(false);
+
+  const handleChatSubmit = async event => {
+    event.preventDefault();
+    const value = chatInput.trim();
+    if (!value || chatLoading) return;
+
+    const userMessage = { role: 'user', text: value };
+    const newMessages = [...chatMessages, userMessage];
+    setChatMessages(newMessages);
+    setChatInput('');
+    setChatLoading(true);
+
+    try {
+      const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages,
+          sourceDomain,
+          leadCaptured: chatLeadCaptured,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Chat failed');
+
+      const data = await response.json();
+      setChatMessages(prev => [...prev, { role: 'assistant', text: data.message }]);
+
+      if (data.leadCaptured && !chatLeadCaptured) {
+        setChatLeadCaptured(true);
+      }
+    } catch (err) {
+      console.error('Chat error:', err);
+      setChatMessages(prev => [
+        ...prev,
+        { role: 'assistant', text: 'Beklager, noe gikk galt. Prøv igjen eller kontakt oss på hello@heptatech.io' },
+      ]);
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
+  const renderStickyAccordion = (sections, openIndex, setOpenIndex, chipLabel) => (
+    <StickyPanel>
+      {sections.map((section, index) => {
+        const isOpen = openIndex === index;
+        return (
+          <StickyAccordionAnimatedItem
+            key={section.title}
+            section={section}
+            isOpen={isOpen}
+            onToggle={() => setOpenIndex(isOpen ? null : index)}
+          />
+        );
+      })}
+      <SiteChip type="button" onClick={() => openContactModal(chipLabel)}>
+        <span>{chipLabel}</span>
+      </SiteChip>
+    </StickyPanel>
+  );
+
+  return (
+    <Page aria-label="Eiendomsmegler nettside">
+      <UrgencyBanner>
+        <span>Begrenset kapasitet:</span> Vi tar kun 3 nye eiendomsprosjekter denne måneden
+      </UrgencyBanner>
+
+      <TopNav>
+        <Brand>
+          <img src="/logo-navbar.png" alt="Hepta" />
+        </Brand>
+        <NavLinks aria-label="Primary heading">
+          <span>NETTSIDER FOR EIENDOMSMEGLERE</span>
+        </NavLinks>
+        <CTAButton type="button" onClick={() => openContactModal('Få uforpliktende tilbud')}>
+          Få tilbud
+        </CTAButton>
+      </TopNav>
+
+      <HeroFrame aria-label="Hero video section">
+        <HeroVideo autoPlay muted loop playsInline preload="metadata" src={HERO_VIDEO_SRC} />
+        <HeroOverlay>
+          <HeroMainRow>
+            <HeadlineColumn>
+              <Headline>
+                <span className="line">Nettsiden som selger</span>
+                <span className="line">boligene dine.</span>
+              </Headline>
+              <HeroSubtext>
+                Mens konkurrentene dine investerer i profesjonelle eiendomssider, hvor mange kjøpere går du glipp av hver uke?
+              </HeroSubtext>
+              <StartButton type="button" onClick={() => openContactModal('Se hva vi kan gjøre for deg')}>
+                Se hva vi kan gjøre for deg <span aria-hidden="true">›</span>
+              </StartButton>
+            </HeadlineColumn>
+          </HeroMainRow>
+        </HeroOverlay>
+      </HeroFrame>
+
+      <ProblemSection>
+        <ProblemGrid>
+          <ProblemLeft>
+            <ProblemEyebrow>Problemet</ProblemEyebrow>
+            <ProblemHeading>
+              Hver dag taper du potensielle kjøpere til meglere med bedre nettsider
+            </ProblemHeading>
+            <ProblemText>
+              Boligkjøpere i dag starter søket sitt på nett. De bruker sekunder på å vurdere om de stoler på deg basert på nettsiden din. En utdatert eller treg side sender dem rett til konkurrenten.
+            </ProblemText>
+            <ProblemList>
+              <ProblemListItem>
+                Boligannonsene dine drukner i støy på Finn.no
+              </ProblemListItem>
+              <ProblemListItem>
+                Kjøpere finner ikke informasjonen de trenger raskt nok
+              </ProblemListItem>
+              <ProblemListItem>
+                Du fremstår mindre profesjonell enn konkurrentene
+              </ProblemListItem>
+              <ProblemListItem>
+                Ingen måte å fange interessenter som ikke er klare til å kjøpe ennå
+              </ProblemListItem>
+            </ProblemList>
+          </ProblemLeft>
+          <ProblemRight>
+            <StatBlock>
+              <StatNumber>94%</StatNumber>
+              <StatLabel>
+                av boligkjøpere starter søket på nett, ikke på visning
+              </StatLabel>
+            </StatBlock>
+            <StatBlock>
+              <StatNumber>3 sek</StatNumber>
+              <StatLabel>
+                er alt du har til å overbevise en besøkende om å bli
+              </StatLabel>
+            </StatBlock>
+            <StatBlock>
+              <StatNumber>67%</StatNumber>
+              <StatLabel>
+                av leads kommer fra eiendomsmeglerens egen nettside, ikke portaler
+              </StatLabel>
+            </StatBlock>
+          </ProblemRight>
+        </ProblemGrid>
+      </ProblemSection>
+
+      <SolutionsSection aria-label="Løsninger for eiendomsmeglere">
+        <SolutionsHeading>
+          Alt du trenger for å dominere det digitale eiendomsmarkedet
+        </SolutionsHeading>
+        <SolutionsSubhead>
+          Vi bygger ikke bare nettsider. Vi bygger salgsverktøy som jobber for deg 24/7.
+        </SolutionsSubhead>
+        <SolutionsGrid>
+          <SolutionCard>
+            <CardVideoPlaceholder>
+              <CardVideo autoPlay muted loop playsInline preload="metadata" src={SOLUTION_VIDEO_SRCS[0]} />
+              <CardHoverShade />
+              <CardHoverText type="button" onClick={() => openContactModal('Se demo')}>
+                Se demo &#8250;
+              </CardHoverText>
+            </CardVideoPlaceholder>
+            <CardTitle>Boligsøk som konverterer</CardTitle>
+            <CardBody>
+              Avanserte filtre og kartsøk som hjelper kjøpere finne drømmeboligen. Integrert med alle store boligportaler.
+            </CardBody>
+            <CardLearnMoreButton type="button" onClick={() => openContactModal('Se demo')}>
+              <span>Se demo</span>
+            </CardLearnMoreButton>
+          </SolutionCard>
+
+          <SolutionCard>
+            <CardVideoPlaceholder>
+              <CardVideo autoPlay muted loop playsInline preload="metadata" src={SOLUTION_VIDEO_SRCS[1]} />
+              <CardHoverShade />
+              <CardHoverText type="button" onClick={() => openContactModal('Lær mer')}>
+                Lær mer &#8250;
+              </CardHoverText>
+            </CardVideoPlaceholder>
+            <CardTitle>Automatisk lead-fangst</CardTitle>
+            <CardBody>
+              Fang interessenter med smart popup-teknologi. Bygg en liste over kjøpere før de er klare til å kjøpe.
+            </CardBody>
+            <CardLearnMoreButton type="button" onClick={() => openContactModal('Lær mer')}>
+              <span>Lær mer</span>
+            </CardLearnMoreButton>
+          </SolutionCard>
+
+          <SolutionCard>
+            <CardVideoPlaceholder>
+              <CardVideo autoPlay muted loop playsInline preload="metadata" src={SOLUTION_VIDEO_SRCS[2]} />
+              <CardHoverShade />
+              <CardHoverText type="button" onClick={() => openContactModal('Se eksempler')}>
+                Se eksempler &#8250;
+              </CardHoverText>
+            </CardVideoPlaceholder>
+            <CardTitle>Premium boligpresentasjon</CardTitle>
+            <CardBody>
+              Hver bolig får sin egen landingsside med bilder, video, plantegning og nabolagsinformasjon.
+            </CardBody>
+            <CardLearnMoreButton type="button" onClick={() => openContactModal('Se eksempler')}>
+              <span>Se eksempler</span>
+            </CardLearnMoreButton>
+          </SolutionCard>
+
+          <SolutionCard>
+            <CardVideoPlaceholder>
+              <CardVideo autoPlay muted loop playsInline preload="metadata" src={SOLUTION_VIDEO_SRCS[3]} />
+              <CardHoverShade />
+              <CardHoverText type="button" onClick={() => openContactModal('Få tilbud')}>
+                Få tilbud &#8250;
+              </CardHoverText>
+            </CardVideoPlaceholder>
+            <CardTitle>Megler-profiler som bygger tillit</CardTitle>
+            <CardBody>
+              Vis frem teamet ditt med profesjonelle profiler, referanser og solgte boliger. Bygger tillit før første møte.
+            </CardBody>
+            <CardLearnMoreButton type="button" onClick={() => openContactModal('Få tilbud')}>
+              <span>Få tilbud</span>
+            </CardLearnMoreButton>
+          </SolutionCard>
+        </SolutionsGrid>
+      </SolutionsSection>
+
+      <CompetitorSection>
+        <CompetitorInner>
+          <CompetitorHeading>
+            Mens du vurderer, investerer konkurrentene dine i bedre nettsider
+          </CompetitorHeading>
+          <CompetitorText>
+            De ledende eiendomsmeglerne i ditt område har allerede oppdatert sine digitale plattformer.
+            Hver dag som går uten en konkurransedyktig nettside er potensielle kunder du taper til dem.
+          </CompetitorText>
+          <CompetitorCTA type="button" onClick={() => openContactModal('Start i dag')}>
+            Ikke la dem ta flere kunder — start i dag
+          </CompetitorCTA>
+        </CompetitorInner>
+      </CompetitorSection>
+
+      <HighlightSection aria-label="Kundecase">
+        <HighlightInner>
+          <HighlightEyebrow>Kundecase</HighlightEyebrow>
+          <HighlightTitle>Se hvordan Criterion økte leads med 340%</HighlightTitle>
+
+          <HighlightLayout>
+            <LeftMediaColumn>
+              <HighlightMainMedia>
+                <HighlightMainVideo
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  src={CRITERION_MAIN_VIDEO_SRC}
+                  style={{ objectPosition: '50% 4%' }}
+                />
+              </HighlightMainMedia>
+
+              <HighlightBottomGrid>
+                <BottomMedia $image={CRITERION_VERTICAL_IMAGE_SRCS[0]} />
+                <BottomMedia $image={CRITERION_VERTICAL_IMAGE_SRCS[1]} />
+                <BottomMediaWide $image={CRITERION_WIDE_IMAGE_SRC} />
+              </HighlightBottomGrid>
+            </LeftMediaColumn>
+
+            {renderStickyAccordion(
+              CRITERION_SECTIONS,
+              criterionOpenIndex,
+              setCriterionOpenIndex,
+              'Få samme resultat'
+            )}
+          </HighlightLayout>
+        </HighlightInner>
+      </HighlightSection>
+
+      <TestimonialSection>
+        <TestimonialInner>
+          <TestimonialQuote>
+            Vi nølte lenge med å investere i ny nettside. I ettertid ser vi at hver måned vi ventet kostet oss titalls potensielle kunder. Den nye siden har forandret måten vi jobber på.
+          </TestimonialQuote>
+          <TestimonialAuthor>
+            — Daglig leder, Criterion Property Group
+          </TestimonialAuthor>
+        </TestimonialInner>
+      </TestimonialSection>
+
+      <ShowcaseSection aria-label="Hva du får">
+        <ShowcaseGrid>
+          <ShowcaseCard>
+            <ShowcaseImagePlaceholder aria-label="Image placeholder" $image={SHOWCASE_IMAGE_SRCS[0]} />
+            <ShowcaseCardTitle>Design som selger</ShowcaseCardTitle>
+            <ShowcaseCardBody>
+              Hver detalj er designet for å bygge tillit og drive handling. Fra første klikk til signert kontrakt er brukeropplevelsen optimalisert for konvertering.
+            </ShowcaseCardBody>
+            <ShowcaseCardButton type="button" onClick={() => openContactModal('Se designeksempler')}>
+              <span>Se designeksempler</span>
+            </ShowcaseCardButton>
+          </ShowcaseCard>
+
+          <ShowcaseCard>
+            <ShowcaseImagePlaceholder aria-label="Image placeholder" $image={SHOWCASE_IMAGE_SRCS[1]} />
+            <ShowcaseCardTitle>Teknologi som varer</ShowcaseCardTitle>
+            <ShowcaseCardBody>
+              Bygget på moderne teknologi som er rask, sikker og enkel å vedlikeholde. Ingen utdaterte systemer eller dyre oppgraderinger om to år.
+            </ShowcaseCardBody>
+            <ShowcaseCardButton type="button" onClick={() => openContactModal('Lær om teknologien')}>
+              <span>Lær om teknologien</span>
+            </ShowcaseCardButton>
+          </ShowcaseCard>
+        </ShowcaseGrid>
+      </ShowcaseSection>
+
+      <FinalCtaSection aria-label="Ta kontakt">
+        <FinalCtaCard $image={FINAL_CTA_BG_SRC}>
+          <FinalCtaOverlay>
+            <FinalCtaTitle>
+              <span className="line">Klar til å ta eiendomssalget</span>
+              <span className="line">ditt til neste nivå?</span>
+            </FinalCtaTitle>
+            <FinalCtaButtons>
+              <FinalPrimaryButton type="button" onClick={() => openContactModal('Få uforpliktende tilbud')}>
+                <span>Få uforpliktende tilbud</span>
+              </FinalPrimaryButton>
+              <FinalSecondaryButton type="button" onClick={() => openContactModal('Book en demo')}>
+                <span>Book en demo</span>
+              </FinalSecondaryButton>
+            </FinalCtaButtons>
+          </FinalCtaOverlay>
+        </FinalCtaCard>
+      </FinalCtaSection>
+
+      <ChatFooterSection aria-label="Chat" ref={chatSectionRef}>
+        <ChatBackground>
+          <ChatGlassBox>
+            <ChatMessages ref={chatMessagesRef}>
+              {chatMessages.map((message, index) => {
+                const isIntroAssistantMessage = message.role === 'assistant' && index === 0;
+                if (isIntroAssistantMessage && !playIntroAvatarAnim) return null;
+
+                return (
+                  <ChatRow key={`${message.role}-${index}`} $isUser={message.role === 'user'}>
+                    {message.role === 'user' ? (
+                      <ChatUserLane>
+                        <ChatUserBubble $isUser>{message.text}</ChatUserBubble>
+                        <ChatMessageAvatar $isUser>
+                          <UserAvatarIcon viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 12a4.5 4.5 0 1 0-4.5-4.5A4.5 4.5 0 0 0 12 12Zm0 2c-3.9 0-7 2.3-7 5.2 0 .4.3.8.8.8h12.4c.5 0 .8-.4.8-.8C19 16.3 15.9 14 12 14Z" />
+                          </UserAvatarIcon>
+                        </ChatMessageAvatar>
+                      </ChatUserLane>
+                    ) : (
+                      <ChatAssistantLane>
+                        {isIntroAssistantMessage ? (
+                          <AnimatedAssistantAvatar>
+                            <ChatOrbLogo src="/logo-navbar.png" alt="Hepta" />
+                          </AnimatedAssistantAvatar>
+                        ) : (
+                          <ChatMessageAvatar>
+                            <ChatOrbLogo src="/logo-navbar.png" alt="Hepta" />
+                          </ChatMessageAvatar>
+                        )}
+                        {isIntroAssistantMessage ? (
+                          playIntroMessageAnim ? (
+                            <AnimatedAssistantBubble>{message.text}</AnimatedAssistantBubble>
+                          ) : null
+                        ) : (
+                          <ChatAssistantBubble>{message.text}</ChatAssistantBubble>
+                        )}
+                      </ChatAssistantLane>
+                    )}
+                  </ChatRow>
+                );
+              })}
+              {chatLoading && (
+                <ChatRow>
+                  <ChatAssistantLane>
+                    <ChatMessageAvatar>
+                      <SpinningOrbLogo src="/logo-navbar.png" alt="Hepta thinking" />
+                    </ChatMessageAvatar>
+                    <SkeletonBubble />
+                  </ChatAssistantLane>
+                </ChatRow>
+              )}
+            </ChatMessages>
+
+            <ChatComposer onSubmit={handleChatSubmit}>
+              <ChatInput
+                type="text"
+                placeholder={chatLoading ? 'Tenker...' : 'Still oss et spørsmål om eiendomssider...'}
+                value={chatInput}
+                onChange={event => setChatInput(event.target.value)}
+                disabled={chatLoading}
+                aria-label="Message input"
+              />
+              <ChatSendButton type="submit" disabled={chatLoading} aria-label="Send message">
+                <ChatSendArrow viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12.7 4.3a1 1 0 0 0-1.4 0l-5 5a1 1 0 1 0 1.4 1.4L11 7.4V19a1 1 0 1 0 2 0V7.4l3.3 3.3a1 1 0 0 0 1.4-1.4l-5-5Z" />
+                </ChatSendArrow>
+              </ChatSendButton>
+            </ChatComposer>
+          </ChatGlassBox>
+        </ChatBackground>
+      </ChatFooterSection>
+
+      <SmallSiteFooter surface="white" topRule />
+
+      {isContactModalOpen ? (
+        <ContactModalOverlay onClick={closeContactModal}>
+          <ContactModalCard onClick={event => event.stopPropagation()}>
+            <ContactModalLeft>
+              {contactSubmitted ? (
+                <ContactModalSuccess>
+                  <ContactModalSuccessTitle>Takk for henvendelsen!</ContactModalSuccessTitle>
+                  <ContactModalSuccessText>
+                    Vi tar kontakt innen 24 timer for å diskutere hvordan vi kan hjelpe deg med å selge flere boliger.
+                  </ContactModalSuccessText>
+                </ContactModalSuccess>
+              ) : (
+                <>
+                  <ContactModalHeader>
+                    <ContactModalLogo src="/logo.png" alt="Hepta" />
+                    <ContactModalTitle>{contactModalTitle}</ContactModalTitle>
+                  </ContactModalHeader>
+                  <ContactModalForm onSubmit={handleContactSubmit}>
+                    <ContactModalInput
+                      type="text"
+                      name="name"
+                      placeholder="Navn / Firma"
+                      value={contactForm.name}
+                      onChange={handleContactFieldChange}
+                    />
+                    <ContactModalInput
+                      type="email"
+                      name="email"
+                      placeholder="E-post"
+                      value={contactForm.email}
+                      onChange={handleContactFieldChange}
+                    />
+                    <ContactModalTextarea
+                      name="message"
+                      placeholder="Fortell oss om ditt eiendomsmeglerfirma og hva du ønsker å oppnå..."
+                      value={contactForm.message}
+                      onChange={handleContactFieldChange}
+                    />
+                    <ContactModalActions>
+                      <ContactModalSend type="submit" disabled={contactLoading}>
+                        {contactLoading ? 'Sender...' : 'Send'}
+                      </ContactModalSend>
+                    </ContactModalActions>
+                  </ContactModalForm>
+                </>
+              )}
+            </ContactModalLeft>
+
+            <ContactModalRight>
+              <ContactModalImage />
+            </ContactModalRight>
+          </ContactModalCard>
+        </ContactModalOverlay>
+      ) : null}
+    </Page>
+  );
+}
+
+export default Funnel102;

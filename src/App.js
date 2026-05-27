@@ -14,6 +14,7 @@ import NewsArticle from './pages/NewsArticle';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Funnel101 from './pages/Funnel101.jsx';
+import Funnel102 from './pages/Funnel102.jsx';
 import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 
@@ -29,6 +30,7 @@ function AppContent() {
   const knownRoutePatterns = [
     '/',
     '/101',
+    '/102',
     '/visual-identity',
     '/silmaril',
     '/development',
@@ -48,7 +50,7 @@ function AppContent() {
   const handleGeoBannerDismiss = () => {
     setShowCookieConsent(true);
   };
-  const isFunnelPage = location.pathname === '/101';
+  const isFunnelPage = location.pathname === '/101' || location.pathname === '/102';
   return (
     <>
       <ScrollToTop />
@@ -56,6 +58,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/101" element={<Funnel101 />} />
+        <Route path="/102" element={<Funnel102 />} />
         <Route path="/visual-identity" element={<VisualIdentity />} />
         <Route path="/silmaril" element={<Navigate to="/visual-identity" replace />} />
         <Route path="/development" element={<Development />} />
