@@ -252,7 +252,6 @@ const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-a
 const HERO_VIDEO_SRC = `${R2_BASE}/videos/hero.mp4`;
 const CRITERION_MAIN_VIDEO_SRC =
   'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/Showcase/Client.mov';
-const BERG_MAIN_VIDEO_SRC = `${R2_BASE}/videos/highlight-berg-main.mp4`;
 const SOLUTION_VIDEO_SRCS = [
   `${R2_BASE}/videos/solutions-01.mp4`,
   `${R2_BASE}/videos/solutions-02.mp4`,
@@ -264,11 +263,6 @@ const CRITERION_VERTICAL_IMAGE_SRCS = [
   `${R2_BASE}/images/highlight-criterion-vertical-02.png`,
 ];
 const CRITERION_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-criterion-wide-01.png`;
-const BERG_VERTICAL_IMAGE_SRCS = [
-  `${R2_BASE}/images/highlight-berg-vertical-01.png`,
-  `${R2_BASE}/images/highlight-berg-vertical-02.png`,
-];
-const BERG_WIDE_IMAGE_SRC = `${R2_BASE}/images/highlight-berg-wide-01.png`;
 const SHOWCASE_IMAGE_SRCS = [`${R2_BASE}/images/showcase-01.png`, `${R2_BASE}/images/showcase-02.png`];
 const FINAL_CTA_BG_SRC = `${R2_BASE}/images/final-cta-bg.png`;
 const CONTACT_MODAL_IMAGE_SRC = `${R2_BASE}/images/contact-modal.png`;
