@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Hide the Google reCAPTCHA v3 floating badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
