@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { submitContact } from '../utils/contactApi';
 import { getDomainConfig } from '../utils/domainConfig';
-import { submitContact } from '../utils/submitContact';
 
 const contactBleedGrid = css`
   width: 100vw;

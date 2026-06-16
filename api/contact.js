@@ -1,5 +1,6 @@
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
+const { verifyRecaptcha } = require('../lib/verifyRecaptcha');
 
 // Only log in development or when DEBUG is enabled
 const DEBUG = process.env.NODE_ENV !== 'production' || process.env.DEBUG === 'true';
@@ -41,7 +42,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { company, project, email, type, sourceDomain } = req.body;
+    const { company, project, email, type, sourceDomain, recaptchaToken } = req.body;
+
+    const captchaAction = type === 'newsletter' ? 'newsletter' : 'contact';
+    const captcha = await verifyRecaptcha(recaptchaToken, captchaAction);
+    if (!captcha.ok) {
+      return res.status(400).json({ error: captcha.error || 'Captcha verification failed' });
+    }
 
     // Determine email config based on source domain
     const isHeptatech = sourceDomain === 'heptatech.io';

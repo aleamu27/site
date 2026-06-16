@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import SmallSiteFooter from '../components/SmallSiteFooter';
+import { submitContact } from '../utils/contactApi';
 
 const preloadAssets = () => {
   const R2_BASE = 'https://pub-df7490c3dde14db78697e37c03e6622f.r2.dev/funnel101-assets';
@@ -1618,17 +1619,12 @@ function Funnel102() {
     setContactLoading(true);
     try {
       const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          company: contactForm.name,
-          project: `[Funnel102 - Eiendom - ${contactModalTitle}] ${contactForm.message}`,
-          email: contactForm.email,
-          sourceDomain,
-        }),
+      await submitContact({
+        company: contactForm.name,
+        project: `[Funnel102 - Eiendom - ${contactModalTitle}] ${contactForm.message}`,
+        email: contactForm.email,
+        sourceDomain,
       });
-      if (!response.ok) throw new Error('Failed to send');
       setContactSubmitted(true);
     } catch (err) {
       console.error('Contact submit error:', err);

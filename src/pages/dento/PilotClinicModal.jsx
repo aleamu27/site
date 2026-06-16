@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styled, { keyframes } from 'styled-components';
-import { submitContact } from '../../utils/submitContact';
+import { submitContact } from '../../utils/contactApi';
 import { colors, fonts } from './theme';
 
 const INQUIRY_SOURCE = 'Dento pilot clinic';

@@ -1,12 +1,33 @@
-export async function submitContact({ company, project, email, sourceDomain }) {
+import { getRecaptchaToken } from './recaptcha';
+
+export async function submitContact({
+  company,
+  project,
+  email,
+  sourceDomain,
+  recaptchaAction = 'contact',
+}) {
   const apiUrl = process.env.REACT_APP_API_URL || '/api/contact';
+
+  let recaptchaToken;
+  try {
+    recaptchaToken = await getRecaptchaToken(recaptchaAction);
+  } catch {
+    throw new Error('Could not verify submission. Please refresh and try again.');
+  }
 
   let response;
   try {
     response = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ company, project, email, sourceDomain }),
+      body: JSON.stringify({
+        company,
+        project,
+        email,
+        sourceDomain,
+        recaptchaToken,
+      }),
     });
   } catch {
     throw new Error('Could not reach the server. Please try again.');
