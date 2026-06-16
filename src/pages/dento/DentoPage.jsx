@@ -1318,7 +1318,7 @@ function useScrollReveal(checkRef) {
       window.removeEventListener('resize', checkAll);
       if (observer) observer.disconnect();
     };
-  }, []);
+  }, [checkRef]);
 }
 
 export default function DentoPage() {
