@@ -255,7 +255,7 @@ app.get('/api/blog', async (req, res) => {
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
   try {
-    const { company, employees, project, email, type } = req.body;
+    const { company, employees, project, email, type, sourceDomain } = req.body;
 
     // Handle newsletter subscription
     if (type === 'newsletter') {
@@ -375,38 +375,42 @@ app.post('/api/contact', async (req, res) => {
 
     // Handle contact form submission (existing logic)
     // Validate required fields
-    if (!company || !employees || !project || !email) {
+    if (!company || !project || !email) {
       return res.status(400).json({
         error: 'Missing required fields',
-        required: ['company', 'employees', 'project', 'email']
+        required: ['company', 'project', 'email']
       });
     }
+
+    const isHeptatech = sourceDomain === 'heptatech.io';
+    const targetEmail = isHeptatech ? 'hello@heptatech.io' : 'j@hepta.no';
+    const brandDomain = isHeptatech ? 'heptatech.io' : 'hepta.no';
 
     // Send email using Resend
     if (resend) {
       const { data, error } = await resend.emails.send({
-        from: 'Contact Form <j@hepta.no>', // Your verified domain
-        to: [email], // Send to the user who submitted the form
-        bcc: ['j@hepta.no'], // You'll receive notifications here
+        from: `Contact Form <${targetEmail}>`,
+        to: [targetEmail],
         subject: `New Contact Form Submission from ${company}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #184B54;">New Contact Form Submission</h2>
             
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #333;">Company Information</h3>
-              <p><strong>Company:</strong> ${company}</p>
-              <p><strong>Number of Employees:</strong> ${employees}</p>
+              <h3 style="margin-top: 0; color: #333;">Contact Information</h3>
+              <p><strong>Source:</strong> ${company}</p>
+              ${employees ? `<p><strong>Number of Employees:</strong> ${employees}</p>` : ''}
               <p><strong>Contact Email:</strong> ${email}</p>
             </div>
             
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #333;">Project Details</h3>
+              <h3 style="margin-top: 0; color: #333;">Details</h3>
               <p style="line-height: 1.6;">${project}</p>
             </div>
             
             <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-              <p>This email was sent from your website contact form.</p>
+              <p>Reply to: <a href="mailto:${email}">${email}</a></p>
+              <p>This form was submitted via ${brandDomain} contact form.</p>
             </div>
           </div>
         `,
