@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import SmallSiteFooter from '../components/SmallSiteFooter';
+import { submitContact } from '../utils/contactApi';
 
 // Preload critical assets on module load
 const preloadAssets = () => {
@@ -1453,17 +1454,12 @@ function Funnel101() {
     setContactLoading(true);
     try {
       const sourceDomain = window.location.hostname.includes('heptatech') ? 'heptatech.io' : 'hepta.no';
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          company: contactForm.name,
-          project: `[Funnel101 - ${contactModalTitle}] ${contactForm.message}`,
-          email: contactForm.email,
-          sourceDomain,
-        }),
+      await submitContact({
+        company: contactForm.name,
+        project: `[Funnel101 - ${contactModalTitle}] ${contactForm.message}`,
+        email: contactForm.email,
+        sourceDomain,
       });
-      if (!response.ok) throw new Error('Failed to send');
       setContactSubmitted(true);
     } catch (err) {
       console.error('Contact submit error:', err);

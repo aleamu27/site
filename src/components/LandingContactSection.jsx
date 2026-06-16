@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { submitContact } from '../utils/contactApi';
 import { getDomainConfig } from '../utils/domainConfig';
 
 const contactBleedGrid = css`
@@ -351,25 +352,6 @@ const BookCallSubmitButton = styled.button`
       inset 0 0 0 1px rgba(24, 75, 84, 0.08);
   }
 `;
-
-async function submitContact({ company, project, email, sourceDomain }) {
-  const apiUrl = process.env.REACT_APP_API_URL || '/api/contact';
-  const response = await fetch(apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ company, project, email, sourceDomain }),
-  });
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    throw new Error('Invalid response from server');
-  }
-  if (!response.ok) {
-    throw new Error(data.error || 'Failed to send message');
-  }
-  return data;
-}
 
 /**
  * Home-style contact strip: image + card, posts to /api/contact

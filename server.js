@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
+const { verifyRecaptcha } = require('./lib/verifyRecaptcha');
 const { put } = require('@vercel/blob');
 const multer = require('multer');
 require('dotenv').config();
@@ -255,7 +256,13 @@ app.get('/api/blog', async (req, res) => {
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
   try {
-    const { company, employees, project, email, type } = req.body;
+    const { company, employees, project, email, type, recaptchaToken } = req.body;
+
+    const captchaAction = type === 'newsletter' ? 'newsletter' : 'contact';
+    const captcha = await verifyRecaptcha(recaptchaToken, captchaAction);
+    if (!captcha.ok) {
+      return res.status(400).json({ error: captcha.error || 'Captcha verification failed' });
+    }
 
     // Handle newsletter subscription
     if (type === 'newsletter') {
